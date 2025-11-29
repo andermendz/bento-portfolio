@@ -236,12 +236,15 @@ export const BentoCard: React.FC<BentoCardProps> = ({
       }}
     >
       {/* 
-        DRAG TARGET OVERLAY
+        DRAG TARGET OVERLAY - Uses onPointerMove for continuous detection
+        when cards reposition underneath the cursor during drag
       */}
       {isDragActive && !isDragging && !isGhost && (
         <div 
           className="absolute inset-0 z-50 bg-transparent"
           onMouseEnter={onHover}
+          onPointerMove={onHover}
+          onPointerOver={onHover}
         />
       )}
       

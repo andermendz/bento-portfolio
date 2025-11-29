@@ -55,11 +55,17 @@ export const useDragAndDrop = ({ items, setItems }: UseDragAndDropOptions): UseD
   };
 
   const handleHoverItem = (hoveredId: string) => {
+    // Skip if hovering the same item as last time (prevents excessive swaps)
+    if (hoveredId === lastHoveredId.current) return;
+    
     setItems(currentItems => {
       const placeholderIndex = currentItems.findIndex(i => i.type === 'placeholder');
       const hoveredIndex = currentItems.findIndex(i => i.id === hoveredId);
 
       if (placeholderIndex !== -1 && hoveredIndex !== -1 && placeholderIndex !== hoveredIndex) {
+        // Update lastHoveredId when swap happens
+        lastHoveredId.current = hoveredId;
+        
         const newItems = [...currentItems];
         const temp = newItems[placeholderIndex];
         newItems[placeholderIndex] = newItems[hoveredIndex];
@@ -94,12 +100,12 @@ export const useDragAndDrop = ({ items, setItems }: UseDragAndDropOptions): UseD
       
       if (card) {
         const id = card.getAttribute('data-bento-id');
-        // Only trigger swap if hovering a NEW card
-        if (id && id !== draggedItem?.id && id !== lastHoveredId.current) {
-          lastHoveredId.current = id;
+        // Trigger swap check - handleHoverItem will dedupe if same card
+        if (id && id !== draggedItem?.id) {
           handleHoverItem(id);
         }
       } else {
+        // Reset when leaving all cards so re-entering triggers properly
         lastHoveredId.current = null;
       }
     };

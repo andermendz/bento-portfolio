@@ -26,7 +26,7 @@ export const IntroContent: React.FC = () => (
     <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-blue-500/5 rounded-full blur-[80px] animate-blob mix-blend-overlay pointer-events-none" style={{ animationDelay: '2s' }}></div>
     
     {/* Top Section: Status Badge */}
-    <div className="relative z-10 pointer-events-auto flex justify-end">
+    <div className="relative z-10 flex justify-end">
       <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-card/50 backdrop-blur-sm border border-border/50 shadow-sm transition-transform hover:scale-105 cursor-default">
         <div className="relative flex h-4 w-4 items-center justify-center">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
@@ -37,7 +37,7 @@ export const IntroContent: React.FC = () => (
     </div>
 
     {/* Bottom Section: Name + Bio */}
-    <div className="relative z-10 pointer-events-auto flex flex-col md:flex-row md:items-end justify-between gap-4 mt-auto">
+    <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-4 mt-auto">
       <div className="relative bottom-[-4px]">
         <h1 className="text-5xl sm:text-6xl font-black tracking-tighter leading-[0.85] text-text-main">
           Anderson
