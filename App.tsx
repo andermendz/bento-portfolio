@@ -124,7 +124,7 @@ function App() {
 
   return (
     <div 
-      className="min-h-screen bg-page text-text-main p-4 md:p-6 font-sans selection:bg-primary selection:text-primary-fg transition-colors duration-500 overflow-x-hidden flex flex-col items-center"
+      className="min-h-screen bg-page text-text-main p-4 pt-8 md:p-6 md:pt-12 font-sans selection:bg-primary selection:text-primary-fg transition-colors duration-500 overflow-x-hidden flex flex-col items-center"
     >
       
       {/* Theme Toggle Button */}
@@ -208,7 +208,7 @@ function App() {
         )}
       </AnimatePresence>
 
-      <div className="w-full max-w-[1200px] mx-auto pb-6">
+      <div className="w-full max-w-[1320px] mx-auto pb-6">
         
         {/* Main Grid */}
         <motion.div 
@@ -219,7 +219,7 @@ function App() {
             duration: 0.3,
             layout: { type: 'spring', stiffness: 500, damping: 35, mass: 0.8 }
           } : { duration: 0.3 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 auto-rows-[200px] md:auto-rows-[225px] grid-flow-row-dense"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 auto-rows-[220px] md:auto-rows-[250px] grid-flow-row-dense"
         > 
           {items.map((item, index) => {
             const isExpanded = activeModal === item.id;
