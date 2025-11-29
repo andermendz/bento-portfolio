@@ -230,53 +230,135 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
                    
                    {/* Frontend */}
-                   <div className="p-8 rounded-[32px] bg-card-hover border border-border hover:border-blue-500/20 transition-all duration-300">
+                   <div className="p-8 rounded-[32px] bg-card-hover border border-border transition-all duration-300">
                       <h3 className="text-xl font-bold text-text-main mb-6 flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                        <div className="w-2 h-2 rounded-full bg-cyan-500"></div>
                         Frontend
                       </h3>
                       <div className="flex flex-wrap gap-2">
-                        {['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Vue.js', 'Framer Motion'].map(tag => (
-                          <span key={tag} className="px-4 py-2 rounded-xl bg-card text-text-muted hover:text-blue-500 hover:bg-blue-500/5 hover:border-blue-500/20 text-sm font-medium border border-border transition-colors cursor-default">{tag}</span>
+                        {[
+                          { name: 'React', color: '#61DAFB' },
+                          { name: 'Next.js', color: '#ffffff' },
+                          { name: 'TypeScript', color: '#3178C6' },
+                          { name: 'Tailwind CSS', color: '#06B6D4' },
+                          { name: 'Vue.js', color: '#42B883' },
+                          { name: 'Framer Motion', color: '#FF0080' },
+                        ].map(tech => (
+                          <span 
+                            key={tech.name} 
+                            className="px-4 py-2 rounded-xl bg-card text-text-muted text-sm font-medium border border-border transition-all duration-300 cursor-default hover:scale-105 hover:border-transparent"
+                            style={{ ['--hover-color' as string]: tech.color }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.color = tech.color;
+                              e.currentTarget.style.backgroundColor = `${tech.color}10`;
+                              e.currentTarget.style.borderColor = `${tech.color}30`;
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.color = '';
+                              e.currentTarget.style.backgroundColor = '';
+                              e.currentTarget.style.borderColor = '';
+                            }}
+                          >{tech.name}</span>
                         ))}
                       </div>
                    </div>
 
                    {/* Backend */}
-                   <div className="p-8 rounded-[32px] bg-card-hover border border-border hover:border-emerald-500/20 transition-all duration-300">
+                   <div className="p-8 rounded-[32px] bg-card-hover border border-border transition-all duration-300">
                       <h3 className="text-xl font-bold text-text-main mb-6 flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
                         Backend
                       </h3>
                       <div className="flex flex-wrap gap-2">
-                        {['Node.js', 'PHP (Laravel)', 'Python', 'Docker', 'GraphQL', 'Express', 'NestJS'].map(tag => (
-                          <span key={tag} className="px-4 py-2 rounded-xl bg-card text-text-muted hover:text-emerald-500 hover:bg-emerald-500/5 hover:border-emerald-500/20 text-sm font-medium border border-border transition-colors cursor-default">{tag}</span>
+                        {[
+                          { name: 'Node.js', color: '#68A063' },
+                          { name: 'PHP (Laravel)', color: '#FF2D20' },
+                          { name: 'Python', color: '#FFD43B' },
+                          { name: 'Docker', color: '#2496ED' },
+                          { name: 'GraphQL', color: '#E10098' },
+                          { name: 'Express', color: '#ffffff' },
+                          { name: 'NestJS', color: '#E0234E' },
+                        ].map(tech => (
+                          <span 
+                            key={tech.name} 
+                            className="px-4 py-2 rounded-xl bg-card text-text-muted text-sm font-medium border border-border transition-all duration-300 cursor-default hover:scale-105 hover:border-transparent"
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.color = tech.color;
+                              e.currentTarget.style.backgroundColor = `${tech.color}10`;
+                              e.currentTarget.style.borderColor = `${tech.color}30`;
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.color = '';
+                              e.currentTarget.style.backgroundColor = '';
+                              e.currentTarget.style.borderColor = '';
+                            }}
+                          >{tech.name}</span>
                         ))}
                       </div>
                    </div>
 
                    {/* AI & Machine Learning */}
-                   <div className="p-8 rounded-[32px] bg-card-hover border border-border hover:border-rose-500/20 transition-all duration-300">
+                   <div className="p-8 rounded-[32px] bg-card-hover border border-border transition-all duration-300">
                       <h3 className="text-xl font-bold text-text-main mb-6 flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-rose-500"></div>
+                        <div className="w-2 h-2 rounded-full bg-purple-500"></div>
                         AI & Machine Learning
                       </h3>
                       <div className="flex flex-wrap gap-2">
-                        {['Gemini API', 'OpenAI', 'PyTorch', 'TensorFlow', 'Hugging Face', 'LangChain'].map(tag => (
-                          <span key={tag} className="px-4 py-2 rounded-xl bg-card text-text-muted hover:text-rose-500 hover:bg-rose-500/5 hover:border-rose-500/20 text-sm font-medium border border-border transition-colors cursor-default">{tag}</span>
+                        {[
+                          { name: 'Gemini API', color: '#8B5CF6' },
+                          { name: 'OpenAI', color: '#10A37F' },
+                          { name: 'PyTorch', color: '#EE4C2C' },
+                          { name: 'TensorFlow', color: '#FF6F00' },
+                          { name: 'Hugging Face', color: '#FFD21E' },
+                          { name: 'LangChain', color: '#3BE0C0' },
+                        ].map(tech => (
+                          <span 
+                            key={tech.name} 
+                            className="px-4 py-2 rounded-xl bg-card text-text-muted text-sm font-medium border border-border transition-all duration-300 cursor-default hover:scale-105 hover:border-transparent"
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.color = tech.color;
+                              e.currentTarget.style.backgroundColor = `${tech.color}10`;
+                              e.currentTarget.style.borderColor = `${tech.color}30`;
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.color = '';
+                              e.currentTarget.style.backgroundColor = '';
+                              e.currentTarget.style.borderColor = '';
+                            }}
+                          >{tech.name}</span>
                         ))}
                       </div>
                    </div>
 
                    {/* Database */}
-                   <div className="p-8 rounded-[32px] bg-card-hover border border-border hover:border-orange-500/20 transition-all duration-300">
+                   <div className="p-8 rounded-[32px] bg-card-hover border border-border transition-all duration-300">
                       <h3 className="text-xl font-bold text-text-main mb-6 flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-orange-500"></div>
                         Database
                       </h3>
                       <div className="flex flex-wrap gap-2">
-                        {['PostgreSQL', 'MongoDB', 'Redis', 'Pinecone', 'Supabase', 'Prisma'].map(tag => (
-                          <span key={tag} className="px-4 py-2 rounded-xl bg-card text-text-muted hover:text-orange-500 hover:bg-orange-500/5 hover:border-orange-500/20 text-sm font-medium border border-border transition-colors cursor-default">{tag}</span>
+                        {[
+                          { name: 'PostgreSQL', color: '#336791' },
+                          { name: 'MongoDB', color: '#00ED64' },
+                          { name: 'Redis', color: '#DC382D' },
+                          { name: 'Pinecone', color: '#ffffff' },
+                          { name: 'Supabase', color: '#3FCF8E' },
+                          { name: 'Prisma', color: '#5A67D8' },
+                        ].map(tech => (
+                          <span 
+                            key={tech.name} 
+                            className="px-4 py-2 rounded-xl bg-card text-text-muted text-sm font-medium border border-border transition-all duration-300 cursor-default hover:scale-105 hover:border-transparent"
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.color = tech.color;
+                              e.currentTarget.style.backgroundColor = `${tech.color}10`;
+                              e.currentTarget.style.borderColor = `${tech.color}30`;
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.color = '';
+                              e.currentTarget.style.backgroundColor = '';
+                              e.currentTarget.style.borderColor = '';
+                            }}
+                          >{tech.name}</span>
                         ))}
                       </div>
                    </div>

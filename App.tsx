@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { BentoCard } from './components/BentoCard';
 import { DetailView } from './components/DetailView';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -124,38 +124,51 @@ const SocialsContent = ({ isDragging }: { copyToClipboard?: any, copiedText?: an
   </div>
 );
 
-const TechIcon = ({ icon, label }: { icon: React.ReactNode, label: string }) => (
-  <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-card border border-border/60 shrink-0 shadow-sm">
-    <span className="text-text-muted">{icon}</span>
-    <span className="text-xs font-semibold text-text-main whitespace-nowrap">{label}</span>
+const TechIcon = ({ icon, label, hoverColor }: { icon: React.ReactNode, label: string, hoverColor: string }) => (
+  <div 
+    className="group/tech flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-card-hover border border-border/50 shrink-0 shadow-sm cursor-default transition-all duration-300 hover:scale-105 hover:shadow-md hover:border-[var(--hover-color)] pointer-events-auto"
+    style={{ 
+      ['--hover-color' as string]: hoverColor 
+    }}
+  >
+    <span 
+      className="text-text-muted transition-colors duration-300 group-hover/tech:text-[var(--hover-color)]"
+    >
+      {icon}
+    </span>
+    <span className="text-xs font-semibold text-text-main whitespace-nowrap transition-colors duration-300 group-hover/tech:text-[var(--hover-color)]">
+      {label}
+    </span>
   </div>
 );
 
 const TechStackContent = () => {
   const row1 = [
-    { icon: <Code2 size={14} />, label: "React" },
-    { icon: <Cpu size={14} />, label: "Next.js" },
-    { icon: <Terminal size={14} />, label: "TypeScript" },
-    { icon: <Layout size={14} />, label: "Tailwind" },
-    { icon: <Brain size={14} />, label: "Gemini API" },
-    { icon: <Database size={14} />, label: "PostgreSQL" },
+    { icon: <Code2 size={14} />, label: "React", hoverColor: "#61DAFB" },
+    { icon: <Cpu size={14} />, label: "Next.js", hoverColor: "#ffffff" },
+    { icon: <Terminal size={14} />, label: "TypeScript", hoverColor: "#3178C6" },
+    { icon: <Layout size={14} />, label: "Tailwind", hoverColor: "#06B6D4" },
+    { icon: <Brain size={14} />, label: "Gemini API", hoverColor: "#8B5CF6" },
+    { icon: <Database size={14} />, label: "PostgreSQL", hoverColor: "#336791" },
   ];
 
   const row2 = [
-    { icon: <Server size={14} />, label: "Node.js" },
-    { icon: <Code2 size={14} />, label: "Python" },
-    { icon: <Database size={14} />, label: "MongoDB" },
-    { icon: <Layout size={14} />, label: "Framer Motion" },
-    { icon: <Terminal size={14} />, label: "Docker" },
-    { icon: <Database size={14} />, label: "Redis" },
+    { icon: <Server size={14} />, label: "Node.js", hoverColor: "#68A063" },
+    { icon: <Code2 size={14} />, label: "Python", hoverColor: "#FFD43B" },
+    { icon: <Database size={14} />, label: "MongoDB", hoverColor: "#00ED64" },
+    { icon: <Layout size={14} />, label: "Framer Motion", hoverColor: "#FF0080" },
+    { icon: <Terminal size={14} />, label: "Docker", hoverColor: "#2496ED" },
+    { icon: <Database size={14} />, label: "Redis", hoverColor: "#DC382D" },
   ];
 
   return (
     <div className="flex flex-col flex-1 justify-center w-full relative overflow-hidden mask-linear-fade">
-       <div className="absolute inset-0 bg-gradient-to-r from-card via-transparent to-card z-10 pointer-events-none opacity-20"></div>
+       {/* Gradient fade edges */}
+       <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-card to-transparent z-20 pointer-events-none"></div>
+       <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-card to-transparent z-20 pointer-events-none"></div>
        
        {/* Row 1 */}
-       <div className="flex gap-3 overflow-hidden w-full mb-3 opacity-80 hover:opacity-100 transition-opacity">
+       <div className="flex gap-3 overflow-x-hidden overflow-y-visible w-full mb-3 py-1">
           <div className="flex shrink-0 animate-marquee items-center gap-3">
              {row1.map((item, i) => <TechIcon key={`r1-${i}`} {...item} />)}
           </div>
@@ -165,7 +178,7 @@ const TechStackContent = () => {
        </div>
   
        {/* Row 2 */}
-       <div className="flex gap-3 overflow-hidden w-full opacity-80 hover:opacity-100 transition-opacity">
+       <div className="flex gap-3 overflow-x-hidden overflow-y-visible w-full py-1">
           <div className="flex shrink-0 animate-marquee-reverse items-center gap-3">
              {row2.map((item, i) => <TechIcon key={`r2-${i}`} {...item} />)}
           </div>
@@ -264,21 +277,30 @@ const ContactContent = ({ copyToClipboard, copiedText, isDragging }: { copyToCli
 
 const Globe = ({ theme, scale = 1.2 }: { theme: 'dark' | 'light', scale?: number }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const phiRef = useRef(4.7);
-  const widthRef = useRef(0);
+  const sizeRef = useRef(0);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    let width = 0;
+    // Small delay to ensure theme is properly applied before showing
+    const showTimer = setTimeout(() => setIsReady(true), 100);
+    return () => clearTimeout(showTimer);
+  }, []);
+
+  useEffect(() => {
+    let size = 0;
     
-    if (canvasRef.current) {
-        width = canvasRef.current.offsetWidth;
-        widthRef.current = width;
+    // Use container height as the base size to keep consistent zoom
+    if (containerRef.current) {
+        size = containerRef.current.offsetHeight;
+        sizeRef.current = size;
     }
 
     const onResize = () => {
-        if (canvasRef.current) {
-            width = canvasRef.current.offsetWidth;
-            widthRef.current = width;
+        if (containerRef.current) {
+            size = containerRef.current.offsetHeight;
+            sizeRef.current = size;
         }
     };
     
@@ -289,8 +311,8 @@ const Globe = ({ theme, scale = 1.2 }: { theme: 'dark' | 'light', scale?: number
 
     const globe = createGlobe(canvasRef.current, {
       devicePixelRatio: 2,
-      width: width * 2 || 100, 
-      height: width * 2 || 100,
+      width: size * 2 || 100, 
+      height: size * 2 || 100,
       phi: phiRef.current, 
       theta: 0.25, 
       dark: 1, 
@@ -303,9 +325,9 @@ const Globe = ({ theme, scale = 1.2 }: { theme: 'dark' | 'light', scale?: number
       opacity: 1,
       markers: [], 
       onRender: (state) => {
-        if (widthRef.current > 0) {
-            state.width = widthRef.current * 2;
-            state.height = widthRef.current * 2;
+        if (sizeRef.current > 0) {
+            state.width = sizeRef.current * 2;
+            state.height = sizeRef.current * 2;
         }
         
         // Rotation
@@ -387,52 +409,63 @@ const Globe = ({ theme, scale = 1.2 }: { theme: 'dark' | 'light', scale?: number
   }, []); 
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center z-0 overflow-hidden">
-      <canvas
-        ref={canvasRef}
+    <div ref={containerRef} className="absolute inset-0 flex items-center justify-center z-0 overflow-hidden">
+      {/* Square wrapper sized by container height to keep consistent zoom */}
+      <div 
+        className="relative flex items-center justify-center"
         style={{ 
-            width: '100%', 
-            height: '100%', 
-            maxWidth: '100%', 
-            aspectRatio: '1',
-            transform: `scale(${scale})`
+          height: '100%',
+          aspectRatio: '1',
         }}
-        className={`w-full h-full transition-[filter] duration-700 ease-in-out ${theme === 'light' ? 'invert brightness-105' : ''}`}
-      />
+      >
+        <canvas
+          ref={canvasRef}
+          style={{ 
+              width: '100%', 
+              height: '100%', 
+              transform: `scale(${scale})`,
+              opacity: isReady ? 1 : 0,
+              transition: 'opacity 0.5s ease-out, filter 0.7s ease-in-out'
+          }}
+          className={`${theme === 'light' ? 'invert brightness-105' : ''}`}
+        />
+      </div>
     </div>
   );
 };
 
 const MapContent = ({ time, theme }: { time: Date, theme: 'dark' | 'light' }) => (
   <div className="relative w-full h-full overflow-hidden">
-     {/* Globe Layer - Full size because of noPadding */}
+     {/* Globe Layer */}
      <div className="absolute inset-0 z-0">
-        <Globe theme={theme} scale={1.1} />
+        <Globe theme={theme} scale={1.35} />
      </div>
      
-     {/* Gradient Overlay for legibility */}
-     <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-transparent to-transparent pointer-events-none z-10"></div>
+     {/* Subtle gradient at bottom for legibility */}
+     <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-card/90 to-transparent pointer-events-none z-10"></div>
 
-     {/* Content Layer - Manually padded */}
-     <div className="relative h-full flex flex-col justify-end z-20 p-6 sm:p-7">
-        <div className="flex items-center justify-between mb-3">
-            <div className="w-10 h-10 rounded-full bg-card/90 backdrop-blur-xl border border-border flex items-center justify-center text-text-main shadow-lg">
-              <MapPin size={18} />
+     {/* Compact bottom bar */}
+     <div className="absolute bottom-0 left-0 right-0 z-20 p-4">
+        <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2.5">
+               <div className="w-8 h-8 rounded-full bg-card/80 backdrop-blur-md border border-border/50 flex items-center justify-center text-text-main shrink-0">
+                 <MapPin size={14} />
+               </div>
+               <div className="min-w-0">
+                 <p className="text-[8px] font-bold text-text-muted/80 uppercase tracking-wider leading-none mb-0.5">Based in</p>
+                 <h3 className="text-sm font-bold text-text-main leading-none">Cartagena, CO</h3>
+               </div>
             </div>
-            <div className="px-3 py-1.5 rounded-full bg-card/90 backdrop-blur-xl border border-border shadow-lg flex items-center gap-2">
-                <span className="relative flex h-4 w-4 items-center justify-center">
+            
+            <div className="px-2 py-1 rounded-full bg-card/80 backdrop-blur-md border border-border/50 flex items-center gap-1.5 shrink-0">
+                <span className="relative flex h-2 w-2 items-center justify-center">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
                 </span>
-                <span className="text-xs font-mono font-medium text-text-main">
+                <span className="text-[10px] font-mono font-medium text-text-main">
                 {time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Bogota' })}
                 </span>
             </div>
-        </div>
-
-        <div>
-          <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1 ml-1">Based in</p>
-          <h3 className="text-xl font-bold text-text-main ml-1">Cartagena, CO</h3>
         </div>
      </div>
   </div>
@@ -451,12 +484,15 @@ function App() {
   // Drag & Drop State
   const [items, setItems] = useState<BentoItem[]>([]);
   const [draggedItem, setDraggedItem] = useState<BentoItem | null>(null);
-  const [pointerPos, setPointerPos] = useState({ x: 0, y: 0 });
   const [dragSize, setDragSize] = useState({ width: 0, height: 0 });
 
-  // Refs for auto-scroll and input tracking
+  // Refs for smooth drag movement (no re-renders) and auto-scroll
   const pointerY = useRef(0);
   const scrollAnim = useRef<number | null>(null);
+  const dragOverlayRef = useRef<HTMLDivElement>(null);
+  const dragOffset = useRef({ x: 0, y: 0 });
+  const initialDragPos = useRef({ x: 0, y: 0 });
+  const lastHoveredId = useRef<string | null>(null);
 
   useEffect(() => {
     // Check system preference on load
@@ -516,9 +552,23 @@ function App() {
 
   // --- DRAG LOGIC ---
 
-  const handleStartDrag = (itemToDrag: BentoItem, element: HTMLElement) => {
+  const handleStartDrag = (itemToDrag: BentoItem, element: HTMLElement, pointerEvent: React.PointerEvent) => {
     const rect = element.getBoundingClientRect();
     setDragSize({ width: rect.width, height: rect.height });
+    
+    // Calculate offset from pointer to the card's top-left corner
+    // This ensures the card stays in the same relative position when grabbed
+    dragOffset.current = {
+      x: pointerEvent.clientX - rect.left,
+      y: pointerEvent.clientY - rect.top
+    };
+    
+    // Store initial position for the overlay (will be applied via useLayoutEffect)
+    initialDragPos.current = {
+      x: pointerEvent.clientX - dragOffset.current.x,
+      y: pointerEvent.clientY - dragOffset.current.y
+    };
+    
     const placeholder: BentoItem = { ...itemToDrag, type: 'placeholder' };
     setItems(prev => prev.map(i => i.id === itemToDrag.id ? placeholder : i));
     setDraggedItem(itemToDrag);
@@ -527,6 +577,7 @@ function App() {
   const handleEndDrag = () => {
     setItems(prev => prev.map(i => i.type === 'placeholder' && draggedItem ? draggedItem : i));
     setDraggedItem(null);
+    lastHoveredId.current = null;
   };
 
   const handleHoverItem = (hoveredId: string) => {
@@ -545,28 +596,68 @@ function App() {
     });
   };
 
-  // Update pointer position and tracking ref
+  // Set initial position of drag overlay synchronously before paint
+  useLayoutEffect(() => {
+    if (draggedItem && dragOverlayRef.current) {
+      dragOverlayRef.current.style.left = `${initialDragPos.current.x}px`;
+      dragOverlayRef.current.style.top = `${initialDragPos.current.y}px`;
+    }
+  }, [draggedItem]);
+
+  // Update pointer position using refs for smooth 60fps movement (no React re-renders)
   useEffect(() => {
+    const updateDragPosition = (clientX: number, clientY: number) => {
+      pointerY.current = clientY;
+      
+      // Direct DOM manipulation for smooth movement - bypasses React re-render cycle
+      if (dragOverlayRef.current) {
+        dragOverlayRef.current.style.left = `${clientX - dragOffset.current.x}px`;
+        dragOverlayRef.current.style.top = `${clientY - dragOffset.current.y}px`;
+      }
+      
+      const target = document.elementFromPoint(clientX, clientY);
+      const card = target?.closest('[data-bento-id]');
+      
+      if (card) {
+          const id = card.getAttribute('data-bento-id');
+          // Only trigger swap if hovering a NEW card (prevents repeated calls)
+          if (id && id !== draggedItem?.id && id !== lastHoveredId.current) {
+              lastHoveredId.current = id;
+              handleHoverItem(id);
+          }
+      } else {
+          // Reset when not hovering any card
+          lastHoveredId.current = null;
+      }
+    };
+
     const handlePointerMove = (e: PointerEvent) => {
-      setPointerPos({ x: e.clientX, y: e.clientY });
       pointerY.current = e.clientY;
 
       if (draggedItem) {
-        e.preventDefault(); 
-        const target = document.elementFromPoint(e.clientX, e.clientY);
-        const card = target?.closest('[data-bento-id]');
+        e.preventDefault();
+        updateDragPosition(e.clientX, e.clientY);
+      }
+    };
+    
+    // Touch-specific handler for better mobile performance
+    const handleTouchMove = (e: TouchEvent) => {
+      if (draggedItem && e.touches.length > 0) {
+        // Prevent iOS Safari rubber-banding during drag
+        e.preventDefault();
         
-        if (card) {
-            const id = card.getAttribute('data-bento-id');
-            if (id && id !== draggedItem.id) {
-                handleHoverItem(id);
-            }
-        }
+        const touch = e.touches[0];
+        updateDragPosition(touch.clientX, touch.clientY);
       }
     };
     
     window.addEventListener('pointermove', handlePointerMove, { passive: false });
-    return () => window.removeEventListener('pointermove', handlePointerMove);
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('touchmove', handleTouchMove);
+    };
   }, [draggedItem]); 
 
   // Auto-scroll loop
@@ -629,8 +720,20 @@ function App() {
         const handleWindowPointerUp = () => {
             handleEndDrag();
         };
+        
+        const handleTouchEnd = () => {
+            handleEndDrag();
+        };
+        
         window.addEventListener('pointerup', handleWindowPointerUp);
-        return () => window.removeEventListener('pointerup', handleWindowPointerUp);
+        window.addEventListener('touchend', handleTouchEnd);
+        window.addEventListener('touchcancel', handleTouchEnd);
+        
+        return () => {
+          window.removeEventListener('pointerup', handleWindowPointerUp);
+          window.removeEventListener('touchend', handleTouchEnd);
+          window.removeEventListener('touchcancel', handleTouchEnd);
+        };
     }
   }, [draggedItem]);
 
@@ -644,6 +747,9 @@ function App() {
       <motion.button
         className="fixed bottom-6 right-6 z-[60] p-4 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl text-text-main hover:bg-card-hover transition-colors ring-1 ring-white/10"
         onClick={toggleTheme}
+        initial={{ opacity: 0, scale: 0, rotate: -180 }}
+        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+        transition={{ duration: 0.5, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
         whileHover={{ scale: 1.1, rotate: 10 }}
         whileTap={{ scale: 0.9 }}
       >
@@ -675,47 +781,72 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* Floating Drag Overlay */}
-      {draggedItem && (
-        <div 
-            className="fixed z-[100] pointer-events-none"
-            style={{ 
-                left: pointerPos.x, 
-                top: pointerPos.y, 
-                width: dragSize.width, 
-                height: dragSize.height,
-                transform: 'translate(-50%, -50%)'
-            }}
-        >
-            <BentoCard 
-                isDragging={true}
-                title={draggedItem.title}
-                backgroundImage={draggedItem.bgImage}
-                hasArrow={draggedItem.hasArrow}
-                noPadding={draggedItem.noPadding}
-                className="h-full w-full shadow-2xl shadow-black/50"
-            >
-                {/* Render Content for Overlay */}
-                {draggedItem.id === 'intro' && <IntroContent />}
-                {draggedItem.id === 'socials' && <SocialsContent copyToClipboard={copyToClipboard} copiedText={copiedText} isDragging={true} />}
-                {draggedItem.id === 'stack' && <TechStackContent />}
-                {draggedItem.id === 'about' && <AboutContent />}
-                {draggedItem.id === 'experience' && <ExperienceContent />}
-                {draggedItem.id === 'education' && <EducationContent />}
-                {draggedItem.id === 'contact' && <ContactContent copyToClipboard={copyToClipboard} copiedText={copiedText} isDragging={true} />}
-                {draggedItem.id === 'map' && <MapContent time={time} theme={theme} />}
-            </BentoCard>
-        </div>
-      )}
+      {/* Floating Drag Overlay - uses ref for smooth 60fps positioning */}
+      <AnimatePresence>
+        {draggedItem && (
+          <motion.div 
+              ref={dragOverlayRef}
+              className="fixed z-[100] pointer-events-none will-change-transform"
+              style={{ 
+                  width: dragSize.width, 
+                  height: dragSize.height,
+                  // Initial position set via ref in handleStartDrag
+                  left: 0,
+                  top: 0
+              }}
+              initial={{ scale: 1, rotate: 0 }}
+              animate={{ 
+                scale: 1.03, 
+                rotate: 1,
+                transition: { 
+                  type: 'spring', 
+                  stiffness: 400, 
+                  damping: 25 
+                }
+              }}
+              exit={{ 
+                scale: 1, 
+                rotate: 0, 
+                opacity: 0,
+                transition: { duration: 0.15 }
+              }}
+          >
+              <BentoCard 
+                  isDragging={true}
+                  title={draggedItem.title}
+                  backgroundImage={draggedItem.bgImage}
+                  hasArrow={draggedItem.hasArrow}
+                  noPadding={draggedItem.noPadding}
+                  className="h-full w-full shadow-2xl shadow-black/50 ring-2 ring-primary/30"
+              >
+                  {/* Render Content for Overlay */}
+                  {draggedItem.id === 'intro' && <IntroContent />}
+                  {draggedItem.id === 'socials' && <SocialsContent copyToClipboard={copyToClipboard} copiedText={copiedText} isDragging={true} />}
+                  {draggedItem.id === 'stack' && <TechStackContent />}
+                  {draggedItem.id === 'about' && <AboutContent />}
+                  {draggedItem.id === 'experience' && <ExperienceContent />}
+                  {draggedItem.id === 'education' && <EducationContent />}
+                  {draggedItem.id === 'contact' && <ContactContent copyToClipboard={copyToClipboard} copiedText={copiedText} isDragging={true} />}
+                  {draggedItem.id === 'map' && <MapContent time={time} theme={theme} />}
+              </BentoCard>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="w-full max-w-[1200px] mx-auto pb-6">
         
         {/* Main Grid */}
         <motion.div 
           layout
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={draggedItem ? {
+            duration: 0.3,
+            layout: { type: 'spring', stiffness: 500, damping: 35, mass: 0.8 }
+          } : { duration: 0.3 }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 auto-rows-[200px] md:auto-rows-[225px] grid-flow-row-dense"
         > 
-            {items.map((item) => {
+            {items.map((item, index) => {
                 let currentContent = item.content;
                 if (item.id === 'socials') currentContent = <SocialsContent copyToClipboard={copyToClipboard} copiedText={copiedText} />;
                 if (item.id === 'contact') currentContent = <ContactContent copyToClipboard={copyToClipboard} copiedText={copiedText} />;
@@ -729,6 +860,7 @@ function App() {
                         key={item.id}
                         layoutId={item.id}
                         dataId={item.id}
+                        index={index}
                         className={`${item.colSpan} ${item.rowSpan || ''} ${item.type === 'normal' ? 'h-full' : ''}`}
                         title={item.title}
                         backgroundImage={item.bgImage}
@@ -737,7 +869,7 @@ function App() {
                         isDragActive={!!draggedItem} 
                         isVisible={!isExpanded} 
                         onClick={item.onClickModal ? () => setActiveModal(item.onClickModal!) : undefined}
-                        onLongPress={(e, el) => handleStartDrag(item, el)}
+                        onLongPress={(e, el) => handleStartDrag(item, el, e)}
                         onHover={() => handleHoverItem(item.id)}
                         noPadding={item.noPadding}
                     >
@@ -748,13 +880,18 @@ function App() {
         </motion.div>
         
         {/* Footer */}
-        <div className="mt-8 flex flex-col md:flex-row justify-between items-center text-text-muted text-xs font-medium uppercase tracking-wider gap-4 opacity-50">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 0.5, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-8 flex flex-col md:flex-row justify-between items-center text-text-muted text-xs font-medium uppercase tracking-wider gap-4"
+        >
            <p>© 2025 Anderson Mendoza.</p>
            <div className="flex items-center gap-2">
              <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></div>
              <p>Systems Engineer</p>
            </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
