@@ -81,7 +81,7 @@ function App() {
   useEffect(() => {
     setItems([
       { id: 'intro', type: 'normal', colSpan: 'col-span-1 sm:col-span-2', content: <IntroContent /> },
-      { id: 'photo', type: 'normal', colSpan: 'col-span-1', bgImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+      { id: 'photo', type: 'normal', colSpan: 'col-span-1', bgImage: "/profile.png" },
       { id: 'socials', type: 'normal', colSpan: 'col-span-1', content: <SocialsContent /> },
       { id: 'stack', type: 'normal', colSpan: 'col-span-1 sm:col-span-2', title: "Tech Stack", content: <TechStackContent />, hasArrow: true, onClickModal: 'stack' },
       { id: 'about', type: 'normal', colSpan: 'col-span-1', title: "About", content: <AboutContent />, hasArrow: true, onClickModal: 'about' },

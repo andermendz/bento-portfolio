@@ -345,10 +345,6 @@ export const BentoCard: React.FC<BentoCardProps> = ({
             />
           )}
           
-          {/* Enhanced Gradient Overlay for BG Images */}
-          {backgroundImage && (
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90" />
-          )}
 
           {/* Content wrapper */}
           <div className={`relative h-full flex flex-col z-10 w-full pointer-events-none ${noPadding ? 'p-0' : 'p-6 sm:p-7'} ${backgroundImage ? 'text-white' : ''}`}>
