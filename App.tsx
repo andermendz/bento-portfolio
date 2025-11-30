@@ -246,7 +246,7 @@ function AppContent() {
       </AnimatePresence>
 
       <LanguageContentWrapper isChanging={isLanguageChanging}>
-        <div className="w-full max-w-[1320px] mx-auto pb-6">
+        <div className="w-full max-w-[1320px] mx-auto pb-24 sm:pb-6">
           
           {/* Main Grid */}
           <motion.div 
