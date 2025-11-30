@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Building2, GraduationCap, Award, BookOpen, Layout, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface DetailViewProps {
   onClose: () => void;
@@ -9,6 +10,7 @@ interface DetailViewProps {
 }
 
 export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId }) => {
+  const { t } = useLanguage();
 
   return (
     <>
@@ -50,27 +52,27 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
             {type === 'about' && (
               <div className="flex flex-col md:flex-row min-h-full">
                 <div className="w-full md:w-2/5 p-8 md:p-12 flex flex-col justify-center bg-card-hover border-r border-border">
-                  <h4 className="text-xs font-bold text-primary uppercase tracking-widest mb-8 opacity-60">Profile</h4>
+                  <h4 className="text-xs font-bold text-primary uppercase tracking-widest mb-8 opacity-60">{t('profile')}</h4>
                   <h2 className="text-3xl md:text-4xl font-bold text-text-main mb-6 leading-tight tracking-tight">
-                    Systems Engineer<br/> <span className="text-text-muted">Scalable Architect.</span>
+                    {t('systemsEngineering').split(' ')[0]}<br/> <span className="text-text-muted">{t('scalableArchitect')}</span>
                   </h2>
                   <div className="flex flex-wrap gap-2 mt-auto">
-                     <span className="px-4 py-2 rounded-xl bg-card text-text-main text-xs font-medium border border-border shadow-sm">Proactive</span>
-                     <span className="px-4 py-2 rounded-xl bg-card text-text-main text-xs font-medium border border-border shadow-sm">Detail Oriented</span>
-                     <span className="px-4 py-2 rounded-xl bg-card text-text-main text-xs font-medium border border-border shadow-sm">Problem Solver</span>
+                     <span className="px-4 py-2 rounded-xl bg-card text-text-main text-xs font-medium border border-border shadow-sm">{t('proactive')}</span>
+                     <span className="px-4 py-2 rounded-xl bg-card text-text-main text-xs font-medium border border-border shadow-sm">{t('detailOriented')}</span>
+                     <span className="px-4 py-2 rounded-xl bg-card text-text-main text-xs font-medium border border-border shadow-sm">{t('problemSolver')}</span>
                   </div>
                 </div>
                 <div className="w-full md:w-3/5 p-8 md:p-12 bg-card">
                   <div className="space-y-10">
                     <div>
-                      <h3 className="text-text-muted text-xs font-bold uppercase tracking-widest mb-6">Bio</h3>
+                      <h3 className="text-text-muted text-xs font-bold uppercase tracking-widest mb-6">{t('bio')}</h3>
                       <p className="text-text-main leading-loose text-lg font-light">
-                        I am a passionate Software Developer from Cartagena, Colombia. My work focuses on building efficient, scalable web applications and exploring the frontiers of AI/ML technologies. I thrive in dynamic environments where I can apply my skills in modern web frameworks and backend systems.
+                        {t('bioText')}
                       </p>
                     </div>
                     
                     <div>
-                      <h3 className="text-text-muted text-xs font-bold uppercase tracking-widest mb-6">Philosophy</h3>
+                      <h3 className="text-text-muted text-xs font-bold uppercase tracking-widest mb-6">{t('philosophy')}</h3>
                       <div className="grid gap-4">
                          {/* Item 1 */}
                          <div className="group flex items-start gap-5 p-5 rounded-3xl bg-card-hover/40 hover:bg-card-hover border border-border hover:border-blue-500/20 transition-all duration-300">
@@ -78,9 +80,9 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                                <Layout size={20} />
                             </div>
                             <div className="flex-1 min-w-0 pt-1">
-                               <h4 className="text-text-main font-bold text-base mb-2">User-Centric Design</h4>
+                               <h4 className="text-text-main font-bold text-base mb-2">{t('userCentricDesign')}</h4>
                                <p className="text-text-muted text-sm leading-relaxed">
-                                  Prioritizing intuitive interfaces and seamless interactions.
+                                  {t('userCentricDesignDesc')}
                                </p>
                             </div>
                          </div>
@@ -91,9 +93,9 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                                <Zap size={20} />
                             </div>
                             <div className="flex-1 min-w-0 pt-1">
-                               <h4 className="text-text-main font-bold text-base mb-2">Performance First</h4>
+                               <h4 className="text-text-main font-bold text-base mb-2">{t('performanceFirst')}</h4>
                                <p className="text-text-muted text-sm leading-relaxed">
-                                  Optimizing code for maximum speed and efficiency.
+                                  {t('performanceFirstDesc')}
                                </p>
                             </div>
                          </div>
@@ -109,8 +111,8 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
               <div className="p-8 md:p-12 bg-card min-h-full">
                 <div className="max-w-4xl mx-auto">
                   <div className="mb-10">
-                     <h2 className="text-3xl md:text-5xl font-bold text-text-main mb-4 tracking-tight">Work Experience</h2>
-                     <p className="text-text-muted text-lg">My professional journey in software development.</p>
+                     <h2 className="text-3xl md:text-5xl font-bold text-text-main mb-4 tracking-tight">{t('workExperience')}</h2>
+                     <p className="text-text-muted text-lg">{t('workExperienceDesc')}</p>
                   </div>
                   
                   <div className="space-y-10 relative before:absolute before:inset-0 before:ml-6 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-border before:via-border before:to-transparent">
@@ -122,12 +124,12 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                       </div>
                       <div className="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-8 rounded-[32px] bg-card-hover border border-border hover:border-primary/20 transition-colors shadow-sm">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-                          <h3 className="font-bold text-text-main text-xl">Software Developer</h3>
-                          <span className="text-[11px] font-bold uppercase text-primary bg-primary/10 px-3 py-1 rounded-full w-fit">Present</span>
+                          <h3 className="font-bold text-text-main text-xl">{t('softwareDeveloper')}</h3>
+                          <span className="text-[11px] font-bold uppercase text-primary bg-primary/10 px-3 py-1 rounded-full w-fit">{t('present')}</span>
                         </div>
                         <div className="text-text-muted font-semibold mb-4 text-base">Visbl</div>
                         <p className="text-text-main/80 text-sm leading-relaxed">
-                          Developing core platform features and maintaining robust software architecture to ensure scalability and performance. Contributing to the entire SDLC.
+                          {t('visblDesc')}
                         </p>
                       </div>
                     </div>
@@ -139,12 +141,12 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                       </div>
                       <div className="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-8 rounded-[32px] bg-card-hover border border-border hover:border-text-muted/20 transition-colors shadow-sm">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-                          <h3 className="font-bold text-text-main text-xl">Full-stack Developer</h3>
+                          <h3 className="font-bold text-text-main text-xl">{t('fullStackDev')}</h3>
                           <span className="text-[11px] font-bold uppercase text-text-muted bg-card px-3 py-1 rounded-full w-fit border border-border">2023 - 2024</span>
                         </div>
                         <div className="text-text-muted font-semibold mb-4 text-base">Tecnológico Comfenalco</div>
                         <p className="text-text-main/80 text-sm leading-relaxed">
-                          Built and maintained academic management systems using PHP and Modern JS. Focused on delivering user-friendly interfaces and optimizing database queries.
+                          {t('comfenalcoDesc')}
                         </p>
                       </div>
                     </div>
@@ -159,8 +161,8 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
               <div className="p-8 md:p-12 bg-card min-h-full">
                 <div className="max-w-4xl mx-auto">
                   <div className="mb-10">
-                     <h2 className="text-3xl md:text-5xl font-bold text-text-main mb-4 tracking-tight">Education</h2>
-                     <p className="text-text-muted text-lg">Academic background and certifications.</p>
+                     <h2 className="text-3xl md:text-5xl font-bold text-text-main mb-4 tracking-tight">{t('educationTitle')}</h2>
+                     <p className="text-text-muted text-lg">{t('educationDesc')}</p>
                   </div>
                   
                   <div className="grid gap-6">
@@ -172,11 +174,11 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                           </div>
                           <div className="flex-1">
                              <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-2">
-                                <h3 className="text-2xl font-bold text-text-main">Systems Engineering</h3>
+                                <h3 className="text-2xl font-bold text-text-main">{t('systemsEngineering')}</h3>
                                 <span className="text-[11px] font-bold uppercase text-primary bg-primary/10 px-3 py-1 rounded-full w-fit">2024</span>
                              </div>
                              <p className="text-text-main font-medium text-base mb-1">Fundación Universitaria Tecnológico Comfenalco</p>
-                             <p className="text-text-muted text-sm">Professional Degree • Cartagena, Colombia</p>
+                             <p className="text-text-muted text-sm">{t('professionalDegree')} • Cartagena, Colombia</p>
                           </div>
                        </div>
                     </div>
@@ -189,11 +191,11 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                           </div>
                           <div className="flex-1">
                              <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-2">
-                                <h3 className="text-2xl font-bold text-text-main">Web App Development</h3>
+                                <h3 className="text-2xl font-bold text-text-main">{t('webAppDevelopment')}</h3>
                                 <span className="text-[11px] font-bold uppercase text-blue-500 bg-blue-500/10 px-3 py-1 rounded-full w-fit">2021</span>
                              </div>
                              <p className="text-text-main font-medium text-base mb-1">Universidad de Antioquia</p>
-                             <p className="text-text-muted text-sm">University Diploma</p>
+                             <p className="text-text-muted text-sm">{t('universityDiploma')}</p>
                           </div>
                        </div>
                     </div>
@@ -206,11 +208,11 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                           </div>
                           <div className="flex-1">
                              <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-2">
-                                <h3 className="text-2xl font-bold text-text-main">Software Dev Technologist</h3>
+                                <h3 className="text-2xl font-bold text-text-main">{t('softwareDevTechnologist')}</h3>
                                 <span className="text-[11px] font-bold uppercase text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full w-fit">2022</span>
                              </div>
                              <p className="text-text-main font-medium text-base mb-1">Fundación Universitaria Tecnológico Comfenalco</p>
-                             <p className="text-text-muted text-sm">Technologist Degree</p>
+                             <p className="text-text-muted text-sm">{t('technologistDegree')}</p>
                           </div>
                        </div>
                     </div>
@@ -222,9 +224,9 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
             {/* STACK MODAL */}
             {type === 'stack' && (
                <div className="w-full p-8 md:p-12 bg-card flex flex-col items-center min-h-full">
-                 <h2 className="text-4xl md:text-5xl font-bold text-text-main mb-6 text-center tracking-tight">Technical Arsenal</h2>
+                 <h2 className="text-4xl md:text-5xl font-bold text-text-main mb-6 text-center tracking-tight">{t('technicalArsenal')}</h2>
                  <p className="text-text-muted max-w-2xl mx-auto mb-16 text-center text-lg font-light leading-relaxed">
-                   A comprehensive toolkit for full-stack development, ranging from modern front-end frameworks to robust backend systems and AI integration.
+                   {t('technicalArsenalDesc')}
                  </p>
                  
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
@@ -233,7 +235,7 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                    <div className="p-8 rounded-[32px] bg-card-hover border border-border transition-all duration-300">
                       <h3 className="text-xl font-bold text-text-main mb-6 flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-cyan-500"></div>
-                        Frontend
+                        {t('frontend')}
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {[
@@ -267,7 +269,7 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                    <div className="p-8 rounded-[32px] bg-card-hover border border-border transition-all duration-300">
                       <h3 className="text-xl font-bold text-text-main mb-6 flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-                        Backend
+                        {t('backend')}
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {[
@@ -301,7 +303,7 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                    <div className="p-8 rounded-[32px] bg-card-hover border border-border transition-all duration-300">
                       <h3 className="text-xl font-bold text-text-main mb-6 flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-purple-500"></div>
-                        AI & Machine Learning
+                        {t('aiMl')}
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {[
@@ -334,7 +336,7 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                    <div className="p-8 rounded-[32px] bg-card-hover border border-border transition-all duration-300">
                       <h3 className="text-xl font-bold text-text-main mb-6 flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-orange-500"></div>
-                        Database
+                        {t('database')}
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {[

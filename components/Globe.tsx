@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import createGlobe from 'cobe';
 import { MapPin } from 'lucide-react';
 import type { GlobeProps, MapContentProps } from '../types';
+import { useLanguage } from '../i18n/LanguageContext';
 
 // ----- GLOBE COMPONENT -----
 
@@ -163,40 +164,43 @@ export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
 
 // ----- MAP CONTENT COMPONENT -----
 
-export const MapContent: React.FC<MapContentProps> = ({ time, theme }) => (
-  <div className="relative w-full h-full overflow-hidden">
-    {/* Globe Layer */}
-    <div className="absolute inset-0 z-0">
-      <Globe theme={theme} scale={1.35} />
-    </div>
-    
-    {/* Subtle gradient at bottom for legibility */}
-    <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-card/90 to-transparent pointer-events-none z-10"></div>
+export const MapContent: React.FC<MapContentProps> = ({ time, theme }) => {
+  const { t, language } = useLanguage();
+  
+  return (
+    <div className="relative w-full h-full overflow-hidden">
+      {/* Globe Layer */}
+      <div className="absolute inset-0 z-0">
+        <Globe theme={theme} scale={1.35} />
+      </div>
+      
+      {/* Subtle gradient at bottom for legibility */}
+      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-card/90 to-transparent pointer-events-none z-10"></div>
 
-    {/* Compact bottom bar */}
-    <div className="absolute bottom-0 left-0 right-0 z-20 p-4">
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-full bg-card/80 backdrop-blur-md border border-border/50 flex items-center justify-center text-text-main shrink-0">
-            <MapPin size={14} />
+      {/* Compact bottom bar */}
+      <div className="absolute bottom-0 left-0 right-0 z-20 p-4">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-card border border-border flex items-center justify-center text-text-main shrink-0 shadow-sm">
+              <MapPin size={16} strokeWidth={1.5} />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[9px] font-semibold text-text-muted uppercase tracking-wider leading-none mb-1">{t('basedIn')}</p>
+              <h3 className="text-sm font-bold text-text-main leading-none">{t('location')}</h3>
+            </div>
           </div>
-          <div className="min-w-0">
-            <p className="text-[8px] font-bold text-text-muted/80 uppercase tracking-wider leading-none mb-0.5">Based in</p>
-            <h3 className="text-sm font-bold text-text-main leading-none">Cartagena, CO</h3>
+          
+          <div className="px-3 py-2 rounded-xl bg-card border border-border flex items-center gap-2 shrink-0 shadow-sm">
+            <span className="relative flex h-1.5 w-1.5 items-center justify-center">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+            </span>
+            <span className="text-[11px] font-mono font-semibold text-text-main tabular-nums">
+              {time.toLocaleTimeString(language === 'es' ? 'es-CO' : 'en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Bogota' })}
+            </span>
           </div>
-        </div>
-        
-        <div className="px-2 py-1 rounded-full bg-card/80 backdrop-blur-md border border-border/50 flex items-center gap-1.5 shrink-0">
-          <span className="relative flex h-2 w-2 items-center justify-center">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-          </span>
-          <span className="text-[10px] font-mono font-medium text-text-main">
-            {time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Bogota' })}
-          </span>
         </div>
       </div>
     </div>
-  </div>
-);
-
+  );
+};
