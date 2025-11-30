@@ -29,7 +29,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   noPadding = false,
   index = 0
 }) => {
-  const baseClasses = `relative overflow-hidden rounded-[32px] text-left transition-[background-color,box-shadow,border-color] duration-300 group select-none
+  const baseClasses = `relative overflow-hidden rounded-[20px] sm:rounded-[28px] md:rounded-[32px] text-left transition-[background-color,box-shadow,border-color] duration-300 group select-none
       bg-card backdrop-blur-xl shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_1px_2px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)] border border-transparent dark:border-white/5
       ${onClick ? 'cursor-pointer hover:bg-card-hover' : ''}
   `;
@@ -93,9 +93,9 @@ export const BentoCard: React.FC<BentoCardProps> = ({
       )}
 
       {/* Content wrapper */}
-      <div className={`relative h-full flex flex-col z-10 w-full ${noPadding ? 'p-0' : 'p-6 sm:p-7'} ${backgroundImage ? 'text-white' : ''}`}>
+      <div className={`relative h-full flex flex-col z-10 w-full ${noPadding ? 'p-0' : 'p-4 sm:p-6 md:p-7'} ${backgroundImage ? 'text-white' : ''}`}>
         {title && (
-          <h3 className={`text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase mb-auto flex items-center gap-2 ${backgroundImage ? 'text-white/70' : 'text-text-muted'} ${noPadding ? 'absolute top-6 left-6 sm:top-7 sm:left-7 z-20' : ''}`}>
+          <h3 className={`text-[9px] sm:text-[10px] md:text-[11px] font-bold tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-auto flex items-center gap-2 ${backgroundImage ? 'text-white/70' : 'text-text-muted'} ${noPadding ? 'absolute top-4 left-4 sm:top-6 sm:left-6 md:top-7 md:left-7 z-20' : ''}`}>
             {title}
           </h3>
         )}
@@ -103,8 +103,8 @@ export const BentoCard: React.FC<BentoCardProps> = ({
         {children}
 
         {hasArrow && (
-          <div className={`absolute top-6 right-6 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md border transition-all duration-300 ease-out group-hover:scale-110 group-hover:rotate-45 ${backgroundImage ? 'bg-white/10 border-white/20 text-white' : 'bg-white/50 dark:bg-white/5 border-border text-text-muted group-hover:border-primary/20 group-hover:text-primary'}`}>
-            <ArrowUpRight size={16} strokeWidth={2.5} />
+          <div className={`absolute top-4 right-4 sm:top-6 sm:right-6 w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center backdrop-blur-md border transition-all duration-300 ease-out group-hover:scale-110 group-hover:rotate-45 ${backgroundImage ? 'bg-white/10 border-white/20 text-white' : 'bg-white/50 dark:bg-white/5 border-border text-text-muted group-hover:border-primary/20 group-hover:text-primary'}`}>
+            <ArrowUpRight size={14} className="sm:w-4 sm:h-4" strokeWidth={2.5} />
           </div>
         )}
       </div>

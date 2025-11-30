@@ -88,15 +88,15 @@ function AppContent() {
 
   // Static items configuration
   const items: BentoItem[] = [
-    { id: 'intro', colSpan: 'col-span-1 sm:col-span-2' },
+    { id: 'intro', colSpan: 'col-span-2 sm:col-span-2' },
     { id: 'photo', colSpan: 'col-span-1', bgImage: "/profile.png" },
     { id: 'socials', colSpan: 'col-span-1' },
     { id: 'about', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'about' },
     { id: 'experience', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'experience' },
-    { id: 'stack', colSpan: 'col-span-1 sm:col-span-2', hasArrow: true, onClickModal: 'stack' },
+    { id: 'stack', colSpan: 'col-span-2 sm:col-span-2', hasArrow: true, onClickModal: 'stack' },
     { id: 'education', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'education' },
-    { id: 'contact', colSpan: 'col-span-1 sm:col-span-2' },
     { id: 'map', colSpan: 'col-span-1', noPadding: true },
+    { id: 'contact', colSpan: 'col-span-2 sm:col-span-2' },
   ];
 
   // Render content for cards
@@ -195,7 +195,7 @@ function AppContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 auto-rows-[220px] md:auto-rows-[250px] grid-flow-row-dense"
+            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 auto-rows-[160px] sm:auto-rows-[200px] md:auto-rows-[250px] grid-flow-row-dense"
           > 
             {items.map((item, index) => {
               const isExpanded = activeModal === item.id;

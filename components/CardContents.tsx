@@ -49,27 +49,27 @@ export const IntroContent: React.FC = () => {
       
       {/* Top Section: Status Badge */}
       <div className="relative z-10 flex justify-end">
-        <div className="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-card border border-border shadow-sm transition-all hover:border-emerald-500/20 cursor-default group">
-          <div className="relative flex h-2 w-2 items-center justify-center">
+        <div className="inline-flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl bg-card border border-border shadow-sm transition-all hover:border-emerald-500/20 cursor-default group">
+          <div className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2 items-center justify-center">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2 bg-emerald-500"></span>
           </div>
-          <span className="text-[10px] font-semibold tracking-wider uppercase text-text-muted group-hover:text-text-main transition-colors">{t('availableForWork')}</span>
+          <span className="text-[8px] sm:text-[10px] font-semibold tracking-wider uppercase text-text-muted group-hover:text-text-main transition-colors">{t('availableForWork')}</span>
         </div>
       </div>
 
       {/* Bottom Section: Name + Bio */}
-      <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-4 mt-auto">
-        <div className="relative bottom-[-4px]">
-          <h1 className="text-5xl sm:text-6xl font-black tracking-tighter leading-[0.85] text-text-main">
+      <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-2 sm:gap-4 mt-auto">
+        <div className="relative bottom-[-2px] sm:bottom-[-4px]">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-[0.85] text-text-main">
             Anderson
           </h1>
-          <h1 className="text-5xl sm:text-6xl font-black tracking-tighter leading-[0.85] text-text-muted/20">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-[0.85] text-text-muted/20">
             Mendoza.
           </h1>
         </div>
 
-        <div className="md:max-w-[160px] md:text-right pb-1">
+        <div className="hidden sm:block md:max-w-[160px] md:text-right pb-1">
           <p className="text-xs text-text-muted font-medium leading-relaxed">
             {renderBio()}
           </p>
@@ -85,25 +85,25 @@ export const SocialsContent: React.FC = () => {
   const { t } = useLanguage();
   
   return (
-    <div className="flex flex-col h-full gap-3 w-full">
+    <div className="flex flex-col h-full gap-2 sm:gap-3 w-full">
       {/* Platforms */}
-      <div className="flex-1 flex gap-3 min-h-0">
+      <div className="flex-1 flex gap-2 sm:gap-3 min-h-0">
         <a 
           href="https://github.com/andermendz" 
           target="_blank" 
           rel="noreferrer"
-          className="relative flex-1 flex flex-col items-center justify-center rounded-[24px] bg-card-hover border border-border group/social overflow-hidden transition-all duration-300 hover:border-text-main/20 hover:bg-text-main"
+          className="relative flex-1 flex flex-col items-center justify-center rounded-[16px] sm:rounded-[24px] bg-card-hover border border-border group/social overflow-hidden transition-all duration-300 hover:border-text-main/20 hover:bg-text-main"
         >
-          <Github size={32} className="text-text-main transition-all duration-300 group-hover/social:text-page group-hover/social:scale-110" />
+          <Github size={24} className="sm:w-8 sm:h-8 text-text-main transition-all duration-300 group-hover/social:text-page group-hover/social:scale-110" />
         </a>
 
         <a 
           href="https://linkedin.com/in/andermendz" 
           target="_blank" 
           rel="noreferrer"
-          className="relative flex-1 flex flex-col items-center justify-center rounded-[24px] bg-card-hover border border-border group/social overflow-hidden transition-all duration-300 hover:border-[#0077b5]/30 hover:bg-[#0077b5]"
+          className="relative flex-1 flex flex-col items-center justify-center rounded-[16px] sm:rounded-[24px] bg-card-hover border border-border group/social overflow-hidden transition-all duration-300 hover:border-[#0077b5]/30 hover:bg-[#0077b5]"
         >
-          <Linkedin size={32} className="text-text-main transition-all duration-300 group-hover/social:text-white group-hover/social:scale-110" />
+          <Linkedin size={24} className="sm:w-8 sm:h-8 text-text-main transition-all duration-300 group-hover/social:text-white group-hover/social:scale-110" />
         </a>
       </div>
 
@@ -112,11 +112,11 @@ export const SocialsContent: React.FC = () => {
         href="https://linkedin.com/in/andermendz"
         target="_blank"
         rel="noreferrer"
-        className="relative h-14 w-full bg-text-main rounded-[24px] flex items-center justify-between px-6 gap-2 text-page font-bold shadow-md transition-all overflow-hidden group hover:shadow-xl active:scale-[0.98] cursor-pointer"
+        className="relative h-11 sm:h-14 w-full bg-text-main rounded-[16px] sm:rounded-[24px] flex items-center justify-between px-4 sm:px-6 gap-2 text-page font-bold shadow-md transition-all overflow-hidden group hover:shadow-xl active:scale-[0.98] cursor-pointer"
       >
-        <span className="relative z-10 text-sm tracking-wide">{t('letsConnect')}</span>
-        <div className="relative z-10 w-8 h-8 rounded-full bg-page/20 flex items-center justify-center group-hover:bg-page group-hover:text-text-main transition-colors">
-          <ArrowUpRight size={16} />
+        <span className="relative z-10 text-xs sm:text-sm tracking-wide">{t('letsConnect')}</span>
+        <div className="relative z-10 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-page/20 flex items-center justify-center group-hover:bg-page group-hover:text-text-main transition-colors">
+          <ArrowUpRight size={14} className="sm:w-4 sm:h-4" />
         </div>
       </a>
     </div>
@@ -127,13 +127,13 @@ export const SocialsContent: React.FC = () => {
 
 const TechIcon: React.FC<{ icon: React.ReactNode; label: string; hoverColor: string }> = ({ icon, label, hoverColor }) => (
   <div 
-    className="group/tech flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-card-hover border border-border/50 shrink-0 shadow-sm cursor-default transition-all duration-300 hover:scale-105 hover:shadow-md hover:border-[var(--hover-color)]"
+    className="group/tech flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl bg-card-hover border border-border/50 shrink-0 shadow-sm cursor-default transition-all duration-300 hover:scale-105 hover:shadow-md hover:border-[var(--hover-color)]"
     style={{ ['--hover-color' as string]: hoverColor }}
   >
     <span className="text-text-muted transition-colors duration-300 group-hover/tech:text-[var(--hover-color)]">
       {icon}
     </span>
-    <span className="text-xs font-semibold text-text-main whitespace-nowrap transition-colors duration-300 group-hover/tech:text-[var(--hover-color)]">
+    <span className="text-[10px] sm:text-xs font-semibold text-text-main whitespace-nowrap transition-colors duration-300 group-hover/tech:text-[var(--hover-color)]">
       {label}
     </span>
   </div>
@@ -211,11 +211,11 @@ export const AboutContent: React.FC = () => {
   return (
     <div className="h-full flex flex-col justify-end relative z-10">
       <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
-      <div className="space-y-3">
-        <div className="w-10 h-10 rounded-xl bg-card flex items-center justify-center text-text-main border border-border shadow-sm">
-          <Sparkles size={18} strokeWidth={1.5} />
+      <div className="space-y-2 sm:space-y-3">
+        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-card flex items-center justify-center text-text-main border border-border shadow-sm">
+          <Sparkles size={16} className="sm:w-[18px] sm:h-[18px]" strokeWidth={1.5} />
         </div>
-        <p className="text-xl sm:text-2xl font-medium text-text-main leading-tight tracking-tight">
+        <p className="text-base sm:text-xl md:text-2xl font-medium text-text-main leading-tight tracking-tight">
           {renderPhrase()}
         </p>
       </div>
@@ -229,24 +229,24 @@ export const ExperienceContent: React.FC = () => {
   const { t } = useLanguage();
   
   return (
-    <div className="mt-auto space-y-4">
-      <div className="flex items-center gap-4 group">
-        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-card border border-border flex items-center justify-center text-text-main group-hover:border-primary/20 transition-colors shadow-sm shrink-0">
-          <Briefcase size={20} strokeWidth={1.5} />
+    <div className="mt-auto space-y-2 sm:space-y-4">
+      <div className="flex items-center gap-2.5 sm:gap-4 group">
+        <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl sm:rounded-2xl bg-card border border-border flex items-center justify-center text-text-main group-hover:border-primary/20 transition-colors shadow-sm shrink-0">
+          <Briefcase size={16} className="sm:w-5 sm:h-5" strokeWidth={1.5} />
         </div>
         <div>
-          <p className="text-text-main font-bold text-base sm:text-lg leading-none mb-1">Visbl</p>
-          <p className="text-text-muted text-[10px] sm:text-xs font-semibold uppercase tracking-wide">{t('softwareDeveloper')}</p>
+          <p className="text-text-main font-bold text-sm sm:text-base md:text-lg leading-none mb-0.5 sm:mb-1">Visbl</p>
+          <p className="text-text-muted text-[9px] sm:text-[10px] md:text-xs font-semibold uppercase tracking-wide">{t('softwareDeveloper')}</p>
         </div>
       </div>
       <div className="w-full h-px bg-border"></div>
-      <div className="flex items-center gap-4 opacity-50 hover:opacity-100 transition-opacity">
-        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-card border border-border flex items-center justify-center text-text-main shrink-0">
-          <Briefcase size={20} strokeWidth={1.5} />
+      <div className="flex items-center gap-2.5 sm:gap-4 opacity-50 hover:opacity-100 transition-opacity">
+        <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl sm:rounded-2xl bg-card border border-border flex items-center justify-center text-text-main shrink-0">
+          <Briefcase size={16} className="sm:w-5 sm:h-5" strokeWidth={1.5} />
         </div>
         <div>
-          <p className="text-text-main font-bold text-base sm:text-lg leading-none mb-1">Comfenalco</p>
-          <p className="text-text-muted text-[10px] sm:text-xs font-semibold uppercase tracking-wide">{t('fullStackDev')}</p>
+          <p className="text-text-main font-bold text-sm sm:text-base md:text-lg leading-none mb-0.5 sm:mb-1">Comfenalco</p>
+          <p className="text-text-muted text-[9px] sm:text-[10px] md:text-xs font-semibold uppercase tracking-wide">{t('fullStackDev')}</p>
         </div>
       </div>
     </div>
@@ -263,16 +263,16 @@ export const EducationContent: React.FC = () => {
       {/* Decorative Elements */}
       <div className="absolute top-0 right-0 p-24 bg-gradient-to-br from-primary/5 to-purple-500/5 blur-[60px] rounded-full pointer-events-none z-0"></div>
       
-      <div className="mt-auto space-y-3 relative z-10">
-        <div className="w-10 h-10 rounded-2xl bg-card border border-border flex items-center justify-center text-text-main shadow-sm">
-          <GraduationCap size={20} strokeWidth={1.5} />
+      <div className="mt-auto space-y-2 sm:space-y-3 relative z-10">
+        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-card border border-border flex items-center justify-center text-text-main shadow-sm">
+          <GraduationCap size={16} className="sm:w-5 sm:h-5" strokeWidth={1.5} />
         </div>
         
         <div>
-          <h3 className="text-lg font-bold text-text-main leading-tight mb-1">{t('systemsEngineering').split(' ').map((word, i) => <React.Fragment key={i}>{word}<br/></React.Fragment>)}</h3>
-          <div className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-            <p className="text-text-muted text-xs font-medium">{t('technologicalUniversity')}</p>
+          <h3 className="text-sm sm:text-base md:text-lg font-bold text-text-main leading-tight mb-0.5 sm:mb-1">{t('systemsEngineering').split(' ').map((word, i) => <React.Fragment key={i}>{word}<br/></React.Fragment>)}</h3>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <span className="h-1 w-1 sm:h-1.5 sm:w-1.5 rounded-full bg-emerald-500"></span>
+            <p className="text-text-muted text-[10px] sm:text-xs font-medium">{t('technologicalUniversity')}</p>
           </div>
         </div>
       </div>
@@ -288,10 +288,10 @@ export const ContactContent: React.FC<ContentWithCopyProps> = () => {
   return (
     <div className="flex flex-col justify-between h-full relative z-10">
       <div className="max-w-[80%]">
-        <div className="w-12 h-12 rounded-2xl bg-card border border-border flex items-center justify-center text-text-main shadow-sm mb-4">
-          <Mail size={24} strokeWidth={1.5} />
+        <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-card border border-border flex items-center justify-center text-text-main shadow-sm mb-2 sm:mb-4">
+          <Mail size={18} className="sm:w-6 sm:h-6" strokeWidth={1.5} />
         </div>
-        <h3 className="text-2xl sm:text-3xl font-semibold text-text-main mb-2 tracking-tight">
+        <h3 className="text-lg sm:text-2xl md:text-3xl font-semibold text-text-main mb-1 sm:mb-2 tracking-tight">
           {t('contactTitle')}
         </h3>
       </div>
@@ -300,10 +300,10 @@ export const ContactContent: React.FC<ContentWithCopyProps> = () => {
           href="https://linkedin.com/in/andermendz"
           target="_blank"
           rel="noreferrer"
-          className="flex items-center justify-between gap-4 px-5 py-4 rounded-[20px] bg-card hover:bg-card-hover border border-border transition-all text-sm group w-full shadow-sm hover:shadow-lg hover:border-primary/20 active:scale-[0.99]"
+          className="flex items-center justify-between gap-2 sm:gap-4 px-3 sm:px-5 py-2.5 sm:py-4 rounded-[14px] sm:rounded-[20px] bg-card hover:bg-card-hover border border-border transition-all text-xs sm:text-sm group w-full shadow-sm hover:shadow-lg hover:border-primary/20 active:scale-[0.99]"
         >
           <span className="truncate font-medium text-text-muted group-hover:text-text-main transition-colors">{t('connectOnLinkedIn')}</span>
-          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md transition-all shrink-0 bg-border/50 text-text-muted group-hover:bg-primary group-hover:text-primary-fg">
+          <span className="text-[8px] sm:text-[10px] font-bold uppercase tracking-wider px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md transition-all shrink-0 bg-border/50 text-text-muted group-hover:bg-primary group-hover:text-primary-fg">
             {t('open')}
           </span>
         </a>
