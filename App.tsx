@@ -21,9 +21,6 @@ import { LanguageTransition, LanguageContentWrapper } from './components/Languag
 // Import i18n
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext';
 
-// Import custom hook
-import { useDragAndDrop } from './hooks/useDragAndDrop';
-
 // Import types
 import type { BentoItem, Theme } from './types';
 
@@ -34,19 +31,9 @@ function AppContent() {
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const [time, setTime] = useState(new Date());
   const [theme, setTheme] = useState<Theme>('dark');
-  const [items, setItems] = useState<BentoItem[]>([]);
   const [isLanguageChanging, setIsLanguageChanging] = useState(false);
   
   const { t, language } = useLanguage();
-
-  // Use custom drag and drop hook
-  const {
-    draggedItem,
-    dragSize,
-    dragOverlayRef,
-    handleStartDrag,
-    handleHoverItem,
-  } = useDragAndDrop({ items, setItems });
 
   // Handle language change animation
   const handleLanguageChange = () => {
@@ -93,34 +80,32 @@ function AppContent() {
     }
   }, [activeModal]);
 
-  // Initialize Items Data - ONLY ONCE
-  useEffect(() => {
-    setItems([
-      { id: 'intro', type: 'normal', colSpan: 'col-span-1 sm:col-span-2', content: <IntroContent /> },
-      { id: 'photo', type: 'normal', colSpan: 'col-span-1', bgImage: "/profile.png" },
-      { id: 'socials', type: 'normal', colSpan: 'col-span-1', content: <SocialsContent /> },
-      { id: 'stack', type: 'normal', colSpan: 'col-span-1 sm:col-span-2', title: t('techStackTitle'), content: <TechStackContent />, hasArrow: true, onClickModal: 'stack' },
-      { id: 'about', type: 'normal', colSpan: 'col-span-1', title: t('aboutTitle'), content: <AboutContent />, hasArrow: true, onClickModal: 'about' },
-      { id: 'experience', type: 'normal', colSpan: 'col-span-1', title: t('experienceTitle'), content: <ExperienceContent />, hasArrow: true, onClickModal: 'experience' },
-      { id: 'education', type: 'normal', colSpan: 'col-span-1', title: t('educationTitle'), content: <EducationContent />, hasArrow: true, onClickModal: 'education' },
-      { id: 'contact', type: 'normal', colSpan: 'col-span-1 sm:col-span-2', content: <ContactContent copyToClipboard={() => {}} copiedText={null} /> },
-      { id: 'map', type: 'normal', colSpan: 'col-span-1', content: <MapContent time={new Date()} theme="dark" />, noPadding: true },
-    ]);
-  }, []);
-
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     setCopiedText(label);
     setTimeout(() => setCopiedText(null), 2000);
   };
 
-  // Render content for cards (with live data)
-  const renderCardContent = (itemId: string, isDragging = false) => {
+  // Static items configuration
+  const items: BentoItem[] = [
+    { id: 'intro', colSpan: 'col-span-1 sm:col-span-2' },
+    { id: 'photo', colSpan: 'col-span-1', bgImage: "/profile.png" },
+    { id: 'socials', colSpan: 'col-span-1' },
+    { id: 'stack', colSpan: 'col-span-1 sm:col-span-2', hasArrow: true, onClickModal: 'stack' },
+    { id: 'about', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'about' },
+    { id: 'experience', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'experience' },
+    { id: 'education', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'education' },
+    { id: 'contact', colSpan: 'col-span-1 sm:col-span-2' },
+    { id: 'map', colSpan: 'col-span-1', noPadding: true },
+  ];
+
+  // Render content for cards
+  const renderCardContent = (itemId: string) => {
     switch (itemId) {
       case 'intro':
         return <IntroContent />;
       case 'socials':
-        return <SocialsContent isDragging={isDragging} />;
+        return <SocialsContent />;
       case 'stack':
         return <TechStackContent />;
       case 'about':
@@ -130,7 +115,7 @@ function AppContent() {
       case 'education':
         return <EducationContent />;
       case 'contact':
-        return <ContactContent copyToClipboard={copyToClipboard} copiedText={copiedText} isDragging={isDragging} />;
+        return <ContactContent copyToClipboard={copyToClipboard} copiedText={copiedText} />;
       case 'map':
         return <MapContent time={time} theme={theme} />;
       default:
@@ -202,61 +187,14 @@ function AppContent() {
         )}
       </AnimatePresence>
 
-      {/* Floating Drag Overlay */}
-      <AnimatePresence>
-        {draggedItem && (
-          <motion.div 
-            ref={dragOverlayRef}
-            className="fixed z-[100] pointer-events-none will-change-transform"
-            style={{ 
-              width: dragSize.width, 
-              height: dragSize.height,
-              left: 0,
-              top: 0
-            }}
-            initial={{ scale: 1, rotate: 0 }}
-            animate={{ 
-              scale: 1.03, 
-              rotate: 1,
-              transition: { 
-                type: 'spring', 
-                stiffness: 400, 
-                damping: 25 
-              }
-            }}
-            exit={{ 
-              scale: 1, 
-              rotate: 0, 
-              opacity: 0,
-              transition: { duration: 0.15 }
-            }}
-          >
-            <BentoCard 
-              isDragging={true}
-              title={getCardTitle(draggedItem.id) || draggedItem.title}
-              backgroundImage={draggedItem.bgImage}
-              hasArrow={draggedItem.hasArrow}
-              noPadding={draggedItem.noPadding}
-              className="h-full w-full shadow-2xl shadow-black/50 ring-2 ring-primary/30"
-            >
-              {renderCardContent(draggedItem.id, true)}
-            </BentoCard>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       <LanguageContentWrapper isChanging={isLanguageChanging}>
         <div className="w-full max-w-[1320px] mx-auto pb-24 sm:pb-6">
           
           {/* Main Grid */}
           <motion.div 
-            layout
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={draggedItem ? {
-              duration: 0.3,
-              layout: { type: 'spring', stiffness: 500, damping: 35, mass: 0.8 }
-            } : { duration: 0.3 }}
+            transition={{ duration: 0.3 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 auto-rows-[220px] md:auto-rows-[250px] grid-flow-row-dense"
           > 
             {items.map((item, index) => {
@@ -268,19 +206,15 @@ function AppContent() {
                   layoutId={item.id}
                   dataId={item.id}
                   index={index}
-                  className={`${item.colSpan} ${item.rowSpan || ''} ${item.type === 'normal' ? 'h-full' : ''}`}
-                  title={getCardTitle(item.id) || item.title}
+                  className={`${item.colSpan} ${item.rowSpan || ''} h-full`}
+                  title={getCardTitle(item.id)}
                   backgroundImage={item.bgImage}
                   hasArrow={item.hasArrow}
-                  isGhost={item.type === 'placeholder'}
-                  isDragActive={!!draggedItem} 
                   isVisible={!isExpanded} 
                   onClick={item.onClickModal ? () => setActiveModal(item.onClickModal!) : undefined}
-                  onLongPress={(e, el) => handleStartDrag(item, el, e)}
-                  onHover={() => handleHoverItem(item.id)}
                   noPadding={item.noPadding}
                 >
-                  {item.type === 'normal' && renderCardContent(item.id)}
+                  {renderCardContent(item.id)}
                 </BentoCard>
               );
             })}

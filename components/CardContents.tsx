@@ -81,7 +81,7 @@ export const IntroContent: React.FC = () => {
 
 // ----- SOCIALS CONTENT -----
 
-export const SocialsContent: React.FC<{ isDragging?: boolean }> = ({ isDragging }) => {
+export const SocialsContent: React.FC = () => {
   const { t } = useLanguage();
   
   return (
@@ -92,11 +92,7 @@ export const SocialsContent: React.FC<{ isDragging?: boolean }> = ({ isDragging 
           href="https://github.com/andermendz" 
           target="_blank" 
           rel="noreferrer"
-          className={`
-            relative flex-1 flex flex-col items-center justify-center rounded-[24px] bg-card-hover border border-border group/social overflow-hidden transition-all duration-300
-            ${isDragging ? '' : 'hover:border-text-main/20 hover:bg-text-main pointer-events-auto'}
-          `}
-          onPointerDown={(e) => e.stopPropagation()}
+          className="relative flex-1 flex flex-col items-center justify-center rounded-[24px] bg-card-hover border border-border group/social overflow-hidden transition-all duration-300 hover:border-text-main/20 hover:bg-text-main"
         >
           <Github size={32} className="text-text-main transition-all duration-300 group-hover/social:text-page group-hover/social:scale-110" />
         </a>
@@ -105,26 +101,18 @@ export const SocialsContent: React.FC<{ isDragging?: boolean }> = ({ isDragging 
           href="https://linkedin.com/in/andermendz" 
           target="_blank" 
           rel="noreferrer"
-          className={`
-            relative flex-1 flex flex-col items-center justify-center rounded-[24px] bg-card-hover border border-border group/social overflow-hidden transition-all duration-300
-            ${isDragging ? '' : 'hover:border-[#0077b5]/30 hover:bg-[#0077b5] pointer-events-auto'}
-          `}
-          onPointerDown={(e) => e.stopPropagation()}
+          className="relative flex-1 flex flex-col items-center justify-center rounded-[24px] bg-card-hover border border-border group/social overflow-hidden transition-all duration-300 hover:border-[#0077b5]/30 hover:bg-[#0077b5]"
         >
           <Linkedin size={32} className="text-text-main transition-all duration-300 group-hover/social:text-white group-hover/social:scale-110" />
         </a>
       </div>
 
-      {/* Contact Action - DO NOT DELETE (email removed temporarily) */}
+      {/* Contact Action */}
       <a 
         href="https://linkedin.com/in/andermendz"
         target="_blank"
         rel="noreferrer"
-        onPointerDown={(e) => e.stopPropagation()}
-        className={`
-          relative h-14 w-full bg-text-main rounded-[24px] flex items-center justify-between px-6 gap-2 text-page font-bold shadow-md transition-all overflow-hidden group
-          ${isDragging ? '' : 'hover:shadow-xl active:scale-[0.98] pointer-events-auto cursor-pointer'}
-        `}
+        className="relative h-14 w-full bg-text-main rounded-[24px] flex items-center justify-between px-6 gap-2 text-page font-bold shadow-md transition-all overflow-hidden group hover:shadow-xl active:scale-[0.98] cursor-pointer"
       >
         <span className="relative z-10 text-sm tracking-wide">{t('letsConnect')}</span>
         <div className="relative z-10 w-8 h-8 rounded-full bg-page/20 flex items-center justify-center group-hover:bg-page group-hover:text-text-main transition-colors">
@@ -139,7 +127,7 @@ export const SocialsContent: React.FC<{ isDragging?: boolean }> = ({ isDragging 
 
 const TechIcon: React.FC<{ icon: React.ReactNode; label: string; hoverColor: string }> = ({ icon, label, hoverColor }) => (
   <div 
-    className="group/tech flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-card-hover border border-border/50 shrink-0 shadow-sm cursor-default transition-all duration-300 hover:scale-105 hover:shadow-md hover:border-[var(--hover-color)] pointer-events-auto"
+    className="group/tech flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-card-hover border border-border/50 shrink-0 shadow-sm cursor-default transition-all duration-300 hover:scale-105 hover:shadow-md hover:border-[var(--hover-color)]"
     style={{ ['--hover-color' as string]: hoverColor }}
   >
     <span className="text-text-muted transition-colors duration-300 group-hover/tech:text-[var(--hover-color)]">
@@ -294,33 +282,7 @@ export const EducationContent: React.FC = () => {
 
 // ----- CONTACT CONTENT -----
 
-// DO NOT DELETE - Original ContactContent with email (temporarily commented out)
-// export const ContactContent: React.FC<ContentWithCopyProps> = ({ copyToClipboard, copiedText, isDragging }) => (
-//   <div className="flex flex-col justify-between h-full relative z-10">
-//     <div className="max-w-[80%]">
-//       <div className="w-12 h-12 rounded-2xl bg-card border border-border flex items-center justify-center text-text-main shadow-sm mb-4">
-//         <Mail size={24} strokeWidth={1.5} />
-//       </div>
-//       <h3 className="text-2xl sm:text-3xl font-semibold text-text-main mb-2 tracking-tight">
-//         Let's talk.
-//       </h3>
-//     </div>
-//     <div className={`w-full ${isDragging ? '' : 'pointer-events-auto'}`}>
-//       <button 
-//         onClick={(e) => { e.stopPropagation(); copyToClipboard("EMAIL_HERE", "email"); }}
-//         className="flex items-center justify-between gap-4 px-5 py-4 rounded-[20px] bg-card hover:bg-card-hover border border-border transition-all text-sm group w-full shadow-sm hover:shadow-lg hover:border-primary/20 active:scale-[0.99]"
-//       >
-//         <span className="truncate font-medium text-text-muted group-hover:text-text-main transition-colors">EMAIL_HERE</span>
-//         <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md transition-all shrink-0 ${copiedText === 'email' ? 'bg-emerald-500 text-white shadow-emerald-500/20 shadow-lg' : 'bg-border/50 text-text-muted group-hover:bg-primary group-hover:text-primary-fg'}`}>
-//           {copiedText === 'email' ? 'Copied' : 'Copy'}
-//         </span>
-//       </button>
-//     </div>
-//   </div>
-// );
-
-// Temporary replacement - Contact section without email
-export const ContactContent: React.FC<ContentWithCopyProps> = ({ isDragging }) => {
+export const ContactContent: React.FC<ContentWithCopyProps> = () => {
   const { t } = useLanguage();
   
   return (
@@ -333,7 +295,7 @@ export const ContactContent: React.FC<ContentWithCopyProps> = ({ isDragging }) =
           {t('contactTitle')}
         </h3>
       </div>
-      <div className={`w-full ${isDragging ? '' : 'pointer-events-auto'}`}>
+      <div className="w-full">
         <a 
           href="https://linkedin.com/in/andermendz"
           target="_blank"
