@@ -23,10 +23,10 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
         className="fixed inset-0 z-50 bg-overlay"
         onClick={onClose} 
       />
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 pointer-events-none">
+      <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center pt-4 pb-24 sm:pb-8 px-3 sm:px-8 pointer-events-none overflow-y-auto">
         <motion.div 
           layoutId={layoutId}
-          className="relative w-full max-w-5xl max-h-[85vh] bg-card rounded-[40px] border border-border overflow-hidden flex flex-col md:flex-row shadow-2xl pointer-events-auto ring-1 ring-white/10"
+          className="relative w-full max-w-5xl my-auto bg-card rounded-[24px] sm:rounded-[40px] border border-border overflow-hidden flex flex-col shadow-2xl pointer-events-auto ring-1 ring-white/10 max-h-[calc(100vh-8rem)] sm:max-h-[85vh]"
           initial={{ scale: 0.92, opacity: 0.5 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
@@ -52,14 +52,15 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
               ease: [0.22, 1, 0.36, 1] 
             }}
             onClick={onClose}
-            className="absolute top-6 right-6 z-50 w-11 h-11 rounded-full bg-card/80 backdrop-blur-md hover:bg-text-main hover:text-page flex items-center justify-center text-text-main transition-all active:scale-90 border border-border shadow-sm"
+            className="absolute top-3 right-3 sm:top-6 sm:right-6 z-50 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-card/90 backdrop-blur-md hover:bg-text-main hover:text-page flex items-center justify-center text-text-main transition-all active:scale-90 border border-border shadow-md"
           >
-            <X size={20} />
+            <X size={18} className="sm:hidden" />
+            <X size={20} className="hidden sm:block" />
           </motion.button>
 
           {/* Content Wrapper with staggered fade-in */}
           <motion.div 
-            className="flex flex-col w-full h-full overflow-y-auto no-scrollbar relative z-10"
+            className="flex flex-col w-full h-full overflow-y-auto overscroll-contain touch-pan-y relative z-10 modal-scroll"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
@@ -73,9 +74,9 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
             {/* ABOUT MODAL */}
             {type === 'about' && (
               <div className="flex flex-col md:flex-row min-h-full">
-                <div className="w-full md:w-2/5 p-8 md:p-12 flex flex-col justify-center bg-card-hover border-r border-border">
-                  <h4 className="text-xs font-bold text-primary uppercase tracking-widest mb-8 opacity-60">{t('profile')}</h4>
-                  <h2 className="text-3xl md:text-4xl font-bold text-text-main mb-6 leading-tight tracking-tight">
+                <div className="w-full md:w-2/5 p-6 sm:p-8 md:p-12 flex flex-col justify-center bg-card-hover md:border-r border-b md:border-b-0 border-border">
+                  <h4 className="text-xs font-bold text-primary uppercase tracking-widest mb-6 sm:mb-8 opacity-60 mt-6 sm:mt-0">{t('profile')}</h4>
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-main mb-4 sm:mb-6 leading-tight tracking-tight">
                     {t('systemsEngineering').split(' ')[0]}<br/> <span className="text-text-muted">{t('scalableArchitect')}</span>
                   </h2>
                   <div className="flex flex-wrap gap-2 mt-auto">
@@ -84,39 +85,41 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                      <span className="px-4 py-2 rounded-xl bg-card text-text-main text-xs font-medium border border-border shadow-sm">{t('problemSolver')}</span>
                   </div>
                 </div>
-                <div className="w-full md:w-3/5 p-8 md:p-12 bg-card">
-                  <div className="space-y-10">
+                <div className="w-full md:w-3/5 p-6 sm:p-8 md:p-12 pb-8 sm:pb-10 bg-card">
+                  <div className="space-y-8 sm:space-y-10">
                     <div>
-                      <h3 className="text-text-muted text-xs font-bold uppercase tracking-widest mb-6">{t('bio')}</h3>
-                      <p className="text-text-main leading-loose text-lg font-light">
+                      <h3 className="text-text-muted text-xs font-bold uppercase tracking-widest mb-4 sm:mb-6">{t('bio')}</h3>
+                      <p className="text-text-main leading-relaxed sm:leading-loose text-base sm:text-lg font-light">
                         {t('bioText')}
                       </p>
                     </div>
                     
                     <div>
-                      <h3 className="text-text-muted text-xs font-bold uppercase tracking-widest mb-6">{t('philosophy')}</h3>
-                      <div className="grid gap-4">
+                      <h3 className="text-text-muted text-xs font-bold uppercase tracking-widest mb-4 sm:mb-6">{t('philosophy')}</h3>
+                      <div className="grid gap-3 sm:gap-4 pb-2 sm:pb-4">
                          {/* Item 1 */}
-                         <div className="group flex items-start gap-5 p-5 rounded-3xl bg-card-hover/40 hover:bg-card-hover border border-border hover:border-blue-500/20 transition-all duration-300">
-                            <div className="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/10 flex items-center justify-center text-blue-500 shrink-0 group-hover:scale-105 transition-transform">
-                               <Layout size={20} />
+                         <div className="group flex items-start gap-4 sm:gap-5 p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-card-hover/40 hover:bg-card-hover border border-border hover:border-blue-500/20 transition-all duration-300">
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-500/10 border border-blue-500/10 flex items-center justify-center text-blue-500 shrink-0 group-hover:scale-105 transition-transform">
+                               <Layout size={18} className="sm:hidden" />
+                               <Layout size={20} className="hidden sm:block" />
                             </div>
-                            <div className="flex-1 min-w-0 pt-1">
-                               <h4 className="text-text-main font-bold text-base mb-2">{t('userCentricDesign')}</h4>
-                               <p className="text-text-muted text-sm leading-relaxed">
+                            <div className="flex-1 min-w-0 pt-0.5 sm:pt-1">
+                               <h4 className="text-text-main font-bold text-sm sm:text-base mb-1.5 sm:mb-2">{t('userCentricDesign')}</h4>
+                               <p className="text-text-muted text-xs sm:text-sm leading-relaxed">
                                   {t('userCentricDesignDesc')}
                                </p>
                             </div>
                          </div>
 
                          {/* Item 2 */}
-                         <div className="group flex items-start gap-5 p-5 rounded-3xl bg-card-hover/40 hover:bg-card-hover border border-border hover:border-amber-500/20 transition-all duration-300">
-                            <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/10 flex items-center justify-center text-amber-500 shrink-0 group-hover:scale-105 transition-transform">
-                               <Zap size={20} />
+                         <div className="group flex items-start gap-4 sm:gap-5 p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-card-hover/40 hover:bg-card-hover border border-border hover:border-amber-500/20 transition-all duration-300">
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-amber-500/10 border border-amber-500/10 flex items-center justify-center text-amber-500 shrink-0 group-hover:scale-105 transition-transform">
+                               <Zap size={18} className="sm:hidden" />
+                               <Zap size={20} className="hidden sm:block" />
                             </div>
-                            <div className="flex-1 min-w-0 pt-1">
-                               <h4 className="text-text-main font-bold text-base mb-2">{t('performanceFirst')}</h4>
-                               <p className="text-text-muted text-sm leading-relaxed">
+                            <div className="flex-1 min-w-0 pt-0.5 sm:pt-1">
+                               <h4 className="text-text-main font-bold text-sm sm:text-base mb-1.5 sm:mb-2">{t('performanceFirst')}</h4>
+                               <p className="text-text-muted text-xs sm:text-sm leading-relaxed">
                                   {t('performanceFirstDesc')}
                                </p>
                             </div>
@@ -130,27 +133,28 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
 
             {/* EXPERIENCE MODAL */}
             {type === 'experience' && (
-              <div className="p-8 md:p-12 bg-card min-h-full">
+              <div className="p-6 sm:p-8 md:p-12 pb-8 sm:pb-10 bg-card min-h-full">
                 <div className="max-w-4xl mx-auto">
-                  <div className="mb-10">
-                     <h2 className="text-3xl md:text-5xl font-bold text-text-main mb-4 tracking-tight">{t('workExperience')}</h2>
-                     <p className="text-text-muted text-lg">{t('workExperienceDesc')}</p>
+                  <div className="mb-8 sm:mb-10 mt-6 sm:mt-0">
+                     <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-text-main mb-3 sm:mb-4 tracking-tight">{t('workExperience')}</h2>
+                     <p className="text-text-muted text-base sm:text-lg">{t('workExperienceDesc')}</p>
                   </div>
                   
-                  <div className="space-y-10 relative before:absolute before:inset-0 before:ml-6 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-border before:via-border before:to-transparent">
+                  <div className="space-y-6 sm:space-y-10 pb-4 sm:pb-6 relative before:absolute before:inset-0 before:ml-6 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-border before:via-border before:to-transparent">
                     
                     {/* Job 1 */}
                     <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-full border-4 border-card bg-primary text-primary-fg shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
-                        <Building2 size={20} />
+                      <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full border-4 border-card bg-primary text-primary-fg shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <Building2 size={16} className="sm:hidden" />
+                        <Building2 size={20} className="hidden sm:block" />
                       </div>
-                      <div className="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-8 rounded-[32px] bg-card-hover border border-border hover:border-primary/20 transition-colors shadow-sm">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-                          <h3 className="font-bold text-text-main text-xl">{t('softwareDeveloper')}</h3>
-                          <span className="text-[11px] font-bold uppercase text-primary bg-primary/10 px-3 py-1 rounded-full w-fit">{t('present')}</span>
+                      <div className="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-5 sm:p-8 rounded-[20px] sm:rounded-[32px] bg-card-hover border border-border hover:border-primary/20 transition-colors shadow-sm">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-4 gap-2">
+                          <h3 className="font-bold text-text-main text-base sm:text-xl">{t('softwareDeveloper')}</h3>
+                          <span className="text-[10px] sm:text-[11px] font-bold uppercase text-primary bg-primary/10 px-2.5 sm:px-3 py-1 rounded-full w-fit">{t('present')}</span>
                         </div>
-                        <div className="text-text-muted font-semibold mb-4 text-base">Visbl</div>
-                        <p className="text-text-main/80 text-sm leading-relaxed">
+                        <div className="text-text-muted font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Visbl</div>
+                        <p className="text-text-main/80 text-xs sm:text-sm leading-relaxed">
                           {t('visblDesc')}
                         </p>
                       </div>
@@ -158,16 +162,17 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
 
                     {/* Job 2 */}
                     <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-full border-4 border-card bg-card-hover text-text-muted border-border shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
-                        <Building2 size={20} />
+                      <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full border-4 border-card bg-card-hover text-text-muted border-border shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <Building2 size={16} className="sm:hidden" />
+                        <Building2 size={20} className="hidden sm:block" />
                       </div>
-                      <div className="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-8 rounded-[32px] bg-card-hover border border-border hover:border-text-muted/20 transition-colors shadow-sm">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-                          <h3 className="font-bold text-text-main text-xl">{t('fullStackDev')}</h3>
-                          <span className="text-[11px] font-bold uppercase text-text-muted bg-card px-3 py-1 rounded-full w-fit border border-border">2023 - 2024</span>
+                      <div className="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-5 sm:p-8 rounded-[20px] sm:rounded-[32px] bg-card-hover border border-border hover:border-text-muted/20 transition-colors shadow-sm">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-4 gap-2">
+                          <h3 className="font-bold text-text-main text-base sm:text-xl">{t('fullStackDev')}</h3>
+                          <span className="text-[10px] sm:text-[11px] font-bold uppercase text-text-muted bg-card px-2.5 sm:px-3 py-1 rounded-full w-fit border border-border">2023 - 2024</span>
                         </div>
-                        <div className="text-text-muted font-semibold mb-4 text-base">Tecnológico Comfenalco</div>
-                        <p className="text-text-main/80 text-sm leading-relaxed">
+                        <div className="text-text-muted font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Tecnológico Comfenalco</div>
+                        <p className="text-text-main/80 text-xs sm:text-sm leading-relaxed">
                           {t('comfenalcoDesc')}
                         </p>
                       </div>
@@ -180,61 +185,64 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
 
             {/* EDUCATION MODAL */}
             {type === 'education' && (
-              <div className="p-8 md:p-12 bg-card min-h-full">
+              <div className="p-6 sm:p-8 md:p-12 pb-8 sm:pb-10 bg-card min-h-full">
                 <div className="max-w-4xl mx-auto">
-                  <div className="mb-10">
-                     <h2 className="text-3xl md:text-5xl font-bold text-text-main mb-4 tracking-tight">{t('educationTitle')}</h2>
-                     <p className="text-text-muted text-lg">{t('educationDesc')}</p>
+                  <div className="mb-8 sm:mb-10 mt-6 sm:mt-0">
+                     <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-text-main mb-3 sm:mb-4 tracking-tight">{t('educationTitle')}</h2>
+                     <p className="text-text-muted text-base sm:text-lg">{t('educationDesc')}</p>
                   </div>
                   
-                  <div className="grid gap-6">
+                  <div className="grid gap-4 sm:gap-6 pb-4 sm:pb-6">
                     {/* Item 1 */}
-                    <div className="p-8 rounded-[32px] bg-card-hover border border-border hover:border-primary/20 transition-all group shadow-sm">
-                       <div className="flex flex-col md:flex-row gap-6 md:items-center">
-                          <div className="w-16 h-16 rounded-3xl bg-primary/5 border border-primary/10 flex items-center justify-center text-primary shrink-0">
-                             <GraduationCap size={32} />
+                    <div className="p-6 sm:p-8 rounded-[24px] sm:rounded-[32px] bg-card-hover border border-border hover:border-primary/20 transition-all group shadow-sm">
+                       <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 sm:items-center">
+                          <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl sm:rounded-3xl bg-primary/5 border border-primary/10 flex items-center justify-center text-primary shrink-0">
+                             <GraduationCap size={24} className="sm:hidden" />
+                             <GraduationCap size={32} className="hidden sm:block" />
                           </div>
                           <div className="flex-1">
-                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-2">
-                                <h3 className="text-2xl font-bold text-text-main">{t('systemsEngineering')}</h3>
-                                <span className="text-[11px] font-bold uppercase text-primary bg-primary/10 px-3 py-1 rounded-full w-fit">2024</span>
+                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                                <h3 className="text-lg sm:text-2xl font-bold text-text-main">{t('systemsEngineering')}</h3>
+                                <span className="text-[10px] sm:text-[11px] font-bold uppercase text-primary bg-primary/10 px-2.5 sm:px-3 py-1 rounded-full w-fit">2024</span>
                              </div>
-                             <p className="text-text-main font-medium text-base mb-1">Fundación Universitaria Tecnológico Comfenalco</p>
-                             <p className="text-text-muted text-sm">{t('professionalDegree')} • Cartagena, Colombia</p>
+                             <p className="text-text-main font-medium text-sm sm:text-base mb-1">Fundación Universitaria Tecnológico Comfenalco</p>
+                             <p className="text-text-muted text-xs sm:text-sm">{t('professionalDegree')} • Cartagena, Colombia</p>
                           </div>
                        </div>
                     </div>
 
                     {/* Item 2 */}
-                    <div className="p-8 rounded-[32px] bg-card-hover border border-border hover:border-blue-500/20 transition-all group shadow-sm">
-                       <div className="flex flex-col md:flex-row gap-6 md:items-center">
-                          <div className="w-16 h-16 rounded-3xl bg-blue-500/5 border border-blue-500/10 flex items-center justify-center text-blue-500 shrink-0">
-                             <Award size={32} />
+                    <div className="p-6 sm:p-8 rounded-[24px] sm:rounded-[32px] bg-card-hover border border-border hover:border-blue-500/20 transition-all group shadow-sm">
+                       <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 sm:items-center">
+                          <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl sm:rounded-3xl bg-blue-500/5 border border-blue-500/10 flex items-center justify-center text-blue-500 shrink-0">
+                             <Award size={24} className="sm:hidden" />
+                             <Award size={32} className="hidden sm:block" />
                           </div>
                           <div className="flex-1">
-                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-2">
-                                <h3 className="text-2xl font-bold text-text-main">{t('webAppDevelopment')}</h3>
-                                <span className="text-[11px] font-bold uppercase text-blue-500 bg-blue-500/10 px-3 py-1 rounded-full w-fit">2021</span>
+                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                                <h3 className="text-lg sm:text-2xl font-bold text-text-main">{t('webAppDevelopment')}</h3>
+                                <span className="text-[10px] sm:text-[11px] font-bold uppercase text-blue-500 bg-blue-500/10 px-2.5 sm:px-3 py-1 rounded-full w-fit">2021</span>
                              </div>
-                             <p className="text-text-main font-medium text-base mb-1">Universidad de Antioquia</p>
-                             <p className="text-text-muted text-sm">{t('universityDiploma')}</p>
+                             <p className="text-text-main font-medium text-sm sm:text-base mb-1">Universidad de Antioquia</p>
+                             <p className="text-text-muted text-xs sm:text-sm">{t('universityDiploma')}</p>
                           </div>
                        </div>
                     </div>
 
                     {/* Item 3 */}
-                    <div className="p-8 rounded-[32px] bg-card-hover border border-border hover:border-emerald-500/20 transition-all group shadow-sm">
-                       <div className="flex flex-col md:flex-row gap-6 md:items-center">
-                          <div className="w-16 h-16 rounded-3xl bg-emerald-500/5 border border-emerald-500/10 flex items-center justify-center text-emerald-500 shrink-0">
-                             <BookOpen size={32} />
+                    <div className="p-6 sm:p-8 rounded-[24px] sm:rounded-[32px] bg-card-hover border border-border hover:border-emerald-500/20 transition-all group shadow-sm">
+                       <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 sm:items-center">
+                          <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl sm:rounded-3xl bg-emerald-500/5 border border-emerald-500/10 flex items-center justify-center text-emerald-500 shrink-0">
+                             <BookOpen size={24} className="sm:hidden" />
+                             <BookOpen size={32} className="hidden sm:block" />
                           </div>
                           <div className="flex-1">
-                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-2">
-                                <h3 className="text-2xl font-bold text-text-main">{t('softwareDevTechnologist')}</h3>
-                                <span className="text-[11px] font-bold uppercase text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full w-fit">2022</span>
+                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                                <h3 className="text-lg sm:text-2xl font-bold text-text-main">{t('softwareDevTechnologist')}</h3>
+                                <span className="text-[10px] sm:text-[11px] font-bold uppercase text-emerald-500 bg-emerald-500/10 px-2.5 sm:px-3 py-1 rounded-full w-fit">2022</span>
                              </div>
-                             <p className="text-text-main font-medium text-base mb-1">Fundación Universitaria Tecnológico Comfenalco</p>
-                             <p className="text-text-muted text-sm">{t('technologistDegree')}</p>
+                             <p className="text-text-main font-medium text-sm sm:text-base mb-1">Fundación Universitaria Tecnológico Comfenalco</p>
+                             <p className="text-text-muted text-xs sm:text-sm">{t('technologistDegree')}</p>
                           </div>
                        </div>
                     </div>
@@ -245,17 +253,17 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
 
             {/* STACK MODAL */}
             {type === 'stack' && (
-               <div className="w-full p-8 md:p-12 bg-card flex flex-col items-center min-h-full">
-                 <h2 className="text-4xl md:text-5xl font-bold text-text-main mb-6 text-center tracking-tight">{t('technicalArsenal')}</h2>
-                 <p className="text-text-muted max-w-2xl mx-auto mb-16 text-center text-lg font-light leading-relaxed">
+               <div className="w-full p-6 sm:p-8 md:p-12 pb-8 sm:pb-10 bg-card flex flex-col items-center min-h-full">
+                 <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-text-main mb-4 sm:mb-6 mt-6 sm:mt-0 text-center tracking-tight">{t('technicalArsenal')}</h2>
+                 <p className="text-text-muted max-w-2xl mx-auto mb-10 sm:mb-16 text-center text-base sm:text-lg font-light leading-relaxed">
                    {t('technicalArsenalDesc')}
                  </p>
                  
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 w-full max-w-5xl pb-4 sm:pb-6">
                    
                    {/* Frontend */}
-                   <div className="p-8 rounded-[32px] bg-card-hover border border-border transition-all duration-300">
-                      <h3 className="text-xl font-bold text-text-main mb-6 flex items-center gap-3">
+                   <div className="p-6 sm:p-8 rounded-[24px] sm:rounded-[32px] bg-card-hover border border-border transition-all duration-300">
+                      <h3 className="text-base sm:text-xl font-bold text-text-main mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
                         <div className="w-2 h-2 rounded-full bg-cyan-500"></div>
                         {t('frontend')}
                       </h3>
@@ -288,8 +296,8 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                    </div>
 
                    {/* Backend */}
-                   <div className="p-8 rounded-[32px] bg-card-hover border border-border transition-all duration-300">
-                      <h3 className="text-xl font-bold text-text-main mb-6 flex items-center gap-3">
+                   <div className="p-6 sm:p-8 rounded-[24px] sm:rounded-[32px] bg-card-hover border border-border transition-all duration-300">
+                      <h3 className="text-base sm:text-xl font-bold text-text-main mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
                         <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
                         {t('backend')}
                       </h3>
@@ -322,8 +330,8 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                    </div>
 
                    {/* AI & Machine Learning */}
-                   <div className="p-8 rounded-[32px] bg-card-hover border border-border transition-all duration-300">
-                      <h3 className="text-xl font-bold text-text-main mb-6 flex items-center gap-3">
+                   <div className="p-6 sm:p-8 rounded-[24px] sm:rounded-[32px] bg-card-hover border border-border transition-all duration-300">
+                      <h3 className="text-base sm:text-xl font-bold text-text-main mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
                         <div className="w-2 h-2 rounded-full bg-purple-500"></div>
                         {t('aiMl')}
                       </h3>
@@ -355,8 +363,8 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
                    </div>
 
                    {/* Database */}
-                   <div className="p-8 rounded-[32px] bg-card-hover border border-border transition-all duration-300">
-                      <h3 className="text-xl font-bold text-text-main mb-6 flex items-center gap-3">
+                   <div className="p-6 sm:p-8 rounded-[24px] sm:rounded-[32px] bg-card-hover border border-border transition-all duration-300">
+                      <h3 className="text-base sm:text-xl font-bold text-text-main mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
                         <div className="w-2 h-2 rounded-full bg-orange-500"></div>
                         {t('database')}
                       </h3>

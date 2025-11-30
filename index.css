@@ -42,6 +42,28 @@ body {
   scrollbar-width: none;
 }
 
+/* Mobile-optimized modal scrolling */
+.modal-scroll {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+.modal-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.modal-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.modal-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
+}
+@media (max-width: 640px) {
+  .modal-scroll::-webkit-scrollbar {
+    width: 2px;
+  }
+}
+
 .mask-linear-fade {
   mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
