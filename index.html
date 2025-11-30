@@ -17,10 +17,9 @@
     <meta name="distribution" content="global" />
     
     <!-- Favicon & Icons -->
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/profile.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/profile.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/profile.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/profile.png" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -55,6 +54,12 @@
     <link rel="alternate" hreflang="es" href="https://andermendz.dev/?lang=es" />
     <link rel="alternate" hreflang="x-default" href="https://andermendz.dev/" />
     
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    
     <!-- Structured Data - Person Schema -->
     <script type="application/ld+json">
     {
@@ -70,7 +75,7 @@
       },
       "alumniOf": {
         "@type": "EducationalOrganization",
-        "name": "Technological University"
+        "name": "Fundación Universitaria Tecnológico Comfenalco"
       },
       "address": {
         "@type": "PostalAddress",
@@ -99,123 +104,7 @@
       }
     }
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            },
-            colors: {
-              page: 'var(--bg-page)',
-              card: 'var(--bg-card)',
-              'card-hover': 'var(--bg-card-hover)',
-              border: 'var(--border-color)',
-              primary: 'var(--primary)',
-              'primary-fg': 'var(--primary-fg)',
-              'text-main': 'var(--text-main)',
-              'text-muted': 'var(--text-muted)',
-              overlay: 'var(--overlay)',
-            },
-            borderRadius: {
-              '4xl': '2rem',
-              '5xl': '2.5rem',
-            },
-            animation: {
-              'marquee': 'marquee 30s linear infinite',
-              'marquee-reverse': 'marquee-reverse 30s linear infinite',
-              'blob': 'blob 10s infinite',
-            },
-            keyframes: {
-              marquee: {
-                '0%': { transform: 'translateX(0%)' },
-                '100%': { transform: 'translateX(-100%)' },
-              },
-              'marquee-reverse': {
-                '0%': { transform: 'translateX(-100%)' },
-                '100%': { transform: 'translateX(0%)' },
-              },
-              blob: {
-                '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                '100%': { transform: 'translate(0px, 0px) scale(1)' },
-              }
-            }
-          }
-        }
-      }
-    </script>
-    <style>
-      :root {
-        /* Light Theme - Warm & Premium */
-        --bg-page: #F5F4F1; 
-        --bg-card: rgba(255, 255, 255, 0.65);
-        --bg-card-hover: rgba(255, 255, 255, 0.85);
-        --border-color: rgba(0, 0, 0, 0.05);
-        --primary: #1a1a1a;
-        --primary-fg: #ffffff;
-        --text-main: #1a1a1a;
-        --text-muted: #666666;
-        --overlay: rgba(245, 244, 241, 0.85);
-      }
-
-      .dark {
-        /* Dark Theme - OLED Friendly & Deep */
-        --bg-page: #080808; 
-        --bg-card: rgba(20, 20, 20, 0.6);
-        --bg-card-hover: rgba(30, 30, 30, 0.7);
-        --border-color: rgba(255, 255, 255, 0.08);
-        --primary: #ffffff;
-        --primary-fg: #000000;
-        --text-main: #ededed;
-        --text-muted: #909090;
-        --overlay: rgba(8, 8, 8, 0.9);
-      }
-
-      body {
-        background-color: var(--bg-page);
-        color: var(--text-main);
-        transition: background-color 0.5s ease, color 0.5s ease;
-      }
-      
-
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-
-      .mask-linear-fade {
-        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
-    "framer-motion": "https://aistudiocdn.com/framer-motion@^11.3.8",
-    "cobe": "https://esm.sh/cobe",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
-    "vite": "https://aistudiocdn.com/vite@^7.2.4",
-    "path": "https://aistudiocdn.com/path@^0.12.7",
-    "url": "https://aistudiocdn.com/url@^0.11.4"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
-</head>
+  </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
