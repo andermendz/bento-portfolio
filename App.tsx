@@ -95,8 +95,8 @@ function AppContent() {
     { id: 'experience', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'experience' },
     { id: 'stack', colSpan: 'col-span-2 sm:col-span-2', hasArrow: true, onClickModal: 'stack' },
     { id: 'education', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'education' },
-    { id: 'map', colSpan: 'col-span-1', noPadding: true },
     { id: 'contact', colSpan: 'col-span-2 sm:col-span-2' },
+    { id: 'map', colSpan: 'col-span-1', noPadding: true },
   ];
 
   // Render content for cards
