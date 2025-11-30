@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BentoCard } from './components/BentoCard';
 import { DetailView } from './components/DetailView';
 import { AnimatePresence, motion } from 'framer-motion';

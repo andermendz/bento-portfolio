@@ -14,38 +14,60 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
 
   return (
     <>
+      {/* Backdrop with smooth blur transition */}
       <motion.div 
-        initial={{ opacity: 0 }} 
-        animate={{ opacity: 1 }} 
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2, ease: "easeInOut" }}
-        className="fixed inset-0 z-50 bg-overlay backdrop-blur-sm"
+        initial={{ opacity: 0, backdropFilter: 'blur(0px)' }} 
+        animate={{ opacity: 1, backdropFilter: 'blur(8px)' }} 
+        exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed inset-0 z-50 bg-overlay"
         onClick={onClose} 
       />
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 pointer-events-none">
         <motion.div 
           layoutId={layoutId}
-          layout
           className="relative w-full max-w-5xl max-h-[85vh] bg-card rounded-[40px] border border-border overflow-hidden flex flex-col md:flex-row shadow-2xl pointer-events-auto ring-1 ring-white/10"
-          transition={{ type: 'spring', stiffness: 280, damping: 30, mass: 1 }}
+          initial={{ scale: 0.92, opacity: 0.5 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.95, opacity: 0 }}
+          transition={{ 
+            layout: { 
+              type: 'spring', 
+              stiffness: 200, 
+              damping: 28,
+              mass: 0.8
+            },
+            scale: { duration: 0.5, ease: [0.32, 0.72, 0, 1] },
+            opacity: { duration: 0.3, ease: 'easeOut' }
+          }}
         >
           {/* Close Button */}
           <motion.button 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { delay: 0.1 } }}
-            exit={{ opacity: 0, transition: { duration: 0.05 } }}
+            initial={{ opacity: 0, scale: 0.8, rotate: -90 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            exit={{ opacity: 0, scale: 0.8, rotate: 90 }}
+            transition={{ 
+              delay: 0.2, 
+              duration: 0.4, 
+              ease: [0.22, 1, 0.36, 1] 
+            }}
             onClick={onClose}
             className="absolute top-6 right-6 z-50 w-11 h-11 rounded-full bg-card/80 backdrop-blur-md hover:bg-text-main hover:text-page flex items-center justify-center text-text-main transition-all active:scale-90 border border-border shadow-sm"
           >
             <X size={20} />
           </motion.button>
 
-          {/* Content Wrapper */}
+          {/* Content Wrapper with staggered fade-in */}
           <motion.div 
             className="flex flex-col w-full h-full overflow-y-auto no-scrollbar relative z-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { delay: 0.15, duration: 0.3 } }}
-            exit={{ opacity: 0, transition: { duration: 0.05 } }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ 
+              delay: 0.15, 
+              duration: 0.5, 
+              ease: [0.22, 1, 0.36, 1] 
+            }}
           >
             
             {/* ABOUT MODAL */}

@@ -21,7 +21,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 // ----- INTRO CONTENT -----
 
 export const IntroContent: React.FC = () => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   
   // Parse the bio text with styled spans
   const renderBio = () => {

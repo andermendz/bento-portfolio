@@ -15,7 +15,7 @@ interface UseDragAndDropReturn {
   handleHoverItem: (hoveredId: string) => void;
 }
 
-export const useDragAndDrop = ({ items, setItems }: UseDragAndDropOptions): UseDragAndDropReturn => {
+export const useDragAndDrop = ({ setItems }: UseDragAndDropOptions): UseDragAndDropReturn => {
   const [draggedItem, setDraggedItem] = useState<BentoItem | null>(null);
   const [dragSize, setDragSize] = useState({ width: 0, height: 0 });
 

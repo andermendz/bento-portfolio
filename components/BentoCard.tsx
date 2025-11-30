@@ -227,7 +227,13 @@ export const BentoCard: React.FC<BentoCardProps> = ({
         opacity: { duration: 0.5, delay: index * 0.06, ease: 'easeOut' },
         y: { duration: 0.5, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] },
         scale: { duration: 0.4, delay: index * 0.06, ease: 'easeOut' },
-        layout: { type: 'spring', stiffness: 350, damping: 30 }
+        // Smooth layout transition for card-to-modal expansion
+        layout: { 
+          type: 'spring', 
+          stiffness: 200, 
+          damping: 28,
+          mass: 0.8
+        }
       }}
       style={{ 
         WebkitTapHighlightColor: 'transparent', 
