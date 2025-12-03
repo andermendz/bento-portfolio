@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
 import { BentoCard } from './components/BentoCard';
-import { SkeletonCard } from './components/SkeletonCard';
 import { DetailView } from './components/DetailView';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Sun, Moon } from 'lucide-react';
@@ -34,7 +33,6 @@ function AppContent() {
   const [time, setTime] = useState(new Date());
   const [theme, setTheme] = useState<Theme>('dark');
   const [isLanguageChanging, setIsLanguageChanging] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   
   const { t, language } = useLanguage();
 
@@ -82,12 +80,6 @@ function AppContent() {
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
-  }, []);
-
-  // Loading effect
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
   }, []);
 
   // Lock body scroll when modal is active
@@ -236,38 +228,27 @@ function AppContent() {
             transition={{ duration: 0.3 }}
             className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 auto-rows-[152px] sm:auto-rows-[190px] md:auto-rows-[237px] grid-flow-row-dense"
           >
-            {isLoading ? (
-              // Show skeleton cards while loading
-              items.map((item) => (
-                <SkeletonCard
-                  key={`skeleton-${item.id}`}
-                  className={`${item.colSpan} h-full`}
-                />
-              ))
-            ) : (
-              // Show actual cards
-              items.map((item, index) => {
-                const isExpanded = activeModal === item.id;
+            {items.map((item, index) => {
+              const isExpanded = activeModal === item.id;
 
-                return (
-                  <BentoCard
-                    key={item.id}
-                    layoutId={item.id}
-                    dataId={item.id}
-                    index={index}
-                    className={`${item.colSpan} ${item.rowSpan || ''} h-full`}
-                    title={getCardTitle(item.id)}
-                    backgroundImage={item.bgImage}
-                    hasArrow={item.hasArrow}
-                    isVisible={!isExpanded}
-                    onClick={item.onClickModal ? () => setActiveModal(item.onClickModal!) : undefined}
-                    noPadding={item.noPadding}
-                  >
-                    {renderCardContent(item.id)}
-                  </BentoCard>
-                );
-              })
-            )}
+              return (
+                <BentoCard
+                  key={item.id}
+                  layoutId={item.id}
+                  dataId={item.id}
+                  index={index}
+                  className={`${item.colSpan} ${item.rowSpan || ''} h-full`}
+                  title={getCardTitle(item.id)}
+                  backgroundImage={item.bgImage}
+                  hasArrow={item.hasArrow}
+                  isVisible={!isExpanded}
+                  onClick={item.onClickModal ? () => setActiveModal(item.onClickModal!) : undefined}
+                  noPadding={item.noPadding}
+                >
+                  {renderCardContent(item.id)}
+                </BentoCard>
+              );
+            })}
           </motion.div>
           
           {/* Footer */}

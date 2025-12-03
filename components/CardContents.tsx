@@ -47,34 +47,34 @@ export const IntroContent: React.FC = () => {
       <div className="absolute -top-12 -right-12 w-48 h-48 bg-primary/5 rounded-full blur-[80px] animate-blob mix-blend-overlay pointer-events-none"></div>
       <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-blue-500/5 rounded-full blur-[80px] animate-blob mix-blend-overlay pointer-events-none" style={{ animationDelay: '2s' }}></div>
       
-      {/* Top Section: Status Badge */}
-      <div className="relative z-10 flex justify-end">
-        <div className="inline-flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl bg-card border border-border shadow-sm transition-all hover:border-emerald-500/20 cursor-default group">
-          <div className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2 items-center justify-center">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60"></span>
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2 bg-emerald-500"></span>
-          </div>
-          <span className="text-[8px] sm:text-[10px] font-semibold tracking-wider uppercase text-text-muted group-hover:text-text-main transition-colors">{t('availableForWork')}</span>
-        </div>
-      </div>
+       {/* Top Section: Status Badge */}
+       <div className="relative z-10 flex justify-end">
+         <div className="inline-flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl bg-card border border-border shadow-sm transition-all hover:border-emerald-500/30 hover:shadow-md cursor-default group">
+           <div className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2 items-center justify-center">
+             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60"></span>
+             <span className="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2 bg-emerald-500"></span>
+           </div>
+           <span className="text-[8px] sm:text-[10px] font-semibold tracking-wider uppercase text-text-muted group-hover:text-text-main transition-colors duration-200">{t('availableForWork')}</span>
+         </div>
+       </div>
 
-      {/* Bottom Section: Name + Bio */}
-      <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-2 sm:gap-4 mt-auto">
-        <div className="relative bottom-[-2px] sm:bottom-[-4px]">
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-[0.85] text-text-main">
-            Anderson
-          </h1>
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-[0.85] text-text-muted/20">
-            Mendoza.
-          </h1>
-        </div>
+       {/* Bottom Section: Name + Bio */}
+       <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-2 sm:gap-4 mt-auto">
+         <div className="relative bottom-[-2px] sm:bottom-[-4px]">
+           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-[0.85] text-text-main animate-fade-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
+             Anderson
+           </h1>
+           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-[0.85] text-text-muted/20 animate-fade-in-up" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
+             Mendoza.
+           </h1>
+         </div>
 
-        <div className="hidden sm:block md:max-w-[160px] md:text-right pb-1">
-          <p className="text-xs text-text-muted font-medium leading-relaxed">
-            {renderBio()}
-          </p>
-        </div>
-      </div>
+         <div className="block md:max-w-[160px] md:text-right pb-1">
+           <p className="text-[10px] sm:text-xs text-text-muted font-medium leading-relaxed opacity-80 md:opacity-100">
+             {renderBio()}
+           </p>
+         </div>
+       </div>
     </div>
   );
 };
