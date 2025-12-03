@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { X, Building2, GraduationCap, Award, BookOpen, Layout, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -11,6 +11,33 @@ interface DetailViewProps {
 
 export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId }) => {
   const { t } = useLanguage();
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
+  // Focus management
+  useEffect(() => {
+    const previousFocus = document.activeElement as HTMLElement;
+    if (modalRef.current) {
+      modalRef.current.focus();
+    }
+
+    return () => {
+      if (previousFocus) {
+        previousFocus.focus();
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -24,9 +51,14 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
         onClick={onClose} 
       />
       <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center pt-4 pb-24 sm:pb-8 px-3 sm:px-8 pointer-events-none overflow-y-auto">
-        <motion.div 
+        <motion.div
+          ref={modalRef}
           layoutId={layoutId}
           className="relative w-full max-w-5xl my-auto bg-card rounded-[24px] sm:rounded-[40px] border border-border overflow-hidden flex flex-col shadow-2xl pointer-events-auto ring-1 ring-white/10 max-h-[calc(100vh-8rem)] sm:max-h-[85vh]"
+          tabIndex={-1}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={`modal-title-${type}`}
           initial={{ scale: 0.92, opacity: 0.5 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
@@ -42,16 +74,17 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type, layoutId 
           }}
         >
           {/* Close Button */}
-          <motion.button 
+          <motion.button
             initial={{ opacity: 0, scale: 0.8, rotate: -90 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             exit={{ opacity: 0, scale: 0.8, rotate: 90 }}
-            transition={{ 
-              delay: 0.2, 
-              duration: 0.4, 
-              ease: [0.22, 1, 0.36, 1] 
+            transition={{
+              delay: 0.2,
+              duration: 0.4,
+              ease: [0.22, 1, 0.36, 1]
             }}
             onClick={onClose}
+            aria-label="Close modal"
             className="absolute top-3 right-3 sm:top-6 sm:right-6 z-50 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-card/90 backdrop-blur-md hover:bg-text-main hover:text-page flex items-center justify-center text-text-main transition-all active:scale-90 border border-border shadow-md"
           >
             <X size={18} className="sm:hidden" />

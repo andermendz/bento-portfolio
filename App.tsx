@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
 import { BentoCard } from './components/BentoCard';
+import { SkeletonCard } from './components/SkeletonCard';
 import { DetailView } from './components/DetailView';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Sun, Moon } from 'lucide-react';
@@ -33,6 +34,7 @@ function AppContent() {
   const [time, setTime] = useState(new Date());
   const [theme, setTheme] = useState<Theme>('dark');
   const [isLanguageChanging, setIsLanguageChanging] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   
   const { t, language } = useLanguage();
 
@@ -80,6 +82,12 @@ function AppContent() {
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  // Loading effect
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
   }, []);
 
   // Lock body scroll when modal is active
@@ -183,6 +191,7 @@ function AppContent() {
       <motion.button
         className="fixed bottom-6 right-6 z-[60] p-4 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl text-text-main hover:bg-card-hover transition-colors ring-1 ring-white/10"
         onClick={toggleTheme}
+        aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
         initial={{ opacity: 0, scale: 0, rotate: -180 }}
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
         transition={{ duration: 0.5, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
@@ -221,33 +230,44 @@ function AppContent() {
         <div className="w-full max-w-[1320px] mx-auto pb-24 sm:pb-6">
           
           {/* Main Grid */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 auto-rows-[160px] sm:auto-rows-[200px] md:auto-rows-[250px] grid-flow-row-dense"
-          > 
-            {items.map((item, index) => {
-              const isExpanded = activeModal === item.id;
+            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 auto-rows-[152px] sm:auto-rows-[190px] md:auto-rows-[237px] grid-flow-row-dense"
+          >
+            {isLoading ? (
+              // Show skeleton cards while loading
+              items.map((item) => (
+                <SkeletonCard
+                  key={`skeleton-${item.id}`}
+                  className={`${item.colSpan} h-full`}
+                />
+              ))
+            ) : (
+              // Show actual cards
+              items.map((item, index) => {
+                const isExpanded = activeModal === item.id;
 
-              return (
-                <BentoCard 
-                  key={item.id}
-                  layoutId={item.id}
-                  dataId={item.id}
-                  index={index}
-                  className={`${item.colSpan} ${item.rowSpan || ''} h-full`}
-                  title={getCardTitle(item.id)}
-                  backgroundImage={item.bgImage}
-                  hasArrow={item.hasArrow}
-                  isVisible={!isExpanded} 
-                  onClick={item.onClickModal ? () => setActiveModal(item.onClickModal!) : undefined}
-                  noPadding={item.noPadding}
-                >
-                  {renderCardContent(item.id)}
-                </BentoCard>
-              );
-            })}
+                return (
+                  <BentoCard
+                    key={item.id}
+                    layoutId={item.id}
+                    dataId={item.id}
+                    index={index}
+                    className={`${item.colSpan} ${item.rowSpan || ''} h-full`}
+                    title={getCardTitle(item.id)}
+                    backgroundImage={item.bgImage}
+                    hasArrow={item.hasArrow}
+                    isVisible={!isExpanded}
+                    onClick={item.onClickModal ? () => setActiveModal(item.onClickModal!) : undefined}
+                    noPadding={item.noPadding}
+                  >
+                    {renderCardContent(item.id)}
+                  </BentoCard>
+                );
+              })
+            )}
           </motion.div>
           
           {/* Footer */}
