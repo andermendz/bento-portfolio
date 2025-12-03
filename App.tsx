@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import ErrorBoundary from './components/ErrorBoundary';
 import { BentoCard } from './components/BentoCard';
 import { DetailView } from './components/DetailView';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -35,7 +36,10 @@ function AppContent() {
   
   const { t, language } = useLanguage();
 
-  // Handle language change animation
+  /**
+   * Handles the language change animation by setting the changing state
+   * and resetting it after the animation duration.
+   */
   const handleLanguageChange = () => {
     setIsLanguageChanging(true);
     setTimeout(() => {
@@ -53,14 +57,21 @@ function AppContent() {
 
   // Theme toggle effect
   useEffect(() => {
-    const root = window.document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
+    try {
+      const root = window.document.documentElement;
+      if (theme === 'dark') {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+    } catch (error) {
+      console.error('Failed to toggle theme:', error);
     }
   }, [theme]);
 
+  /**
+   * Toggles between dark and light themes.
+   */
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
@@ -80,10 +91,21 @@ function AppContent() {
     }
   }, [activeModal]);
 
-  const copyToClipboard = (text: string, label: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedText(label);
-    setTimeout(() => setCopiedText(null), 2000);
+  /**
+   * Copies the provided text to the clipboard and shows a temporary success message.
+   * @param text - The text to copy
+   * @param label - The label for the copied text (for display purposes)
+   */
+  const copyToClipboard = async (text: string, label: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedText(label);
+      setTimeout(() => setCopiedText(null), 2000);
+    } catch (error) {
+      console.error('Failed to copy to clipboard:', error);
+      // Fallback: could show an alert or toast
+      alert('Failed to copy to clipboard. Please try again.');
+    }
   };
 
   // Static items configuration
@@ -99,7 +121,11 @@ function AppContent() {
     { id: 'map', colSpan: 'col-span-1', noPadding: true },
   ];
 
-  // Render content for cards
+  /**
+   * Renders the appropriate content component based on the card item ID.
+   * @param itemId - The unique identifier for the card item
+   * @returns The React component to render for the card
+   */
   const renderCardContent = (itemId: string) => {
     switch (itemId) {
       case 'intro':
@@ -123,7 +149,11 @@ function AppContent() {
     }
   };
 
-  // Get translated titles for cards
+  /**
+   * Gets the translated title for a card based on its ID.
+   * @param itemId - The unique identifier for the card item
+   * @returns The translated title string or undefined if no title
+   */
   const getCardTitle = (itemId: string) => {
     switch (itemId) {
       case 'stack':
@@ -243,9 +273,11 @@ function AppContent() {
 
 function App() {
   return (
-    <LanguageProvider>
-      <AppContent />
-    </LanguageProvider>
+    <ErrorBoundary>
+      <LanguageProvider>
+        <AppContent />
+      </LanguageProvider>
+    </ErrorBoundary>
   );
 }
 
