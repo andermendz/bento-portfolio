@@ -294,7 +294,7 @@ export const ProjectsTriggerContent: React.FC = () => {
       <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl group-hover/projects:bg-primary/30 transition-colors duration-500"></div>
       
       <div className="relative z-10">
-        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-card border border-border flex items-center justify-center text-text-main shadow-sm mb-4 sm:mb-6 group-hover/projects:scale-110 group-hover/projects:border-primary/30 transition-all duration-500">
+        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-card border border-border flex items-center justify-center text-text-main shadow-sm mb-4 sm:mb-6 group-hover/projects:border-primary/30 transition-all duration-500">
           <FolderOpen size={20} className="sm:w-6 sm:h-6" strokeWidth={1.5} />
         </div>
         <h3 className="text-lg sm:text-2xl font-bold text-text-main tracking-tight leading-tight">
