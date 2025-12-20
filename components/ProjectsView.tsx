@@ -8,8 +8,7 @@ import {
   Mail,
   Linkedin,
   Check,
-  Copy,
-  Terminal
+  Copy
 } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { BentoCard } from './BentoCard';
@@ -106,7 +105,7 @@ const TimelineItem: React.FC<{ project: Project; isLast: boolean }> = ({ project
   );
 };
 
-export const ProjectsView: React.FC<{ onBack: () => void; theme: 'light' | 'dark' }> = ({ onBack, theme }) => {
+export const ProjectsView: React.FC<{ onBack: () => void; theme: 'light' | 'dark' }> = ({ onBack }) => {
   const { t } = useLanguage();
   const [copied, setCopied] = useState(false);
 
