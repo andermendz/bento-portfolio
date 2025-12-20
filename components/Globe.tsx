@@ -174,45 +174,28 @@ export const MapContent: React.FC<MapContentProps> = ({ time, theme }) => {
         <Globe theme={theme} scale={1.35} />
       </div>
       
-      {/* Time badge - Top right on mobile */}
-      <div className="absolute top-3 right-3 z-20 sm:hidden">
-        <div className="px-2 py-1.5 rounded-lg bg-card border border-border flex items-center gap-1.5 shadow-sm">
-          <span className="relative flex h-1 w-1 items-center justify-center">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60"></span>
-            <span className="relative inline-flex rounded-full h-1 w-1 bg-emerald-500"></span>
-          </span>
-          <span className="text-[10px] font-mono font-semibold text-text-main tabular-nums">
-            {time.toLocaleTimeString(language === 'es' ? 'es-CO' : 'en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Bogota' })}
-          </span>
-        </div>
-      </div>
-      
       {/* Subtle gradient at bottom for legibility */}
-      <div className="absolute inset-x-0 bottom-0 h-20 sm:h-24 bg-gradient-to-t from-card/90 to-transparent pointer-events-none z-10"></div>
+      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-card/90 to-transparent pointer-events-none z-10"></div>
 
-      {/* Bottom bar - Location info */}
+      {/* Bottom bar - Location & Time info */}
       <div className="absolute bottom-0 left-0 right-0 z-20 p-3 sm:p-4">
-        <div className="flex items-center justify-between gap-2">
-          {/* Location */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-card border border-border flex items-center justify-center text-text-main shrink-0 shadow-sm">
-              <MapPin size={14} className="sm:w-4 sm:h-4" strokeWidth={1.5} />
-            </div>
-            <div className="min-w-0">
-              <p className="text-[8px] sm:text-[9px] font-semibold text-text-muted uppercase tracking-wider leading-none mb-0.5 sm:mb-1">{t('basedIn')}</p>
-              <h3 className="text-xs sm:text-sm font-bold text-text-main leading-none">{t('location')}</h3>
-            </div>
+        <div className="flex items-center gap-3">
+          {/* Location Icon - Solid Background */}
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-page border border-border flex items-center justify-center text-text-main shrink-0 shadow-sm">
+            <MapPin size={16} className="sm:w-5 sm:h-5" strokeWidth={1.5} />
           </div>
           
-          {/* Time badge - Bottom right on desktop only */}
-          <div className="hidden sm:flex px-3 py-2 rounded-xl bg-card border border-border items-center gap-2 shrink-0 shadow-sm">
-            <span className="relative flex h-1.5 w-1.5 items-center justify-center">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60"></span>
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-            </span>
-            <span className="text-[11px] font-mono font-semibold text-text-main tabular-nums">
+          {/* Text Info */}
+          <div className="flex flex-col justify-center">
+            <p className="text-[9px] font-bold text-text-muted uppercase tracking-wider leading-tight mb-0.5">
+              {t('basedIn')}
+            </p>
+            <h3 className="text-sm font-bold text-text-main leading-tight">
+              {t('location')}
+            </h3>
+            <p className="text-xs font-mono font-bold text-text-muted mt-0.5 tabular-nums leading-tight">
               {time.toLocaleTimeString(language === 'es' ? 'es-CO' : 'en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Bogota' })}
-            </span>
+            </p>
           </div>
         </div>
       </div>
