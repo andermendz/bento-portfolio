@@ -1,11 +1,11 @@
 import React from 'react';
-import { 
-  Github, 
-  Linkedin, 
-  Mail, 
-  Terminal, 
-  Database, 
-  Code2, 
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Terminal,
+  Database,
+  Code2,
   Briefcase,
   GraduationCap,
   ArrowUpRight,
@@ -13,8 +13,11 @@ import {
   Cpu,
   Sparkles,
   Layout,
-  Server
+  Server,
+  FolderOpen,
+  Layers
 } from 'lucide-react';
+
 import type { ContentWithCopyProps } from '../types';
 import { useLanguage } from '../i18n/LanguageContext';
 
@@ -280,7 +283,44 @@ export const EducationContent: React.FC = () => {
   );
 };
 
+// ----- PROJECTS TRIGGER CONTENT -----
+
+export const ProjectsTriggerContent: React.FC = () => {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="relative h-full flex flex-col justify-between group/projects overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl group-hover/projects:bg-primary/30 transition-colors duration-500"></div>
+      
+      <div className="relative z-10">
+        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-card border border-border flex items-center justify-center text-text-main shadow-sm mb-4 sm:mb-6 group-hover/projects:scale-110 group-hover/projects:border-primary/30 transition-all duration-500">
+          <FolderOpen size={20} className="sm:w-6 sm:h-6" strokeWidth={1.5} />
+        </div>
+        <h3 className="text-lg sm:text-2xl font-bold text-text-main tracking-tight leading-tight">
+          {t('projectsTriggerTitle')}
+        </h3>
+        <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-text-muted mt-2 flex items-center gap-2">
+          <Layers size={12} />
+          {t('projectsTriggerDesc')}
+        </p>
+      </div>
+
+      <div className="relative z-10 flex items-center justify-start mt-auto">
+        <div className="flex -space-x-2">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-card bg-card-hover flex items-center justify-center text-[10px] font-bold text-text-muted">
+              {i === 3 ? "+3" : ""}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // ----- CONTACT CONTENT -----
+
 
 export const ContactContent: React.FC<ContentWithCopyProps> = () => {
   const { t } = useLanguage();

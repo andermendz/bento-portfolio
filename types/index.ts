@@ -16,7 +16,19 @@ export interface BentoItem {
 // Theme type
 export type Theme = 'dark' | 'light';
 
+// Project Interface
+export interface Project {
+  id: string;
+  titleKey: string;
+  descKey: string;
+  tags: string[];
+  link: string;
+  repo: string;
+  color: string;
+}
+
 // Props interfaces for content components
+
 export interface ContentWithCopyProps {
   copyToClipboard: (text: string, label: string) => void;
   copiedText: string | null;

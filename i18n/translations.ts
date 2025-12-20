@@ -14,7 +14,41 @@ export const translations = {
     // Tech Stack
     techStackTitle: 'Tech Stack',
     
+    // Projects
+    projectsTriggerTitle: 'Featured Projects',
+    projectsTriggerDesc: 'Curated Archive',
+    viewProjects: 'View Projects',
+    backToOverview: 'Back to Overview',
+    
+    // Project 1
+    project1Title: 'AI Content Platform',
+    project1Desc: 'A full-stack platform for generating and managing AI-driven content using Gemini API and Next.js.',
+    
+    // Project 2
+    project2Title: 'E-commerce Engine',
+    project2Desc: 'High-performance headless commerce solution built with React, Node.js, and PostgreSQL.',
+    
+    // Project 3
+    project3Title: 'Real-time Analytics',
+    project3Desc: 'Interactive dashboard for real-time data visualization using D3.js and WebSocket.',
+
+    // Projects View
+    projectsHeroDesc: 'A curated showcase of projects where <highlight>engineering meets creativity</highlight>, built with modern technologies and thoughtful design.',
+    readyToCollaborate: 'Ready to Collaborate?',
+    collaborateDesc: "Let's create something amazing together. I'm always excited to work on innovative projects.",
+    emailMe: 'Email Me',
+    emailDesc: 'Direct communication for detailed discussions.',
+    emailAddress: 'andermendz@proton.me',
+    linkedIn: 'LinkedIn',
+    linkedInDesc: 'Connect professionally and explore opportunities.',
+    linkedInHandle: '/in/andermendz',
+    letsTalk: "Let's Talk",
+    letsTalkDesc: 'Available for freelance and full-time opportunities.',
+    currentlyAvailable: 'Currently Available',
+    basedInFooter: 'Located in <location>Cartagena, Colombia</location> • Open to <remote>remote collaborations worldwide</remote>',
+
     // About
+
     aboutTitle: 'About',
     aboutPhrase: 'Obsessed with <details>details</details> and <performance>performance</performance>.',
     
@@ -92,7 +126,41 @@ export const translations = {
     // Tech Stack
     techStackTitle: 'Tecnologías',
     
+    // Projects
+    projectsTriggerTitle: 'Proyectos Destacados',
+    projectsTriggerDesc: 'Archivo Curado',
+    viewProjects: 'Ver Proyectos',
+    backToOverview: 'Volver al Inicio',
+    
+    // Project 1
+    project1Title: 'Plataforma de Contenido IA',
+    project1Desc: 'Una plataforma full-stack para generar y gestionar contenido impulsado por IA usando Gemini API y Next.js.',
+    
+    // Project 2
+    project2Title: 'Motor de E-commerce',
+    project2Desc: 'Solución de comercio headless de alto rendimiento construida con React, Node.js y PostgreSQL.',
+    
+    // Project 3
+    project3Title: 'Analítica en Tiempo Real',
+    project3Desc: 'Dashboard interactivo para visualización de datos en tiempo real usando D3.js y WebSocket.',
+
+    // Projects View
+    projectsHeroDesc: 'Una muestra curada de proyectos donde <highlight>la ingeniería se encuentra con la creatividad</highlight>, construida con tecnologías modernas y diseño reflexivo.',
+    readyToCollaborate: '¿Listo para Colaborar?',
+    collaborateDesc: 'Creemos algo increíble juntos. Siempre estoy emocionado de trabajar en proyectos innovadores.',
+    emailMe: 'Envíame un Email',
+    emailDesc: 'Comunicación directa para discusiones detalladas.',
+    emailAddress: 'andermendz@proton.me',
+    linkedIn: 'LinkedIn',
+    linkedInDesc: 'Conecta profesionalmente y explora oportunidades.',
+    linkedInHandle: '/in/andermendz',
+    letsTalk: 'Hablemos',
+    letsTalkDesc: 'Disponible para proyectos freelance y oportunidades de tiempo completo.',
+    currentlyAvailable: 'Disponible Actualmente',
+    basedInFooter: 'Ubicado en <location>Cartagena, Colombia</location> • Abierto a <remote>colaboraciones remotas en todo el mundo</remote>',
+
     // About
+
     aboutTitle: 'Sobre mí',
     aboutPhrase: 'Obsesionado con los <details>detalles</details> y el <performance>rendimiento</performance>.',
     

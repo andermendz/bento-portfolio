@@ -15,8 +15,11 @@ import {
   ExperienceContent,
   EducationContent,
   ContactContent,
+  ProjectsTriggerContent,
 } from './components/CardContents';
+import { ProjectsView } from './components/ProjectsView';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
+
 import { LanguageTransition, LanguageContentWrapper } from './components/LanguageTransition';
 
 // Import i18n
@@ -29,7 +32,9 @@ import type { BentoItem, Theme } from './types';
 
 function AppContent() {
   const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'grid' | 'projects'>('grid');
   const [copiedText, setCopiedText] = useState<string | null>(null);
+
   const [time, setTime] = useState(new Date());
   const [theme, setTheme] = useState<Theme>('dark');
   const [isLanguageChanging, setIsLanguageChanging] = useState(false);
@@ -117,9 +122,10 @@ function AppContent() {
     { id: 'experience', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'experience' },
     { id: 'stack', colSpan: 'col-span-2 sm:col-span-2', hasArrow: true, onClickModal: 'stack' },
     { id: 'education', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'education' },
-    { id: 'contact', colSpan: 'col-span-2 sm:col-span-2' },
+    { id: 'projects', colSpan: 'col-span-2 sm:col-span-2', hasArrow: true },
     { id: 'map', colSpan: 'col-span-1', noPadding: true },
   ];
+
 
   /**
    * Renders the appropriate content component based on the card item ID.
@@ -140,8 +146,11 @@ function AppContent() {
         return <ExperienceContent />;
       case 'education':
         return <EducationContent />;
+      case 'projects':
+        return <ProjectsTriggerContent />;
       case 'contact':
         return <ContactContent copyToClipboard={copyToClipboard} copiedText={copiedText} />;
+
       case 'map':
         return <MapContent time={time} theme={theme} />;
       default:
@@ -164,8 +173,11 @@ function AppContent() {
         return t('experienceTitle');
       case 'education':
         return t('educationTitle');
+      case 'projects':
+        return t('projectsTriggerTitle');
       default:
         return undefined;
+
     }
   };
 
@@ -181,7 +193,7 @@ function AppContent() {
       
       {/* Theme Toggle Button */}
       <motion.button
-        className="fixed bottom-6 right-6 z-[60] p-4 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl text-text-main hover:bg-card-hover transition-colors ring-1 ring-white/10"
+        className="fixed bottom-6 right-6 z-[120] p-4 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl text-text-main hover:bg-card-hover transition-colors ring-1 ring-white/10"
         onClick={toggleTheme}
         aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
         initial={{ opacity: 0, scale: 0, rotate: -180 }}
@@ -218,13 +230,20 @@ function AppContent() {
         )}
       </AnimatePresence>
 
+      {/* Full Screen Projects View */}
+      <AnimatePresence>
+        {viewMode === 'projects' && (
+          <ProjectsView onBack={() => setViewMode('grid')} theme={theme} />
+        )}
+      </AnimatePresence>
+
       <LanguageContentWrapper isChanging={isLanguageChanging}>
         <div className="w-full max-w-[1320px] mx-auto pb-24 sm:pb-6">
           
           {/* Main Grid */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={{ opacity: viewMode === 'grid' ? 1 : 0 }}
             transition={{ duration: 0.3 }}
             className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 auto-rows-[152px] sm:auto-rows-[190px] md:auto-rows-[237px] grid-flow-row-dense"
           >
@@ -242,7 +261,13 @@ function AppContent() {
                   backgroundImage={item.bgImage}
                   hasArrow={item.hasArrow}
                   isVisible={!isExpanded}
-                  onClick={item.onClickModal ? () => setActiveModal(item.onClickModal!) : undefined}
+                  onClick={
+                    item.id === 'projects' 
+                      ? () => setViewMode('projects') 
+                      : item.onClickModal 
+                        ? () => setActiveModal(item.onClickModal!) 
+                        : undefined
+                  }
                   noPadding={item.noPadding}
                 >
                   {renderCardContent(item.id)}
@@ -250,6 +275,7 @@ function AppContent() {
               );
             })}
           </motion.div>
+
           
           {/* Footer */}
           <motion.div 

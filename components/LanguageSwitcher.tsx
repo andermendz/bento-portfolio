@@ -34,7 +34,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ onLanguageCh
 
   return (
     <motion.div
-      className="fixed bottom-6 left-6 z-[60] flex items-center gap-1 p-1.5 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl ring-1 ring-white/10"
+      className="fixed bottom-6 left-6 z-[120] flex items-center gap-1 p-1.5 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl ring-1 ring-white/10"
       initial={{ opacity: 0, scale: 0, x: -20 }}
       animate={{ opacity: 1, scale: 1, x: 0 }}
       transition={{ duration: 0.5, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
