@@ -82,11 +82,11 @@ const TimelineItem: React.FC<{ project: Project; isLast: boolean }> = ({ project
               <div className="flex items-center gap-5 pt-2">
                 <a href={project.link} target="_blank" rel="noreferrer" className="text-xs font-bold text-text-main hover:opacity-70 flex items-center gap-2 transition-opacity uppercase tracking-wider">
                   <ExternalLink size={14} />
-                  Live Demo
+                  {t('liveDemo')}
                 </a>
                 <a href={project.repo} target="_blank" rel="noreferrer" className="text-xs font-bold text-text-muted hover:text-text-main flex items-center gap-2 transition-colors uppercase tracking-wider">
                   <Github size={14} />
-                  Source
+                  {t('sourceCode')}
                 </a>
               </div>
             </div>
@@ -227,7 +227,7 @@ export const ProjectsView: React.FC<{ onBack: () => void; theme: 'light' | 'dark
               {t('letsConnect')}
             </h3>
             <p className="text-lg sm:text-xl text-text-muted max-w-2xl leading-relaxed">
-              Interested in working together or just want to say hi? My inbox is always open.
+              {t('contactMsg')}
             </p>
           </div>
 

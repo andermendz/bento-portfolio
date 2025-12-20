@@ -19,6 +19,8 @@ export const translations = {
     projectsTriggerDesc: 'Curated Archive',
     viewProjects: 'View Projects',
     backToOverview: 'Back to Overview',
+    liveDemo: 'Live Demo',
+    sourceCode: 'Source',
     
     // Project 1
     project1Title: 'AI Content Platform',
@@ -36,6 +38,7 @@ export const translations = {
     projectsHeroDesc: 'A curated showcase of projects where <highlight>engineering meets creativity</highlight>, built with modern technologies and thoughtful design.',
     readyToCollaborate: 'Ready to Collaborate?',
     collaborateDesc: "Let's create something amazing together. I'm always excited to work on innovative projects.",
+    contactMsg: 'Interested in working together or just want to say hi? Feel free to reach out.',
     emailMe: 'Email Me',
     emailDesc: 'Direct communication for detailed discussions.',
     emailAddress: 'andermendz@proton.me',
@@ -131,6 +134,8 @@ export const translations = {
     projectsTriggerDesc: 'Archivo Curado',
     viewProjects: 'Ver Proyectos',
     backToOverview: 'Volver al Inicio',
+    liveDemo: 'Demo en Vivo',
+    sourceCode: 'Código',
     
     // Project 1
     project1Title: 'Plataforma de Contenido IA',
@@ -148,6 +153,7 @@ export const translations = {
     projectsHeroDesc: 'Una muestra curada de proyectos donde <highlight>la ingeniería se encuentra con la creatividad</highlight>, construida con tecnologías modernas y diseño reflexivo.',
     readyToCollaborate: '¿Listo para Colaborar?',
     collaborateDesc: 'Creemos algo increíble juntos. Siempre estoy emocionado de trabajar en proyectos innovadores.',
+    contactMsg: '¿Interesado en trabajar juntos o simplemente quieres saludar? No dudes en contactarme.',
     emailMe: 'Envíame un Email',
     emailDesc: 'Comunicación directa para discusiones detalladas.',
     emailAddress: 'andermendz@proton.me',
@@ -230,4 +236,3 @@ export const translations = {
 } as const;
 
 export type TranslationKey = keyof typeof translations.en;
-
