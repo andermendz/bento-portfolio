@@ -43,8 +43,8 @@ export const ProjectsSection: React.FC = () => {
           </div>
         </motion.div>
 
-        {/* Ghost project cards for context */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 opacity-25 pointer-events-none select-none">
+        {/* Ghost project cards for context — hidden on mobile to avoid wasted scroll */}
+        <div className="hidden md:grid md:grid-cols-3 gap-3 sm:gap-4 opacity-25 pointer-events-none select-none">
           {[1, 2, 3].map((i) => (
             <div key={i} className="aspect-video rounded-2xl sm:rounded-3xl border border-border bg-card-hover/50" />
           ))}

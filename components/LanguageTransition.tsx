@@ -120,6 +120,7 @@ export const LanguageContentWrapper: React.FC<{
 }> = ({ children, isChanging }) => {
   return (
     <motion.div
+      className="flex-1 flex flex-col min-h-0 w-full"
       animate={{ 
         opacity: isChanging ? 0.3 : 1,
         scale: isChanging ? 0.98 : 1,
@@ -129,7 +130,6 @@ export const LanguageContentWrapper: React.FC<{
         duration: 0.3,
         ease: 'easeInOut'
       }}
-      style={{ width: '100%' }}
     >
       {children}
     </motion.div>

@@ -76,6 +76,13 @@ function AppContent() {
     }
   }, [theme]);
 
+  // When opening a section, scroll page to top so the section is in frame (fixes mobile when user had scrolled down)
+  useEffect(() => {
+    if (activeSection) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
+  }, [activeSection]);
+
   /**
    * Toggles between dark and light themes.
    */
@@ -189,7 +196,7 @@ function AppContent() {
 
   return (
     <div 
-      className="min-h-screen bg-page text-text-main p-4 pt-8 md:p-6 md:pt-12 font-sans selection:bg-primary selection:text-primary-fg transition-colors duration-500 overflow-x-hidden flex flex-col items-center"
+      className={`min-h-screen bg-page text-text-main p-4 pt-8 md:p-6 md:pt-12 font-sans selection:bg-primary selection:text-primary-fg transition-colors duration-500 overflow-x-hidden flex flex-col items-center ${activeSection ? 'overflow-y-hidden' : ''}`}
     >
       {/* Language Transition Effect */}
       <LanguageTransition isActive={isLanguageChanging} language={language} />
@@ -222,7 +229,7 @@ function AppContent() {
       </motion.button>
 
       <LanguageContentWrapper isChanging={isLanguageChanging}>
-        <div className="w-full max-w-[1320px] mx-auto pb-24 sm:pb-6">
+        <div className={`w-full max-w-[1320px] mx-auto pb-24 sm:pb-6 ${activeSection ? 'flex-1 flex flex-col min-h-0' : ''}`}>
           
           <AnimatePresence mode="wait" initial={false}>
             {activeSection ? (
@@ -232,7 +239,7 @@ function AppContent() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 6 }}
                 transition={{ duration: 0.16, ease: 'easeOut' }}
-                className="pb-24 sm:pb-0"
+                className="flex-1 flex flex-col min-h-0 w-full pb-24 sm:pb-0"
                 style={{ viewTransitionName: 'expanded-section' }}
               >
                 <DetailView onClose={closeSection} type={activeSection} />
