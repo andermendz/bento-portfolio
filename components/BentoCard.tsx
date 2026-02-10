@@ -9,7 +9,6 @@ interface BentoCardProps {
   title?: string;
   hasArrow?: boolean;
   backgroundImage?: string;
-  layoutId?: string;
   dataId?: string;
   isVisible?: boolean;
   noPadding?: boolean;
@@ -23,7 +22,6 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   title,
   hasArrow = false,
   backgroundImage,
-  layoutId,
   dataId,
   isVisible = true,
   noPadding = false,
@@ -39,8 +37,6 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   return (
     <motion.div
       ref={cardRef}
-      layoutId={layoutId}
-      layout
       data-bento-id={dataId}
       onClick={onClick}
       className={`${baseClasses} ${className}`}

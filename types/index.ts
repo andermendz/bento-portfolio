@@ -35,7 +35,6 @@ export interface ContentWithCopyProps {
 }
 
 export interface MapContentProps {
-  time: Date;
   theme: Theme;
 }
 

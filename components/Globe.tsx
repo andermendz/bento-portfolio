@@ -164,8 +164,14 @@ export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
 
 // ----- MAP CONTENT COMPONENT -----
 
-export const MapContent: React.FC<MapContentProps> = ({ time, theme }) => {
+export const MapContent: React.FC<MapContentProps> = ({ theme }) => {
   const { t, language } = useLanguage();
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
   
   return (
     <div className="relative w-full h-full overflow-hidden">

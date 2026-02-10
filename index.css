@@ -148,4 +148,13 @@ html {
   animation: fade-in-up 0.8s ease-out;
 }
 
+/* Native View Transition polish for section open/close */
+::view-transition-old(bento-grid),
+::view-transition-new(expanded-section),
+::view-transition-old(expanded-section),
+::view-transition-new(bento-grid) {
+  animation-duration: 180ms;
+  animation-timing-function: ease-out;
+}
+
 

@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { flushSync } from 'react-dom';
 import ErrorBoundary from './components/ErrorBoundary';
 import { BentoCard } from './components/BentoCard';
 import { DetailView } from './components/DetailView';
@@ -17,7 +18,6 @@ import {
   ContactContent,
   ProjectsTriggerContent,
 } from './components/CardContents';
-import { ProjectsView } from './components/ProjectsView';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 
 import { LanguageTransition, LanguageContentWrapper } from './components/LanguageTransition';
@@ -28,14 +28,16 @@ import { LanguageProvider, useLanguage } from './i18n/LanguageContext';
 // Import types
 import type { BentoItem, Theme } from './types';
 
+type DocumentWithViewTransition = Document & {
+  startViewTransition?: (update: () => void) => { finished: Promise<void> };
+};
+
 // ----- MAIN APP CONTENT -----
 
 function AppContent() {
-  const [activeModal, setActiveModal] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<'grid' | 'projects'>('grid');
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const [copiedText, setCopiedText] = useState<string | null>(null);
 
-  const [time, setTime] = useState(new Date());
   const [theme, setTheme] = useState<Theme>('dark');
   const [isLanguageChanging, setIsLanguageChanging] = useState(false);
   
@@ -81,21 +83,6 @@ function AppContent() {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
-  // Time update effect
-  useEffect(() => {
-    const timer = setInterval(() => setTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Lock body scroll when modal is active
-  useEffect(() => {
-    if (activeModal) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-  }, [activeModal]);
-
   /**
    * Copies the provided text to the clipboard and shows a temporary success message.
    * @param text - The text to copy
@@ -113,6 +100,25 @@ function AppContent() {
     }
   };
 
+  const runViewTransition = useCallback((update: () => void) => {
+    const doc = document as DocumentWithViewTransition;
+    if (typeof doc.startViewTransition === 'function') {
+      doc.startViewTransition(() => {
+        flushSync(update);
+      });
+      return;
+    }
+    update();
+  }, []);
+
+  const closeSection = useCallback(() => {
+    runViewTransition(() => setActiveSection(null));
+  }, [runViewTransition]);
+
+  const openSection = useCallback((sectionType: string) => {
+    runViewTransition(() => setActiveSection(sectionType));
+  }, [runViewTransition]);
+
   // Static items configuration
   const items: BentoItem[] = [
     { id: 'intro', colSpan: 'col-span-2 sm:col-span-2' },
@@ -122,7 +128,7 @@ function AppContent() {
     { id: 'experience', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'experience' },
     { id: 'stack', colSpan: 'col-span-2 sm:col-span-2', hasArrow: true, onClickModal: 'stack' },
     { id: 'education', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'education' },
-    { id: 'projects', colSpan: 'col-span-2 sm:col-span-2', hasArrow: true },
+    { id: 'projects', colSpan: 'col-span-2 sm:col-span-2', hasArrow: true, onClickModal: 'projects' },
     { id: 'map', colSpan: 'col-span-1', noPadding: true },
   ];
 
@@ -152,7 +158,7 @@ function AppContent() {
         return <ContactContent copyToClipboard={copyToClipboard} copiedText={copiedText} />;
 
       case 'map':
-        return <MapContent time={time} theme={theme} />;
+        return <MapContent theme={theme} />;
       default:
         return null;
     }
@@ -215,81 +221,70 @@ function AppContent() {
         </AnimatePresence>
       </motion.button>
 
-      {/* Detail Overlay View */}
-      <AnimatePresence
-        onExitComplete={() => {
-          document.body.style.overflow = 'unset';
-        }}
-      >
-        {activeModal && (
-          <DetailView 
-            onClose={() => setActiveModal(null)} 
-            type={activeModal} 
-            layoutId={activeModal} 
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Full Screen Projects View */}
-      <AnimatePresence>
-        {viewMode === 'projects' && (
-          <ProjectsView onBack={() => setViewMode('grid')} theme={theme} />
-        )}
-      </AnimatePresence>
-
       <LanguageContentWrapper isChanging={isLanguageChanging}>
         <div className="w-full max-w-[1320px] mx-auto pb-24 sm:pb-6">
           
-          {/* Main Grid */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: viewMode === 'grid' ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
-            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 auto-rows-[152px] sm:auto-rows-[190px] md:auto-rows-[237px] grid-flow-row-dense"
-          >
-            {items.map((item, index) => {
-              const isExpanded = activeModal === item.id;
-
-              return (
-                <BentoCard
-                  key={item.id}
-                  layoutId={item.id}
-                  dataId={item.id}
-                  index={index}
-                  className={`${item.colSpan} ${item.rowSpan || ''} h-full`}
-                  title={getCardTitle(item.id)}
-                  backgroundImage={item.bgImage}
-                  hasArrow={item.hasArrow}
-                  isVisible={!isExpanded}
-                  onClick={
-                    item.id === 'projects' 
-                      ? () => setViewMode('projects') 
-                      : item.onClickModal 
-                        ? () => setActiveModal(item.onClickModal!) 
+          <AnimatePresence mode="wait" initial={false}>
+            {activeSection ? (
+              <motion.div
+                key={`section-${activeSection}`}
+                initial={{ opacity: 0.01, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 6 }}
+                transition={{ duration: 0.16, ease: 'easeOut' }}
+                style={{ viewTransitionName: 'expanded-section' }}
+              >
+                <DetailView onClose={closeSection} type={activeSection} />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="grid"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.22 }}
+                className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 auto-rows-[152px] sm:auto-rows-[190px] md:auto-rows-[237px] grid-flow-row-dense"
+                style={{ viewTransitionName: 'bento-grid' }}
+              >
+                {items.map((item, index) => (
+                  <BentoCard
+                    key={item.id}
+                    dataId={item.id}
+                    index={index}
+                    className={`${item.colSpan} ${item.rowSpan || ''} h-full`}
+                    title={getCardTitle(item.id)}
+                    backgroundImage={item.bgImage}
+                    hasArrow={item.hasArrow}
+                    onClick={
+                      item.onClickModal
+                        ? () => openSection(item.onClickModal!)
                         : undefined
-                  }
-                  noPadding={item.noPadding}
-                >
-                  {renderCardContent(item.id)}
-                </BentoCard>
-              );
-            })}
-          </motion.div>
+                    }
+                    noPadding={item.noPadding}
+                  >
+                    {renderCardContent(item.id)}
+                  </BentoCard>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           
           {/* Footer */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 0.5, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-8 flex flex-col md:flex-row justify-between items-center text-text-muted text-xs font-medium uppercase tracking-wider gap-4"
-          >
-            <p>{t('copyright')}</p>
-            <div className="flex items-center gap-2">
-              <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></div>
-              <p>{t('role')}</p>
-            </div>
-          </motion.div>
+          {!activeSection && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 0.5, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-8 flex flex-col md:flex-row justify-between items-center text-text-muted text-xs font-medium uppercase tracking-wider gap-4"
+            >
+              <p>{t('copyright')}</p>
+              <div className="flex items-center gap-2">
+                <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></div>
+                <p>{t('role')}</p>
+              </div>
+            </motion.div>
+          )}
         </div>
       </LanguageContentWrapper>
     </div>
