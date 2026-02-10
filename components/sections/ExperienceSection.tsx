@@ -6,15 +6,15 @@ export const ExperienceSection: React.FC = () => {
   const { t } = useLanguage();
   
   return (
-    <section className="p-6 sm:p-8 md:p-12 lg:p-14 min-h-full">
-      <div className="max-w-5xl mx-auto">
-        <header className="mb-8 sm:mb-10 md:mb-12">
+    <section className="p-5 sm:p-6 md:p-8 lg:p-10 min-h-full flex flex-col items-center">
+      <div className="max-w-5xl mx-auto w-full">
+        <header className="mb-4 sm:mb-6 md:mb-8">
           <h1 className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.22em] text-primary/70 mb-3">{t('experienceTitle')}</h1>
           <h2 id="section-title-experience" className="text-3xl sm:text-4xl md:text-5xl font-black text-text-main mb-3 sm:mb-4 tracking-tight">{t('workExperience')}</h2>
           <p className="text-text-muted text-base sm:text-lg max-w-3xl">{t('workExperienceDesc')}</p>
         </header>
         
-        <div className="space-y-6 sm:space-y-10 pb-4 sm:pb-6 relative before:absolute before:inset-0 before:ml-6 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-border before:via-border before:to-transparent">
+        <div className="space-y-3 sm:space-y-4 pb-4 sm:pb-6 relative before:absolute before:inset-0 before:ml-6 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-border before:via-border before:to-transparent">
           
           {/* Job 1 */}
           <article className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">

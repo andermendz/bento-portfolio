@@ -45,39 +45,30 @@ export const IntroContent: React.FC = () => {
   };
 
   return (
-    <div className="relative h-full flex flex-col justify-between">
+    <div className="relative h-full flex flex-col">
       {/* Decorative Background Blobs */}
       <div className="absolute -top-12 -right-12 w-48 h-48 bg-primary/5 rounded-full blur-[80px] animate-blob mix-blend-overlay pointer-events-none"></div>
       <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-blue-500/5 rounded-full blur-[80px] animate-blob mix-blend-overlay pointer-events-none" style={{ animationDelay: '2s' }}></div>
       
-       {/* Top Section: Status Badge */}
-       <div className="relative z-10 flex justify-end">
-         <div className="inline-flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl bg-card border border-border shadow-sm transition-all hover:border-emerald-500/30 hover:shadow-md cursor-default group">
-           <div className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2 items-center justify-center">
-             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60"></span>
-             <span className="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2 bg-emerald-500"></span>
-           </div>
-           <span className="text-[8px] sm:text-[10px] font-semibold tracking-wider uppercase text-text-muted group-hover:text-text-main transition-colors duration-200">{t('availableForWork')}</span>
-         </div>
-       </div>
+      {/* Main Content: Name + Bio */}
+      <div className="relative z-10 flex flex-col h-full justify-center">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6">
+          <div className="flex flex-col">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter leading-[0.8] text-text-main animate-fade-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
+              Anderson
+            </h1>
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter leading-[0.8] text-text-muted/20 animate-fade-in-up" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
+              Mendoza.
+            </h1>
+          </div>
 
-       {/* Bottom Section: Name + Bio */}
-       <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-2 sm:gap-4 mt-auto">
-         <div className="relative bottom-[-2px] sm:bottom-[-4px]">
-           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-[0.85] text-text-main animate-fade-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
-             Anderson
-           </h1>
-           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-[0.85] text-text-muted/20 animate-fade-in-up" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
-             Mendoza.
-           </h1>
-         </div>
-
-         <div className="block md:max-w-[160px] md:text-right pb-1">
-           <p className="text-[10px] sm:text-xs text-text-muted font-medium leading-relaxed opacity-80 md:opacity-100">
-             {renderBio()}
-           </p>
-         </div>
-       </div>
+          <div className="max-w-[220px] sm:text-right pb-1">
+            <p className="text-xs sm:text-sm text-text-muted font-medium leading-relaxed opacity-90">
+              {renderBio()}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -90,23 +81,25 @@ export const SocialsContent: React.FC = () => {
   return (
     <div className="flex flex-col h-full gap-2 sm:gap-3 w-full">
       {/* Platforms */}
-      <div className="flex-1 flex gap-2 sm:gap-3 min-h-0">
+      <div className="flex-1 grid grid-cols-2 gap-2 sm:gap-3 min-h-0">
         <a 
           href="https://github.com/andermendz" 
           target="_blank" 
           rel="noreferrer"
-          className="relative flex-1 flex flex-col items-center justify-center rounded-[16px] sm:rounded-[24px] bg-card-hover border border-border group/social overflow-hidden transition-all duration-300 hover:border-text-main/20 hover:bg-text-main"
+          className="relative flex flex-col items-center justify-center rounded-[16px] sm:rounded-[24px] bg-card-hover border border-border group/social overflow-hidden transition-all duration-300 hover:border-text-main/20 hover:bg-text-main"
         >
-          <Github size={24} className="sm:w-8 sm:h-8 text-text-main transition-all duration-300 group-hover/social:text-page group-hover/social:scale-110" />
+          <Github size={28} className="sm:w-10 sm:h-10 text-text-main transition-all duration-300 group-hover/social:text-page group-hover/social:scale-110" />
+          <span className="absolute bottom-3 text-[8px] font-bold uppercase tracking-widest opacity-0 group-hover/social:opacity-100 group-hover/social:text-page transition-all duration-300 translate-y-2 group-hover/social:translate-y-0">GitHub</span>
         </a>
 
         <a 
           href="https://linkedin.com/in/andermendz" 
           target="_blank" 
           rel="noreferrer"
-          className="relative flex-1 flex flex-col items-center justify-center rounded-[16px] sm:rounded-[24px] bg-card-hover border border-border group/social overflow-hidden transition-all duration-300 hover:border-[#0077b5]/30 hover:bg-[#0077b5]"
+          className="relative flex flex-col items-center justify-center rounded-[16px] sm:rounded-[24px] bg-card-hover border border-border group/social overflow-hidden transition-all duration-300 hover:border-[#0077b5]/30 hover:bg-[#0077b5]"
         >
-          <Linkedin size={24} className="sm:w-8 sm:h-8 text-text-main transition-all duration-300 group-hover/social:text-white group-hover/social:scale-110" />
+          <Linkedin size={28} className="sm:w-10 sm:h-10 text-text-main transition-all duration-300 group-hover/social:text-white group-hover/social:scale-110" />
+          <span className="absolute bottom-3 text-[8px] font-bold uppercase tracking-widest opacity-0 group-hover/social:opacity-100 group-hover/social:text-white transition-all duration-300 translate-y-2 group-hover/social:translate-y-0">LinkedIn</span>
         </a>
       </div>
 
@@ -115,11 +108,14 @@ export const SocialsContent: React.FC = () => {
         href="https://linkedin.com/in/andermendz"
         target="_blank"
         rel="noreferrer"
-        className="relative h-11 sm:h-14 w-full bg-text-main rounded-[16px] sm:rounded-[24px] flex items-center justify-between px-4 sm:px-6 gap-2 text-page font-bold shadow-md transition-all overflow-hidden group hover:shadow-xl active:scale-[0.98] cursor-pointer"
+        className="relative h-14 sm:h-16 w-full bg-text-main rounded-[16px] sm:rounded-[24px] flex items-center justify-between px-6 sm:px-8 gap-2 text-page font-bold shadow-md transition-all overflow-hidden group hover:shadow-xl active:scale-[0.98] cursor-pointer"
       >
-        <span className="relative z-10 text-xs sm:text-sm tracking-wide">{t('letsConnect')}</span>
-        <div className="relative z-10 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-page/20 flex items-center justify-center group-hover:bg-page group-hover:text-text-main transition-colors">
-          <ArrowUpRight size={14} className="sm:w-4 sm:h-4" />
+        <div className="flex flex-col items-start">
+          <span className="text-[10px] uppercase tracking-[0.2em] opacity-50 leading-none mb-1">{t('letsConnect')}</span>
+          <span className="text-sm sm:text-base tracking-tight">{t('letsTalk')}</span>
+        </div>
+        <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-page/10 group-hover:bg-page/20 transition-colors">
+          <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
         </div>
       </a>
     </div>
@@ -130,13 +126,13 @@ export const SocialsContent: React.FC = () => {
 
 const TechIcon: React.FC<{ icon: React.ReactNode; label: string; hoverColor: string }> = ({ icon, label, hoverColor }) => (
   <div 
-    className="group/tech flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl bg-card-hover border border-border/50 shrink-0 shadow-sm cursor-default transition-all duration-300 hover:scale-105 hover:shadow-md hover:border-[var(--hover-color)]"
+    className="group/tech flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl bg-card-hover border border-border/50 shrink-0 shadow-sm cursor-default transition-all duration-300 hover:scale-105 hover:shadow-md hover:border-[var(--hover-color)]"
     style={{ ['--hover-color' as string]: hoverColor }}
   >
     <span className="text-text-muted transition-colors duration-300 group-hover/tech:text-[var(--hover-color)]">
       {icon}
     </span>
-    <span className="text-[10px] sm:text-xs font-semibold text-text-main whitespace-nowrap transition-colors duration-300 group-hover/tech:text-[var(--hover-color)]">
+    <span className="text-xs sm:text-sm font-bold text-text-main whitespace-nowrap transition-colors duration-300 group-hover/tech:text-[var(--hover-color)]">
       {label}
     </span>
   </div>
@@ -146,41 +142,41 @@ const TechIcon: React.FC<{ icon: React.ReactNode; label: string; hoverColor: str
 
 export const TechStackContent: React.FC = () => {
   const row1 = [
-    { icon: <Code2 size={14} />, label: "React", hoverColor: "#61DAFB" },
-    { icon: <Cpu size={14} />, label: "Next.js", hoverColor: "#ffffff" },
-    { icon: <Terminal size={14} />, label: "TypeScript", hoverColor: "#3178C6" },
-    { icon: <Layout size={14} />, label: "Tailwind", hoverColor: "#06B6D4" },
-    { icon: <Brain size={14} />, label: "Gemini API", hoverColor: "#8B5CF6" },
-    { icon: <Database size={14} />, label: "PostgreSQL", hoverColor: "#336791" },
+    { icon: <Code2 size={18} />, label: "React", hoverColor: "#61DAFB" },
+    { icon: <Cpu size={18} />, label: "Next.js", hoverColor: "#ffffff" },
+    { icon: <Terminal size={18} />, label: "TypeScript", hoverColor: "#3178C6" },
+    { icon: <Layout size={18} />, label: "Tailwind", hoverColor: "#06B6D4" },
+    { icon: <Brain size={18} />, label: "Gemini API", hoverColor: "#8B5CF6" },
+    { icon: <Database size={18} />, label: "PostgreSQL", hoverColor: "#336791" },
   ];
 
   const row2 = [
-    { icon: <Server size={14} />, label: "Node.js", hoverColor: "#68A063" },
-    { icon: <Code2 size={14} />, label: "Python", hoverColor: "#FFD43B" },
-    { icon: <Database size={14} />, label: "MongoDB", hoverColor: "#00ED64" },
-    { icon: <Layout size={14} />, label: "Framer Motion", hoverColor: "#FF0080" },
-    { icon: <Terminal size={14} />, label: "Docker", hoverColor: "#2496ED" },
-    { icon: <Database size={14} />, label: "Redis", hoverColor: "#DC382D" },
+    { icon: <Server size={18} />, label: "Node.js", hoverColor: "#68A063" },
+    { icon: <Code2 size={18} />, label: "Python", hoverColor: "#FFD43B" },
+    { icon: <Database size={18} />, label: "MongoDB", hoverColor: "#00ED64" },
+    { icon: <Layout size={18} />, label: "Framer Motion", hoverColor: "#FF0080" },
+    { icon: <Terminal size={18} />, label: "Docker", hoverColor: "#2496ED" },
+    { icon: <Database size={18} />, label: "Redis", hoverColor: "#DC382D" },
   ];
 
   return (
-    <div className="flex flex-col flex-1 justify-center w-full relative overflow-hidden mask-linear-fade">
+    <div className="flex flex-col flex-1 justify-center w-full relative overflow-hidden mask-linear-fade py-2">
       {/* Row 1 */}
-      <div className="flex gap-3 overflow-x-hidden overflow-y-visible w-full mb-3 py-1">
-        <div className="flex shrink-0 animate-marquee items-center gap-3">
+      <div className="flex gap-4 overflow-x-hidden overflow-y-visible w-full mb-4 py-1">
+        <div className="flex shrink-0 animate-marquee items-center gap-4">
           {row1.map((item, i) => <TechIcon key={`r1-${i}`} {...item} />)}
         </div>
-        <div className="flex shrink-0 animate-marquee items-center gap-3">
+        <div className="flex shrink-0 animate-marquee items-center gap-4">
           {row1.map((item, i) => <TechIcon key={`r1-d-${i}`} {...item} />)}
         </div>
       </div>
   
       {/* Row 2 */}
-      <div className="flex gap-3 overflow-x-hidden overflow-y-visible w-full py-1">
-        <div className="flex shrink-0 animate-marquee-reverse items-center gap-3">
+      <div className="flex gap-4 overflow-x-hidden overflow-y-visible w-full py-1">
+        <div className="flex shrink-0 animate-marquee-reverse items-center gap-4">
           {row2.map((item, i) => <TechIcon key={`r2-${i}`} {...item} />)}
         </div>
-        <div className="flex shrink-0 animate-marquee-reverse items-center gap-3">
+        <div className="flex shrink-0 animate-marquee-reverse items-center gap-4">
           {row2.map((item, i) => <TechIcon key={`r2-d-${i}`} {...item} />)}
         </div>
       </div>

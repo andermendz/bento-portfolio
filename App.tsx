@@ -232,6 +232,7 @@ function AppContent() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 6 }}
                 transition={{ duration: 0.16, ease: 'easeOut' }}
+                className="pb-24 sm:pb-0"
                 style={{ viewTransitionName: 'expanded-section' }}
               >
                 <DetailView onClose={closeSection} type={activeSection} />
@@ -278,7 +279,7 @@ function AppContent() {
               transition={{ duration: 0.6, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
               className="mt-8 flex flex-col md:flex-row justify-between items-center text-text-muted text-xs font-medium uppercase tracking-wider gap-4"
             >
-              <p>{t('copyright')}</p>
+              <p>{t('copyright').replace('{year}', String(new Date().getFullYear()))}</p>
               <div className="flex items-center gap-2">
                 <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></div>
                 <p>{t('role')}</p>

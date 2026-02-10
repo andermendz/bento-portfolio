@@ -1,92 +1,52 @@
 import React from 'react';
-import { Github, ExternalLink, Code2 } from 'lucide-react';
+import { Construction, Coffee, Hammer } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useLanguage } from '../../i18n/LanguageContext';
 
 export const ProjectsSection: React.FC = () => {
-  const { t } = useLanguage();
-  
+  const { language } = useLanguage();
+
   return (
-    <section className="p-6 sm:p-8 md:p-12 lg:p-14 min-h-full">
-      <div className="max-w-6xl mx-auto">
-        <header className="mb-8 sm:mb-10 md:mb-12">
-          <h1 className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.22em] text-primary/70 mb-3">{t('projectsTriggerDesc')}</h1>
-          <h2 id="section-title-projects" className="text-3xl sm:text-4xl md:text-5xl font-black text-text-main mb-3 sm:mb-4 tracking-tight">
-            {t('projectsTriggerTitle')}
+    <section className="p-5 sm:p-6 md:p-8 lg:p-10 min-h-full flex flex-col items-center justify-center">
+      <div className="max-w-3xl w-full text-center space-y-6 py-4">
+        {/* Under Construction Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 10, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+          className="relative w-full rounded-[30px] sm:rounded-[36px] border border-border bg-card px-6 sm:px-8 py-8 sm:py-10"
+        >
+          <div className="mx-auto mb-5 flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-2xl border border-amber-500/30 bg-amber-500/10 text-amber-500">
+            <Construction size={34} strokeWidth={1.8} className="sm:hidden" />
+            <Construction size={42} strokeWidth={1.8} className="hidden sm:block" />
+          </div>
+
+          <h2 id="section-title-projects" className="text-2xl sm:text-3xl font-black text-text-main tracking-tight">
+            {language === 'es' ? 'Sección en construcción' : 'Under Construction'}
           </h2>
-          <p className="text-text-muted text-base sm:text-lg max-w-3xl leading-relaxed">
-            {t('projectsHeroDesc').replace(/<\/?highlight>/g, '')}
+
+          <p className="mt-3 text-text-muted text-sm sm:text-base md:text-lg font-medium leading-relaxed max-w-2xl mx-auto">
+            {language === 'es'
+              ? 'Estoy un poco ocupado ahora mismo construyendo cosas geniales. Vuelve pronto para ver esta sección completa.'
+              : "I'm kinda busy right now building some cool stuff. Come back soon for the full section."}
           </p>
-        </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {[
-            {
-              id: '1',
-              titleKey: 'project1Title',
-              descKey: 'project1Desc',
-              tags: ['Next.js', 'Gemini AI', 'Tailwind'],
-              link: '#',
-              repo: '#',
-            },
-            {
-              id: '2',
-              titleKey: 'project2Title',
-              descKey: 'project2Desc',
-              tags: ['React', 'Node.js', 'PostgreSQL'],
-              link: '#',
-              repo: '#',
-            },
-            {
-              id: '3',
-              titleKey: 'project3Title',
-              descKey: 'project3Desc',
-              tags: ['D3.js', 'WebSockets', 'TypeScript'],
-              link: '#',
-              repo: '#',
-            },
-          ].map((project) => (
-            <article
-              key={project.id}
-              className="rounded-[24px] sm:rounded-[30px] border border-border bg-card-hover/70 p-5 sm:p-6 flex flex-col gap-5 hover:border-primary/20 transition-all"
-            >
-              <div className="aspect-video rounded-2xl border border-border bg-card/40 flex items-center justify-center text-text-muted">
-                <Code2 size={34} strokeWidth={1.5} />
-              </div>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card-hover px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-text-muted">
+              <Hammer size={14} />
+              Work in progress
+            </span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card-hover px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-text-muted">
+              <Coffee size={14} />
+              {language === 'es' ? 'Cargando cafeína' : 'Loading caffeine'}
+            </span>
+          </div>
+        </motion.div>
 
-              <div>
-                <h3 className="text-lg sm:text-xl font-bold text-text-main mb-2 tracking-tight">{t(project.titleKey as any)}</h3>
-                <p className="text-sm text-text-muted leading-relaxed">{t(project.descKey as any)}</p>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span key={tag} className="text-[10px] font-medium text-text-muted px-2.5 py-1 rounded border border-border uppercase tracking-wider">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-auto flex items-center gap-5 pt-1">
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-xs font-bold text-text-main hover:opacity-70 flex items-center gap-2 transition-opacity uppercase tracking-wider"
-                >
-                  <ExternalLink size={14} />
-                  {t('liveDemo')}
-                </a>
-                <a
-                  href={project.repo}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-xs font-bold text-text-muted hover:text-text-main flex items-center gap-2 transition-colors uppercase tracking-wider"
-                >
-                  <Github size={14} />
-                  {t('sourceCode')}
-                </a>
-              </div>
-            </article>
+        {/* Ghost project cards for context */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 opacity-25 pointer-events-none select-none">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="aspect-video rounded-2xl sm:rounded-3xl border border-border bg-card-hover/50" />
           ))}
         </div>
       </div>

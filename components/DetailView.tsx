@@ -77,7 +77,7 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type }) => {
     <motion.div
       ref={modalRef}
       layout
-      className="relative w-full bg-card rounded-[24px] sm:rounded-[40px] border border-border overflow-hidden flex flex-col shadow-2xl ring-1 ring-white/10 transform-gpu will-change-[transform,height,opacity]"
+      className="relative w-full max-h-[calc(100vh-8rem)] sm:max-h-[88vh] bg-card rounded-[24px] sm:rounded-[40px] border border-border overflow-hidden flex flex-col shadow-2xl ring-1 ring-white/10 transform-gpu will-change-[transform,height,opacity]"
       tabIndex={-1}
       role="region"
       aria-labelledby={`section-title-${type}`}

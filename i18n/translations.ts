@@ -15,8 +15,8 @@ export const translations = {
     techStackTitle: 'Tech Stack',
     
     // Projects
-    projectsTriggerTitle: 'Featured Projects',
-    projectsTriggerDesc: 'Curated Archive',
+    projectsTriggerTitle: 'Project Lab',
+    projectsTriggerDesc: 'Experimental Works',
     viewProjects: 'View Projects',
     backToOverview: 'Back to Overview',
     liveDemo: 'Live Demo',
@@ -76,8 +76,8 @@ export const translations = {
     basedIn: 'Based in',
     location: 'Cartagena, CO',
     
-    // Footer
-    copyright: '© 2025 Anderson Mendoza.',
+    // Footer (use {year} placeholder; replaced at runtime with current year)
+    copyright: '© {year} Anderson Mendoza.',
     role: 'Systems Engineer',
     
     // Detail Views
@@ -130,8 +130,8 @@ export const translations = {
     techStackTitle: 'Tecnologías',
     
     // Projects
-    projectsTriggerTitle: 'Proyectos Destacados',
-    projectsTriggerDesc: 'Archivo Curado',
+    projectsTriggerTitle: 'Laboratorio',
+    projectsTriggerDesc: 'Trabajos Experimentales',
     viewProjects: 'Ver Proyectos',
     backToOverview: 'Volver al Inicio',
     liveDemo: 'Demo en Vivo',
@@ -191,8 +191,8 @@ export const translations = {
     basedIn: 'Ubicado en',
     location: 'Cartagena, CO',
     
-    // Footer
-    copyright: '© 2025 Anderson Mendoza.',
+    // Footer (use {year} placeholder; replaced at runtime with current year)
+    copyright: '© {year} Anderson Mendoza.',
     role: 'Ingeniero de Sistemas',
     
     // Detail Views

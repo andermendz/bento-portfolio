@@ -6,8 +6,8 @@ export const AboutSection: React.FC = () => {
   const { t } = useLanguage();
   
   return (
-    <section className="p-6 sm:p-8 md:p-12 lg:p-14 min-h-full">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.35fr_0.85fr] gap-5 sm:gap-6">
+    <section className="p-5 sm:p-6 md:p-8 lg:p-10 min-h-full flex flex-col items-center">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.35fr_0.85fr] gap-4 sm:gap-5 w-full">
         <article className="rounded-[24px] sm:rounded-[32px] border border-border bg-card-hover/65 p-6 sm:p-8 md:p-10">
           <h1 className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.22em] mb-4 sm:mb-5">
             {t('aboutTitle')}

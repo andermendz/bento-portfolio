@@ -5,8 +5,8 @@ export const TechStackSection: React.FC = () => {
   const { t } = useLanguage();
   
   return (
-    <section className="w-full p-6 sm:p-8 md:p-12 lg:p-14 flex flex-col min-h-full">
-      <header className="text-center mb-10 sm:mb-14">
+    <section className="w-full p-5 sm:p-6 md:p-8 lg:p-10 flex flex-col min-h-full items-center">
+      <header className="text-center mb-6 sm:mb-8 w-full">
         <h1 className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.22em] text-primary/70 mb-3">{t('techStackTitle')}</h1>
         <h2 id="section-title-stack" className="text-3xl sm:text-4xl md:text-5xl font-black text-text-main mb-4 sm:mb-5 tracking-tight">{t('technicalArsenal')}</h2>
         <p className="text-text-muted max-w-2xl mx-auto text-base sm:text-lg font-light leading-relaxed">

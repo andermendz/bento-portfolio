@@ -6,9 +6,9 @@ export const EducationSection: React.FC = () => {
   const { t } = useLanguage();
   
   return (
-    <section className="p-6 sm:p-8 md:p-12 lg:p-14 min-h-full">
-      <div className="max-w-6xl mx-auto">
-        <header className="mb-8 sm:mb-10 md:mb-12">
+    <section className="p-5 sm:p-6 md:p-8 lg:p-10 min-h-full flex flex-col items-center">
+      <div className="max-w-6xl mx-auto w-full">
+        <header className="mb-4 sm:mb-6 md:mb-8">
           <h1 className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.22em] text-primary/70 mb-3">{t('educationTitle')}</h1>
           <h2 id="section-title-education" className="text-3xl sm:text-4xl md:text-5xl font-black text-text-main mb-3 sm:mb-4 tracking-tight">{t('educationTitle')}</h2>
           <p className="text-text-muted text-base sm:text-lg max-w-3xl">{t('educationDesc')}</p>
