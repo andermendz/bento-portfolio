@@ -89,7 +89,6 @@ export const SocialsContent: React.FC = () => {
           className="relative flex flex-col items-center justify-center rounded-[16px] sm:rounded-[24px] bg-card-hover border border-border group/social overflow-hidden transition-all duration-300 hover:border-text-main/20 hover:bg-text-main"
         >
           <Github size={28} className="sm:w-10 sm:h-10 text-text-main transition-all duration-300 group-hover/social:text-page group-hover/social:scale-110" />
-          <span className="absolute bottom-3 text-[8px] font-bold uppercase tracking-widest opacity-0 group-hover/social:opacity-100 group-hover/social:text-page transition-all duration-300 translate-y-2 group-hover/social:translate-y-0">GitHub</span>
         </a>
 
         <a 
@@ -99,7 +98,6 @@ export const SocialsContent: React.FC = () => {
           className="relative flex flex-col items-center justify-center rounded-[16px] sm:rounded-[24px] bg-card-hover border border-border group/social overflow-hidden transition-all duration-300 hover:border-[#0077b5]/30 hover:bg-[#0077b5]"
         >
           <Linkedin size={28} className="sm:w-10 sm:h-10 text-text-main transition-all duration-300 group-hover/social:text-white group-hover/social:scale-110" />
-          <span className="absolute bottom-3 text-[8px] font-bold uppercase tracking-widest opacity-0 group-hover/social:opacity-100 group-hover/social:text-white transition-all duration-300 translate-y-2 group-hover/social:translate-y-0">LinkedIn</span>
         </a>
       </div>
 
