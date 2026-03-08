@@ -23,6 +23,10 @@ export const translations = {
     
     // Tech Stack
     techStackTitle: 'Tech Stack',
+
+    // Blog
+    blogTitle: 'Blog',
+    readArticles: 'Read my latest articles.',
     
     // About
     aboutTitle: 'About',
@@ -114,6 +118,10 @@ export const translations = {
 
     // Tech Stack
     techStackTitle: 'Tecnologías',
+
+    // Blog
+    blogTitle: 'Blog',
+    readArticles: 'Lee mis últimos artículos.',
     
     // About
     aboutTitle: 'Sobre mí',

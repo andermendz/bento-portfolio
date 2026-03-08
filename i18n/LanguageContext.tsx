@@ -11,8 +11,15 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>(() => {
-    // Check localStorage first
+    // Check for query param first (best for SEO/shared links)
     if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const langParam = params.get('lang') as Language;
+      if (langParam && (langParam === 'en' || langParam === 'es')) {
+        return langParam;
+      }
+
+      // Check localStorage
       const saved = localStorage.getItem('portfolio-language') as Language;
       if (saved && (saved === 'en' || saved === 'es')) {
         return saved;
@@ -29,6 +36,17 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     localStorage.setItem('portfolio-language', lang);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+
+      if (lang === 'es') {
+        url.searchParams.set('lang', 'es');
+      } else {
+        url.searchParams.delete('lang');
+      }
+
+      window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+    }
     // Update HTML lang attribute
     document.documentElement.lang = lang;
   };

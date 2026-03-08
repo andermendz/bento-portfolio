@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { HelmetProvider } from 'react-helmet-async';
 import './index.css';
 import App from './App';
 import BlogApp from './BlogApp.tsx';
@@ -17,6 +18,8 @@ const isBlog = hostname.startsWith('blog.') || pathname.startsWith('/blog');
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    {isBlog ? <BlogApp /> : <App />}
+    <HelmetProvider>
+      {isBlog ? <BlogApp /> : <App />}
+    </HelmetProvider>
   </React.StrictMode>
 );

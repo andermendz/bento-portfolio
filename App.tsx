@@ -18,6 +18,16 @@ import {
   ContactContent,
 } from './components/CardContents';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
+import { SEO } from './components/SEO';
+import { ThemeProvider, useTheme } from './components/ThemeContext';
+import {
+  absoluteUrl,
+  buildBreadcrumbSchema,
+  buildPersonSchema,
+  buildWebsiteSchema,
+  DEFAULT_KEYWORDS,
+  getLocale,
+} from './config/seo';
 
 import { LanguageTransition, LanguageContentWrapper } from './components/LanguageTransition';
 
@@ -25,7 +35,7 @@ import { LanguageTransition, LanguageContentWrapper } from './components/Languag
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext';
 
 // Import types
-import type { BentoItem, Theme } from './types';
+import type { BentoItem } from './types';
 
 type DocumentWithViewTransition = Document & {
   startViewTransition?: (update: () => void) => { finished: Promise<void> };
@@ -37,10 +47,55 @@ function AppContent() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [copiedText, setCopiedText] = useState<string | null>(null);
 
-  const [theme, setTheme] = useState<Theme>('dark');
+  const { theme, toggleTheme } = useTheme();
   const [isLanguageChanging, setIsLanguageChanging] = useState(false);
   
   const { t, language } = useLanguage();
+  const isSpanish = language === 'es';
+
+  const homepageTitle = isSpanish
+    ? 'Anderson Mendoza | Ingeniero Full-Stack y Constructor de Productos con IA'
+    : 'Anderson Mendoza | Full-Stack Engineer and AI Product Builder';
+  const homepageSeoTitle = isSpanish
+    ? 'Ingeniero Full-Stack y Constructor de Productos con IA'
+    : 'Full-Stack Engineer and AI Product Builder';
+  const homepageDescription = isSpanish
+    ? 'Portfolio y blog de Anderson Mendoza, ingeniero full-stack y constructor de productos con IA en Cartagena, Colombia. Especializado en React, TypeScript, Node.js y aplicaciones impulsadas por LLMs.'
+    : 'Portfolio and blog of Anderson Mendoza, a full-stack engineer and AI product builder in Cartagena, Colombia. Specialized in React, TypeScript, Node.js, and LLM-powered applications.';
+  const homepageKeywords = isSpanish
+    ? [...DEFAULT_KEYWORDS, 'ingeniero full-stack', 'portfolio desarrollador', 'constructor de productos con IA', 'ingeniero de software Colombia']
+    : [...DEFAULT_KEYWORDS, 'developer portfolio', 'software engineer portfolio', 'AI product builder portfolio'];
+  const homepageCanonical = absoluteUrl(isSpanish ? '/?lang=es' : '/');
+  const homepageAlternates = [
+    { hrefLang: 'en', href: absoluteUrl('/') },
+    { hrefLang: 'es', href: absoluteUrl('/?lang=es') },
+    { hrefLang: 'x-default', href: absoluteUrl('/') },
+  ];
+  const homepageSchemas = [
+    buildPersonSchema(),
+    buildWebsiteSchema(),
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ProfilePage',
+      name: homepageTitle,
+      description: homepageDescription,
+      url: homepageCanonical,
+      inLanguage: isSpanish ? 'es' : 'en',
+      isPartOf: {
+        '@type': 'WebSite',
+        name: 'Anderson Mendoza',
+        url: absoluteUrl('/'),
+      },
+      mainEntity: {
+        '@type': 'Person',
+        name: 'Anderson Mendoza',
+        url: absoluteUrl('/'),
+      },
+    },
+    buildBreadcrumbSchema([
+      { name: 'Home', item: absoluteUrl(isSpanish ? '/?lang=es' : '/') },
+    ]),
+  ];
 
   /**
    * Handles the language change animation by setting the changing state
@@ -53,41 +108,12 @@ function AppContent() {
     }, 700);
   };
 
-  // Theme initialization
-  useEffect(() => {
-    // Check system preference on load (optional)
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      // Optional: set initial theme based on system
-    }
-  }, []);
-
-  // Theme toggle effect
-  useEffect(() => {
-    try {
-      const root = window.document.documentElement;
-      if (theme === 'dark') {
-        root.classList.add('dark');
-      } else {
-        root.classList.remove('dark');
-      }
-    } catch (error) {
-      console.error('Failed to toggle theme:', error);
-    }
-  }, [theme]);
-
   // When opening a section, scroll page to top so the section is in frame (fixes mobile when user had scrolled down)
   useEffect(() => {
     if (activeSection) {
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }
   }, [activeSection]);
-
-  /**
-   * Toggles between dark and light themes.
-   */
-  const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
-  };
 
   /**
    * Copies the provided text to the clipboard and shows a temporary success message.
@@ -191,6 +217,16 @@ function AppContent() {
     <div 
       className={`min-h-screen bg-page text-text-main p-4 pt-8 md:p-6 md:pt-16 3xl:pt-20 font-sans selection:bg-primary selection:text-primary-fg transition-colors duration-500 overflow-x-hidden flex flex-col items-center ${activeSection ? 'overflow-y-hidden' : ''}`}
     >
+      <SEO 
+        title={homepageSeoTitle}
+        description={homepageDescription}
+        canonical={homepageCanonical}
+        locale={getLocale(language)}
+        alternateLocales={['en_US', 'es_CO']}
+        keywords={homepageKeywords}
+        alternates={homepageAlternates}
+        schemaData={homepageSchemas}
+      />
       {/* Language Transition Effect */}
       <LanguageTransition isActive={isLanguageChanging} language={language} />
       
@@ -256,11 +292,7 @@ function AppContent() {
                     title={getCardTitle(item.id)}
                     backgroundImage={item.bgImage}
                     hasArrow={item.hasArrow}
-                    onClick={
-                      item.onClickModal
-                        ? () => openSection(item.onClickModal!)
-                        : undefined
-                    }
+                    onClick={item.onClickModal ? () => openSection(item.onClickModal!) : undefined}
                     noPadding={item.noPadding}
                   >
                     {renderCardContent(item.id)}
@@ -279,7 +311,15 @@ function AppContent() {
               transition={{ duration: 0.6, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
               className="mt-8 flex flex-col md:flex-row justify-between items-center text-text-muted text-xs font-medium uppercase tracking-wider gap-4"
             >
-              <p>{t('copyright').replace('{year}', String(new Date().getFullYear()))}</p>
+              <div className="flex items-center gap-3">
+                <p>{t('copyright').replace('{year}', String(new Date().getFullYear()))}</p>
+                <a
+                  href={language === 'es' ? '/blog?lang=es' : '/blog'}
+                  className="transition-colors hover:text-text-main"
+                >
+                  Blog
+                </a>
+              </div>
               <div className="flex items-center gap-2">
                 <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></div>
                 <p>{t('role')}</p>
@@ -298,7 +338,9 @@ function App() {
   return (
     <ErrorBoundary>
       <LanguageProvider>
-        <AppContent />
+        <ThemeProvider>
+          <AppContent />
+        </ThemeProvider>
       </LanguageProvider>
     </ErrorBoundary>
   );

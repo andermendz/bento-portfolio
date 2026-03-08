@@ -1,40 +1,98 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import { useTheme } from '../../components/ThemeContext';
-import { Sun, Moon } from 'lucide-react';
+import { ArrowLeft, Sun, Moon } from 'lucide-react';
+import { LanguageSwitcher } from '../../components/LanguageSwitcher';
+import { LanguageTransition, LanguageContentWrapper } from '../../components/LanguageTransition';
+import { motion, AnimatePresence } from 'framer-motion';
+import { LanguageProvider, useLanguage } from '../../i18n/LanguageContext';
 
-export function BlogLayout() {
+function BlogLayoutContent() {
   const { theme, toggleTheme } = useTheme();
+  const [isLanguageChanging, setIsLanguageChanging] = useState(false);
+  const location = useLocation();
+  const { language } = useLanguage();
+  const isBlogHome = location.pathname === '/';
+  const isSpanish = language === 'es';
+  const backLabel = isBlogHome
+    ? (isSpanish ? 'Volver' : 'Back')
+    : (isSpanish ? 'Volver a artículos' : 'Back to articles');
+  const homeHref = isSpanish ? '/?lang=es' : '/';
+  const blogHomeHref = isSpanish ? '/?lang=es' : '/';
+
+  const handleLanguageChange = () => {
+    setIsLanguageChanging(true);
+    setTimeout(() => {
+      setIsLanguageChanging(false);
+    }, 700);
+  };
 
   return (
     <div className="min-h-screen bg-page text-text-main font-sans selection:bg-primary selection:text-primary-fg transition-colors duration-500 overflow-x-hidden flex flex-col items-center">
-      {/* Header */}
-      <header className="w-full max-w-3xl mx-auto py-8 px-6 flex justify-between items-center z-10">
-        <Link to="/" className="text-2xl font-bold tracking-tight text-text-main hover:opacity-80 transition-opacity">
-          My Blog
+      <LanguageTransition isActive={isLanguageChanging} language={language} />
+
+      {isBlogHome ? (
+        <a
+          href={homeHref}
+          aria-label="Go back"
+          className="fixed top-6 left-6 z-[120] group h-10 px-4 rounded-full bg-card/60 hover:bg-text-main hover:text-page flex items-center gap-2 text-text-main transition-all active:scale-95 border border-border shadow-lg backdrop-blur-xl"
+        >
+          <ArrowLeft size={18} className="group-hover:-translate-x-0.5 transition-transform" />
+          <span className="text-xs sm:text-sm font-bold tracking-tight uppercase tracking-[0.1em]">{backLabel}</span>
+        </a>
+      ) : (
+        <Link
+          to={blogHomeHref}
+          aria-label="Go back"
+          className="fixed top-6 left-6 z-[120] group h-10 px-4 rounded-full bg-card/60 hover:bg-text-main hover:text-page flex items-center gap-2 text-text-main transition-all active:scale-95 border border-border shadow-lg backdrop-blur-xl"
+        >
+          <ArrowLeft size={18} className="group-hover:-translate-x-0.5 transition-transform" />
+          <span className="text-xs sm:text-sm font-bold tracking-tight uppercase tracking-[0.1em]">{backLabel}</span>
         </Link>
-        <div className="flex items-center gap-4">
-          <Link to="/" className="text-sm font-medium text-text-muted hover:text-text-main transition-colors">
-            Home
-          </Link>
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-full bg-card border border-border text-text-main hover:bg-card-hover transition-colors"
-            aria-label="Toggle Theme"
-          >
-            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-        </div>
-      </header>
+      )}
+
+      {/* Floating Language Switcher */}
+      <LanguageSwitcher onLanguageChange={handleLanguageChange} />
+
+      {/* Floating Theme Toggle */}
+      <motion.button
+        className="fixed bottom-6 right-6 z-[120] p-4 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl text-text-main hover:bg-card-hover transition-colors ring-1 ring-white/10"
+        onClick={toggleTheme}
+        aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+        initial={{ opacity: 0, scale: 0, rotate: -180 }}
+        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+        transition={{ duration: 0.5, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        whileHover={{ scale: 1.1, rotate: 10 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        <AnimatePresence mode="wait">
+          {theme === 'dark' ? (
+            <motion.div key="sun" initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: 90 }}>
+              <Sun size={24} />
+            </motion.div>
+          ) : (
+            <motion.div key="moon" initial={{ scale: 0, rotate: 90 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: -90 }}>
+              <Moon size={24} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.button>
 
       {/* Main Content */}
-      <main className="w-full max-w-3xl mx-auto px-6 flex-1">
-        <Outlet />
-      </main>
-
-      {/* Footer */}
-      <footer className="w-full max-w-3xl mx-auto py-12 px-6 mt-16 border-t border-border/50 text-center text-text-muted text-sm">
-        <p>&copy; {new Date().getFullYear()} My Blog. All rights reserved.</p>
-      </footer>
+      <LanguageContentWrapper isChanging={isLanguageChanging}>
+        <main className="w-full max-w-[1320px] 3xl:max-w-[1500px] mx-auto px-6 pt-20 flex-1">
+          <Outlet />
+        </main>
+      </LanguageContentWrapper>
     </div>
+  );
+}
+
+
+export function BlogLayout() {
+  return (
+    <LanguageProvider>
+      <BlogLayoutContent />
+    </LanguageProvider>
   );
 }
