@@ -26,19 +26,20 @@ import { useLanguage } from '../i18n/LanguageContext';
 export const IntroContent: React.FC = () => {
   const { t } = useLanguage();
   
-  // Parse the bio text with styled spans
+  // Data-driven approach for the title to make it easily upgradable
+  const firstName = "Anderson";
+  const lastName = "Mendoza.";
+
+  // Helper to render the bio with highlighted spans
   const renderBio = () => {
     const bioText = t('introBio');
-    const parts = bioText.split(/(<scalable>.*?<\/scalable>|<performance>.*?<\/performance>)/g);
+    // Regex matches any tag-wrapped content for highlighting
+    const parts = bioText.split(/(<[^>]+>.*?<\/[^>]+>)/g);
     
     return parts.map((part, index) => {
-      if (part.startsWith('<scalable>')) {
-        const text = part.replace(/<\/?scalable>/g, '');
-        return <span key={index} className="text-text-main font-semibold">{text}</span>;
-      }
-      if (part.startsWith('<performance>')) {
-        const text = part.replace(/<\/?performance>/g, '');
-        return <span key={index} className="text-text-main font-semibold">{text}</span>;
+      const match = part.match(/<([^>]+)>(.*?)<\/\1>/);
+      if (match) {
+        return <span key={index} className="text-text-main font-semibold">{match[2]}</span>;
       }
       return part;
     });
@@ -53,17 +54,23 @@ export const IntroContent: React.FC = () => {
       {/* Main Content: Name + Bio */}
       <div className="relative z-10 flex flex-col h-full justify-center">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6">
-          <div className="flex flex-col">
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter leading-[0.8] text-text-main animate-fade-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
-              Anderson
-            </h1>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter leading-[0.8] text-text-muted/20 animate-fade-in-up" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
-              Mendoza.
-            </h1>
-          </div>
+          <h1 className="flex flex-col text-4xl sm:text-6xl md:text-7xl 3xl:text-8xl font-black tracking-tighter leading-[0.8]">
+            <span 
+              className="text-text-main animate-fade-in-up"
+              style={{ animationDelay: '0.1s', animationFillMode: 'both' }}
+            >
+              {firstName}
+            </span>
+            <span 
+              className="text-text-muted/20 animate-fade-in-up"
+              style={{ animationDelay: '0.3s', animationFillMode: 'both' }}
+            >
+              {lastName}
+            </span>
+          </h1>
 
-          <div className="max-w-[220px] sm:text-right pb-1">
-            <p className="text-xs sm:text-sm text-text-muted font-medium leading-relaxed opacity-90">
+          <div className="max-w-[220px] 3xl:max-w-[300px] sm:text-right pb-1">
+            <p className="text-xs sm:text-sm 3xl:text-base text-text-muted font-medium leading-relaxed opacity-90">
               {renderBio()}
             </p>
           </div>
@@ -141,41 +148,81 @@ const TechIcon: React.FC<{ icon: React.ReactNode; label: string; hoverColor: str
 export const TechStackContent: React.FC = () => {
   const row1 = [
     { icon: <Code2 size={18} />, label: "React", hoverColor: "#61DAFB" },
-    { icon: <Cpu size={18} />, label: "Next.js", hoverColor: "#ffffff" },
+    { icon: <Cpu size={18} />, label: "Next.js", hoverColor: "#FFFFFF" },
     { icon: <Terminal size={18} />, label: "TypeScript", hoverColor: "#3178C6" },
     { icon: <Layout size={18} />, label: "Tailwind", hoverColor: "#06B6D4" },
-    { icon: <Brain size={18} />, label: "Gemini API", hoverColor: "#8B5CF6" },
-    { icon: <Database size={18} />, label: "PostgreSQL", hoverColor: "#336791" },
+    { icon: <Brain size={18} />, label: "Gemini API", hoverColor: "#8E75FF" },
+    { icon: <Database size={18} />, label: "PostgreSQL", hoverColor: "#4169E1" },
   ];
 
   const row2 = [
-    { icon: <Server size={18} />, label: "Node.js", hoverColor: "#68A063" },
-    { icon: <Code2 size={18} />, label: "Python", hoverColor: "#FFD43B" },
-    { icon: <Database size={18} />, label: "MongoDB", hoverColor: "#00ED64" },
+    { icon: <Server size={18} />, label: "Node.js", hoverColor: "#339933" },
+    { icon: <Code2 size={18} />, label: "Python", hoverColor: "#3776AB" },
+    { icon: <Database size={18} />, label: "MongoDB", hoverColor: "#47A248" },
     { icon: <Layout size={18} />, label: "Framer Motion", hoverColor: "#FF0080" },
     { icon: <Terminal size={18} />, label: "Docker", hoverColor: "#2496ED" },
     { icon: <Database size={18} />, label: "Redis", hoverColor: "#DC382D" },
   ];
 
+  const row3 = [
+    { icon: <Code2 size={18} />, label: "Vue.js", hoverColor: "#41B883" },
+    { icon: <Cpu size={18} />, label: "Svelte", hoverColor: "#FF3E00" },
+    { icon: <Terminal size={18} />, label: "GraphQL", hoverColor: "#E10098" },
+    { icon: <Layout size={18} />, label: "CSS Modules", hoverColor: "#264DE4" },
+    { icon: <Brain size={18} />, label: "OpenAI", hoverColor: "#FFFFFF" },
+    { icon: <Server size={18} />, label: "AWS", hoverColor: "#FF9900" },
+  ];
+
+  const row4 = [
+    { icon: <Terminal size={18} />, label: "Linux", hoverColor: "#FCC624" },
+    { icon: <Layout size={18} />, label: "Figma", hoverColor: "#A259FF" },
+    { icon: <Code2 size={18} />, label: "Jest", hoverColor: "#C21325" },
+    { icon: <Server size={18} />, label: "Supabase", hoverColor: "#3ECF8E" },
+    { icon: <Cpu size={18} />, label: "Vercel", hoverColor: "#FFFFFF" },
+    { icon: <Database size={18} />, label: "Prisma", hoverColor: "#16A394" },
+  ];
+
   return (
-    <div className="flex flex-col flex-1 justify-center w-full relative overflow-hidden mask-linear-fade py-2">
-      {/* Row 1 */}
-      <div className="flex gap-4 overflow-x-hidden overflow-y-visible w-full mb-4 py-1">
-        <div className="flex shrink-0 animate-marquee items-center gap-4">
-          {row1.map((item, i) => <TechIcon key={`r1-${i}`} {...item} />)}
+    <div className="flex flex-col flex-1 items-center justify-center w-full h-full relative overflow-hidden mask-linear-fade py-2 sm:py-0">
+      <div className="flex flex-col gap-4 sm:gap-5 3xl:gap-8 w-[110%] -rotate-[4deg] scale-[1.05] 3xl:scale-[1.15]">
+        {/* Row 1 */}
+        <div className="flex gap-4 sm:gap-5 overflow-x-hidden overflow-y-visible w-full py-1">
+          <div className="flex shrink-0 animate-marquee items-center gap-4 sm:gap-5" style={{ animationDuration: '30s' }}>
+            {row1.map((item, i) => <TechIcon key={`r1-${i}`} {...item} />)}
+          </div>
+          <div className="flex shrink-0 animate-marquee items-center gap-4 sm:gap-5" style={{ animationDuration: '30s' }}>
+            {row1.map((item, i) => <TechIcon key={`r1-d-${i}`} {...item} />)}
+          </div>
         </div>
-        <div className="flex shrink-0 animate-marquee items-center gap-4">
-          {row1.map((item, i) => <TechIcon key={`r1-d-${i}`} {...item} />)}
+    
+        {/* Row 2 */}
+        <div className="flex gap-4 sm:gap-5 overflow-x-hidden overflow-y-visible w-full py-1">
+          <div className="flex shrink-0 animate-marquee-reverse items-center gap-4 sm:gap-5" style={{ animationDuration: '35s' }}>
+            {row2.map((item, i) => <TechIcon key={`r2-${i}`} {...item} />)}
+          </div>
+          <div className="flex shrink-0 animate-marquee-reverse items-center gap-4 sm:gap-5" style={{ animationDuration: '35s' }}>
+            {row2.map((item, i) => <TechIcon key={`r2-d-${i}`} {...item} />)}
+          </div>
         </div>
-      </div>
-  
-      {/* Row 2 */}
-      <div className="flex gap-4 overflow-x-hidden overflow-y-visible w-full py-1">
-        <div className="flex shrink-0 animate-marquee-reverse items-center gap-4">
-          {row2.map((item, i) => <TechIcon key={`r2-${i}`} {...item} />)}
+
+        {/* Row 3 */}
+        <div className="flex gap-4 sm:gap-5 overflow-x-hidden overflow-y-visible w-full py-1">
+          <div className="flex shrink-0 animate-marquee items-center gap-4 sm:gap-5" style={{ animationDuration: '40s' }}>
+            {row3.map((item, i) => <TechIcon key={`r3-${i}`} {...item} />)}
+          </div>
+          <div className="flex shrink-0 animate-marquee items-center gap-4 sm:gap-5" style={{ animationDuration: '40s' }}>
+            {row3.map((item, i) => <TechIcon key={`r3-d-${i}`} {...item} />)}
+          </div>
         </div>
-        <div className="flex shrink-0 animate-marquee-reverse items-center gap-4">
-          {row2.map((item, i) => <TechIcon key={`r2-d-${i}`} {...item} />)}
+
+        {/* Row 4 */}
+        <div className="flex gap-4 sm:gap-5 overflow-x-hidden overflow-y-visible w-full py-1">
+          <div className="flex shrink-0 animate-marquee-reverse items-center gap-4 sm:gap-5" style={{ animationDuration: '28s' }}>
+            {row4.map((item, i) => <TechIcon key={`r4-${i}`} {...item} />)}
+          </div>
+          <div className="flex shrink-0 animate-marquee-reverse items-center gap-4 sm:gap-5" style={{ animationDuration: '28s' }}>
+            {row4.map((item, i) => <TechIcon key={`r4-d-${i}`} {...item} />)}
+          </div>
         </div>
       </div>
     </div>
@@ -212,7 +259,7 @@ export const AboutContent: React.FC = () => {
         <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-card flex items-center justify-center text-text-main border border-border shadow-sm">
           <Sparkles size={16} className="sm:w-[18px] sm:h-[18px]" strokeWidth={1.5} />
         </div>
-        <p className="text-base sm:text-xl md:text-2xl font-medium text-text-main leading-tight tracking-tight">
+        <p className="text-base sm:text-xl md:text-2xl 3xl:text-3xl font-medium text-text-main leading-tight tracking-tight">
           {renderPhrase()}
         </p>
       </div>
@@ -233,7 +280,7 @@ export const ExperienceContent: React.FC = () => {
         </div>
         <div>
           <p className="text-text-main font-bold text-sm sm:text-base md:text-lg leading-none mb-0.5 sm:mb-1">Visbl</p>
-          <p className="text-text-muted text-[9px] sm:text-[10px] md:text-xs font-semibold uppercase tracking-wide">{t('softwareDeveloper')}</p>
+          <p className="text-text-muted text-[9px] sm:text-[10px] md:text-xs font-semibold uppercase tracking-wide">{t('technicalLead')}</p>
         </div>
       </div>
       <div className="w-full h-px bg-border"></div>

@@ -131,11 +131,10 @@ function AppContent() {
     { id: 'intro', colSpan: 'col-span-2 sm:col-span-2' },
     { id: 'photo', colSpan: 'col-span-1', bgImage: "/profile.png" },
     { id: 'socials', colSpan: 'col-span-1' },
+    { id: 'stack', colSpan: 'col-span-2 sm:col-span-2', rowSpan: 'row-span-2', hasArrow: true, onClickModal: 'stack' },
     { id: 'about', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'about' },
     { id: 'experience', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'experience' },
-    { id: 'stack', colSpan: 'col-span-2 sm:col-span-2', hasArrow: true, onClickModal: 'stack' },
     { id: 'education', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'education' },
-    { id: 'projects', colSpan: 'col-span-2 sm:col-span-2', hasArrow: true, onClickModal: 'projects' },
     { id: 'map', colSpan: 'col-span-1', noPadding: true },
   ];
 
@@ -196,7 +195,7 @@ function AppContent() {
 
   return (
     <div 
-      className={`min-h-screen bg-page text-text-main p-4 pt-8 md:p-6 md:pt-12 font-sans selection:bg-primary selection:text-primary-fg transition-colors duration-500 overflow-x-hidden flex flex-col items-center ${activeSection ? 'overflow-y-hidden' : ''}`}
+      className={`min-h-screen bg-page text-text-main p-4 pt-8 md:p-6 md:pt-12 3xl:pt-20 font-sans selection:bg-primary selection:text-primary-fg transition-colors duration-500 overflow-x-hidden flex flex-col items-center ${activeSection ? 'overflow-y-hidden' : ''}`}
     >
       {/* Language Transition Effect */}
       <LanguageTransition isActive={isLanguageChanging} language={language} />
@@ -229,7 +228,7 @@ function AppContent() {
       </motion.button>
 
       <LanguageContentWrapper isChanging={isLanguageChanging}>
-        <div className={`w-full max-w-[1320px] mx-auto pb-24 sm:pb-6 ${activeSection ? 'flex-1 flex flex-col min-h-0' : ''}`}>
+        <div className={`w-full max-w-[1320px] 3xl:max-w-[1500px] mx-auto pb-24 sm:pb-6 ${activeSection ? 'flex-1 flex flex-col min-h-0' : ''}`}>
           
           <AnimatePresence mode="wait" initial={false}>
             {activeSection ? (
@@ -251,7 +250,7 @@ function AppContent() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.22 }}
-                className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 auto-rows-[152px] sm:auto-rows-[190px] md:auto-rows-[237px] grid-flow-row-dense"
+                className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 3xl:gap-6 auto-rows-[152px] sm:auto-rows-[190px] md:auto-rows-[237px] 3xl:auto-rows-[280px] grid-flow-row-dense"
                 style={{ viewTransitionName: 'bento-grid' }}
               >
                 {items.map((item, index) => (

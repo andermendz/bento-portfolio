@@ -62,7 +62,7 @@ export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
         }
         
         // Rotation
-        state.phi = phiRef.current + 0.004;
+        state.phi = phiRef.current + 0.002;
         phiRef.current = state.phi;
 
         // Origin (Cartagena, Colombia)

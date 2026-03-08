@@ -3,7 +3,9 @@ export default {
   content: [
     "./index.html",
     "./App.tsx",
+    "./BlogApp.tsx",
     "./index.tsx",
+    "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
     "./hooks/**/*.{js,ts,jsx,tsx}",
     "./i18n/**/*.{js,ts,jsx,tsx}",
@@ -11,6 +13,9 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      screens: {
+        '3xl': '1921px',
+      },
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
       },
@@ -52,6 +57,8 @@ export default {
       }
     }
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 }
 

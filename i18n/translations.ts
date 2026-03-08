@@ -57,6 +57,7 @@ export const translations = {
     
     // Experience
     experienceTitle: 'Experience',
+    technicalLead: 'Technical Lead',
     softwareDeveloper: 'Software Developer',
     fullStackDev: 'Full-stack Dev',
     
@@ -172,6 +173,7 @@ export const translations = {
     
     // Experience
     experienceTitle: 'Experiencia',
+    technicalLead: 'Líder Técnico',
     softwareDeveloper: 'Desarrollador de Software',
     fullStackDev: 'Desarrollador Full-stack',
     
