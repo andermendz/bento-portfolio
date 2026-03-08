@@ -6,7 +6,7 @@ export const translations = {
   en: {
     // Intro
     availableForWork: 'Available for work',
-    introBio: 'Systems Engineer building <scalable>scalable</scalable>, <performance>high-performance</performance> digital experiences.',
+    introBio: 'Lead Systems Engineer building <scalable>scalable</scalable>, <performance>high-performance</performance> digital experiences.',
     
     // Socials
     letsConnect: "Let's connect",
@@ -97,7 +97,7 @@ export const translations = {
   es: {
     // Intro
     availableForWork: 'Disponible para trabajar',
-    introBio: 'Ingeniero de Sistemas creando experiencias digitales <scalable>escalables</scalable> y de <performance>alto rendimiento</performance>.',
+    introBio: 'Lead Systems Engineer creando experiencias digitales <scalable>escalables</scalable> y de <performance>alto rendimiento</performance>.',
     
     // Socials
     letsConnect: 'Conectemos',
