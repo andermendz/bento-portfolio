@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { getBlogPosts, getFeaturedBlogPost, type BlogLocale } from '../../content/blog';
 import { SEO } from '../../components/SEO';
-import { BLOG_KEYWORDS, absoluteUrl, buildBreadcrumbSchema, SITE_NAME } from '../../config/seo';
+import { BLOG_KEYWORDS, absoluteUrl, blogAbsoluteUrl, buildBreadcrumbSchema, SITE_NAME } from '../../config/seo';
 import { useLanguage } from '../../i18n/LanguageContext';
 
 export function BlogHome() {
@@ -11,7 +11,7 @@ export function BlogHome() {
   const posts = getBlogPosts(blogLocale);
   const featuredPost = getFeaturedBlogPost(blogLocale);
   const remainingPosts = posts.filter((post) => post.slug !== featuredPost?.slug);
-  const blogUrl = absoluteUrl(isSpanish ? '/blog?lang=es' : '/blog');
+  const blogUrl = blogAbsoluteUrl(isSpanish ? '/?lang=es' : '/');
   const blogDescription = isSpanish
     ? 'Notas aplicadas sobre comportamiento de IA, ventanas de contexto, economía de tokens, alucinaciones, modelos de razonamiento y los detalles técnicos detrás de productos reales con IA.'
     : 'Applied notes on AI behavior, context windows, token economics, hallucinations, reasoning models, and the technical details behind real AI products.';
@@ -33,10 +33,10 @@ export function BlogHome() {
   const blogSchemas = [
     {
       '@context': 'https://schema.org',
-      '@type': 'Blog',
-      name: `${SITE_NAME} ${ui.siteBlogName}`,
-      description: blogDescription,
-      url: blogUrl,
+        '@type': 'Blog',
+        name: `${SITE_NAME} ${ui.siteBlogName}`,
+        description: blogDescription,
+        url: blogUrl,
       inLanguage: isSpanish ? 'es' : 'en',
       author: {
         '@type': 'Person',
@@ -71,7 +71,7 @@ export function BlogHome() {
       itemListElement: posts.map((post, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: absoluteUrl(isSpanish ? `/blog/${post.slug}?lang=es` : `/blog/${post.slug}`),
+        url: blogAbsoluteUrl(isSpanish ? `/${post.slug}?lang=es` : `/${post.slug}`),
         name: post.title,
       })),
     },
@@ -89,11 +89,11 @@ export function BlogHome() {
         ogImage={featuredPost?.coverImage ? absoluteUrl(featuredPost.coverImage) : undefined}
         ogImageAlt={featuredPost?.coverAlt}
         twitterCard={featuredPost?.coverImage ? 'summary_large_image' : 'summary'}
-        rssFeed={absoluteUrl('/rss.xml')}
+        rssFeed={blogAbsoluteUrl('/rss.xml')}
         alternates={[
-          { hrefLang: 'en', href: absoluteUrl('/blog') },
-          { hrefLang: 'es', href: absoluteUrl('/blog?lang=es') },
-          { hrefLang: 'x-default', href: absoluteUrl('/blog') },
+          { hrefLang: 'en', href: blogAbsoluteUrl('/') },
+          { hrefLang: 'es', href: blogAbsoluteUrl('/?lang=es') },
+          { hrefLang: 'x-default', href: blogAbsoluteUrl('/') },
         ]}
         schemaData={blogSchemas}
       />

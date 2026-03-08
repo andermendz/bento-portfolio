@@ -314,7 +314,7 @@ function AppContent() {
               <div className="flex items-center gap-3">
                 <p>{t('copyright').replace('{year}', String(new Date().getFullYear()))}</p>
                 <a
-                  href={language === 'es' ? '/blog?lang=es' : '/blog'}
+                  href={language === 'es' ? 'https://blog.andermendz.dev/?lang=es' : 'https://blog.andermendz.dev/'}
                   className="transition-colors hover:text-text-main"
                 >
                   Blog

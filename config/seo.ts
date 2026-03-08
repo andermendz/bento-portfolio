@@ -1,4 +1,5 @@
 export const SITE_URL = 'https://andermendz.dev';
+export const BLOG_URL = 'https://blog.andermendz.dev';
 export const SITE_NAME = 'Anderson Mendoza';
 export const SITE_TITLE = 'Anderson Mendoza | Full-Stack Engineer, AI Builder, and Technical Lead';
 export const SITE_DESCRIPTION = 'Portfolio and blog of Anderson Mendoza, a full-stack engineer and AI product builder from Cartagena, Colombia specializing in React, TypeScript, Node.js, and LLM-powered applications.';
@@ -39,6 +40,15 @@ export function absoluteUrl(path = '/') {
 
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   return `${SITE_URL}${normalizedPath}`;
+}
+
+export function blogAbsoluteUrl(path = '/') {
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path;
+  }
+
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return `${BLOG_URL}${normalizedPath}`;
 }
 
 export function getLocale(language: 'en' | 'es' = 'en') {

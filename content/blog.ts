@@ -87,7 +87,7 @@ function parseFileName(filePath: string) {
 
 function buildTranslationUrls(baseSlug: string, locales: BlogLocale[]) {
   return locales.reduce<Partial<Record<BlogLocale, string>>>((accumulator, locale) => {
-    accumulator[locale] = locale === 'es' ? `/blog/${baseSlug}?lang=es` : `/blog/${baseSlug}`;
+    accumulator[locale] = locale === 'es' ? `/${baseSlug}?lang=es` : `/${baseSlug}`;
     return accumulator;
   }, {});
 }

@@ -17,7 +17,7 @@ function BlogLayoutContent() {
   const backLabel = isBlogHome
     ? (isSpanish ? 'Volver' : 'Back')
     : (isSpanish ? 'Volver a artículos' : 'Back to articles');
-  const homeHref = isSpanish ? '/?lang=es' : '/';
+  const homeHref = isSpanish ? 'https://andermendz.dev/?lang=es' : 'https://andermendz.dev/';
   const blogHomeHref = isSpanish ? '/?lang=es' : '/';
 
   const handleLanguageChange = () => {

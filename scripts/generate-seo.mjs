@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import fm from 'front-matter';
 
 const SITE_URL = 'https://andermendz.dev';
+const BLOG_URL = 'https://blog.andermendz.dev';
 const SITE_NAME = 'Anderson Mendoza';
 const BLOG_TITLE = `${SITE_NAME} Blog`;
 const SUPPORTED_LOCALES = ['en', 'es'];
@@ -15,6 +16,10 @@ const publicDir = path.join(rootDir, 'public');
 
 function absoluteUrl(inputPath = '/') {
   return `${SITE_URL}${inputPath.startsWith('/') ? inputPath : `/${inputPath}`}`;
+}
+
+function blogAbsoluteUrl(inputPath = '/') {
+  return `${BLOG_URL}${inputPath.startsWith('/') ? inputPath : `/${inputPath}`}`;
 }
 
 function xmlEscape(value = '') {
@@ -108,13 +113,13 @@ function generateSitemap(posts) {
       priority: '0.9',
     },
     {
-      loc: absoluteUrl('/blog'),
+      loc: blogAbsoluteUrl('/'),
       lastmod: latestDate,
       changefreq: 'weekly',
       priority: '0.8',
     },
     {
-      loc: absoluteUrl('/blog?lang=es'),
+      loc: blogAbsoluteUrl('/?lang=es'),
       lastmod: latestDate,
       changefreq: 'weekly',
       priority: '0.7',
@@ -123,7 +128,7 @@ function generateSitemap(posts) {
       const variant = post.locales.get(locale) ?? post.primary;
 
       return {
-      loc: absoluteUrl(locale === 'es' ? `/blog/${post.slug}?lang=es` : `/blog/${post.slug}`),
+      loc: blogAbsoluteUrl(locale === 'es' ? `/${post.slug}?lang=es` : `/${post.slug}`),
       lastmod: variant.modifiedDate,
       changefreq: 'monthly',
       priority: '0.7',
@@ -158,16 +163,16 @@ function generateRss(posts) {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${xmlEscape(BLOG_TITLE)}</title>
-    <link>${xmlEscape(absoluteUrl('/blog'))}</link>
+    <link>${xmlEscape(blogAbsoluteUrl('/'))}</link>
     <description>${xmlEscape('Technical notes on AI systems, LLM behavior, context windows, and product engineering.')}</description>
     <language>en-us</language>
     <lastBuildDate>${xmlEscape(new Date(latestDate).toUTCString())}</lastBuildDate>
-    <atom:link href="${xmlEscape(absoluteUrl('/rss.xml'))}" rel="self" type="application/rss+xml" />
+    <atom:link href="${xmlEscape(blogAbsoluteUrl('/rss.xml'))}" rel="self" type="application/rss+xml" />
 ${englishPosts
   .map((post) => `    <item>
       <title>${xmlEscape(post.title)}</title>
-      <link>${xmlEscape(absoluteUrl(`/blog/${post.slug}`))}</link>
-      <guid isPermaLink="true">${xmlEscape(absoluteUrl(`/blog/${post.slug}`))}</guid>
+      <link>${xmlEscape(blogAbsoluteUrl(`/${post.slug}`))}</link>
+      <guid isPermaLink="true">${xmlEscape(blogAbsoluteUrl(`/${post.slug}`))}</guid>
       <pubDate>${xmlEscape(new Date(post.publishedDate).toUTCString())}</pubDate>
       <description>${cdata(post.excerpt)}</description>
     </item>`)

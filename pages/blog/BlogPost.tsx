@@ -5,7 +5,7 @@ import type { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { getBlogPost, type BlogLocale } from '../../content/blog';
 import { SEO } from '../../components/SEO';
-import { absoluteUrl, buildBreadcrumbSchema, SITE_NAME } from '../../config/seo';
+import { absoluteUrl, blogAbsoluteUrl, buildBreadcrumbSchema, SITE_NAME } from '../../config/seo';
 import { useLanguage } from '../../i18n/LanguageContext';
 
 interface TocItem {
@@ -157,7 +157,7 @@ export function BlogPost() {
     );
   }
 
-  const articleUrl = absoluteUrl(isSpanish ? `/blog/${post.slug}?lang=es` : `/blog/${post.slug}`);
+  const articleUrl = blogAbsoluteUrl(isSpanish ? `/${post.slug}?lang=es` : `/${post.slug}`);
   const articleImage = post.coverImage ? absoluteUrl(post.coverImage) : absoluteUrl('/profile.png');
   const articleSchemas = [
     {
@@ -194,7 +194,7 @@ export function BlogPost() {
     },
     buildBreadcrumbSchema([
       { name: isSpanish ? 'Inicio' : 'Home', item: absoluteUrl(isSpanish ? '/?lang=es' : '/') },
-      { name: 'Blog', item: absoluteUrl(isSpanish ? '/blog?lang=es' : '/blog') },
+      { name: 'Blog', item: blogAbsoluteUrl(isSpanish ? '/?lang=es' : '/') },
       { name: post.title, item: articleUrl },
     ]),
   ];
@@ -217,9 +217,9 @@ export function BlogPost() {
         twitterCard={post.coverImage ? 'summary_large_image' : 'summary'}
         canonical={articleUrl}
         alternates={[
-          ...(post.translationUrls.en ? [{ hrefLang: 'en', href: absoluteUrl(post.translationUrls.en) }] : []),
-          ...(post.translationUrls.es ? [{ hrefLang: 'es', href: absoluteUrl(post.translationUrls.es) }] : []),
-          { hrefLang: 'x-default', href: absoluteUrl(post.translationUrls.en ?? `/blog/${post.slug}`) },
+          ...(post.translationUrls.en ? [{ hrefLang: 'en', href: blogAbsoluteUrl(post.translationUrls.en) }] : []),
+          ...(post.translationUrls.es ? [{ hrefLang: 'es', href: blogAbsoluteUrl(post.translationUrls.es) }] : []),
+          { hrefLang: 'x-default', href: blogAbsoluteUrl(post.translationUrls.en ?? `/${post.slug}`) },
         ]}
         schemaData={articleSchemas}
       />
