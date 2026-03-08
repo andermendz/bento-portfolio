@@ -130,7 +130,7 @@ export const SocialsContent: React.FC = () => {
 const TechIcon: React.FC<{ icon: React.ReactNode; label: string; hoverColor: string }> = ({ icon, label, hoverColor }) => (
   <div 
     className="group/tech flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl bg-card-hover border border-border/50 shrink-0 shadow-sm cursor-default transition-all duration-300 hover:scale-105 hover:shadow-md hover:border-[var(--hover-color)]"
-    style={{ ['--hover-color' as string]: hoverColor }}
+    style={{ ['--hover-color' as string]: hoverColor.startsWith('var(') ? hoverColor : hoverColor }}
   >
     <span className="text-text-muted transition-colors duration-300 group-hover/tech:text-[var(--hover-color)]">
       {icon}
@@ -146,7 +146,7 @@ const TechIcon: React.FC<{ icon: React.ReactNode; label: string; hoverColor: str
 export const TechStackContent: React.FC = () => {
   const row1 = [
     { icon: <Code2 size={18} />, label: "React", hoverColor: "#61DAFB" },
-    { icon: <Cpu size={18} />, label: "Next.js", hoverColor: "#FFFFFF" },
+    { icon: <Cpu size={18} />, label: "Next.js", hoverColor: "var(--next-hover)" },
     { icon: <Terminal size={18} />, label: "TypeScript", hoverColor: "#3178C6" },
     { icon: <Layout size={18} />, label: "Tailwind", hoverColor: "#06B6D4" },
     { icon: <Brain size={18} />, label: "Gemini API", hoverColor: "#8E75FF" },
@@ -167,7 +167,7 @@ export const TechStackContent: React.FC = () => {
     { icon: <Cpu size={18} />, label: "Svelte", hoverColor: "#FF3E00" },
     { icon: <Terminal size={18} />, label: "GraphQL", hoverColor: "#E10098" },
     { icon: <Layout size={18} />, label: "CSS Modules", hoverColor: "#264DE4" },
-    { icon: <Brain size={18} />, label: "OpenAI", hoverColor: "#FFFFFF" },
+    { icon: <Brain size={18} />, label: "OpenAI", hoverColor: "var(--ai-hover)" },
     { icon: <Server size={18} />, label: "AWS", hoverColor: "#FF9900" },
   ];
 

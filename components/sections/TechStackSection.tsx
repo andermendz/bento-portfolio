@@ -32,7 +32,7 @@ export const TechStackSection: React.FC = () => {
             <div className="flex flex-wrap gap-3">
               {[
                 { name: 'React', color: '#61DAFB' },
-                { name: 'Next.js', color: '#FFFFFF' },
+                { name: 'Next.js', color: 'var(--next-hover)' },
                 { name: 'TypeScript', color: '#3178C6' },
                 { name: 'Tailwind CSS', color: '#06B6D4' },
                 { name: 'Vue.js', color: '#41B883' },
@@ -72,7 +72,7 @@ export const TechStackSection: React.FC = () => {
             <div className="flex flex-wrap gap-3">
               {[
                 { name: 'Gemini API', color: '#8E75FF' },
-                { name: 'OpenAI', color: '#FFFFFF' },
+                { name: 'OpenAI', color: 'var(--ai-hover)' },
                 { name: 'PyTorch', color: '#EE4C2C' },
                 { name: 'TensorFlow', color: '#FF6F00' },
                 { name: 'LangChain', color: '#3BE0C0' },
@@ -95,7 +95,7 @@ export const TechStackSection: React.FC = () => {
                 { name: 'Redis', color: '#DC382D' },
                 { name: 'Supabase', color: '#3ECF8E' },
                 { name: 'Prisma', color: '#16A394' },
-                { name: 'Pinecone', color: '#FFFFFF' },
+                { name: 'Pinecone', color: 'var(--ai-hover)' },
               ].map(tech => (
                 <TechTag key={tech.name} name={tech.name} color={tech.color} />
               ))}
@@ -111,9 +111,10 @@ const TechTag: React.FC<{ name: string; color: string }> = ({ name, color }) => 
   <span 
     className="px-5 py-2.5 rounded-xl bg-card-hover text-text-muted text-xs font-bold border border-border transition-all duration-300 cursor-default hover:scale-105 hover:text-text-main"
     onMouseEnter={(e) => {
-      e.currentTarget.style.color = color;
-      e.currentTarget.style.borderColor = `${color}40`;
-      e.currentTarget.style.boxShadow = `0 0 15px ${color}15`;
+      const targetColor = color.startsWith('var(') ? getComputedStyle(document.documentElement).getPropertyValue(color.match(/\(([^)]+)\)/)![1]).trim() : color;
+      e.currentTarget.style.color = targetColor;
+      e.currentTarget.style.borderColor = `${targetColor}40`;
+      e.currentTarget.style.boxShadow = `0 0 15px ${targetColor}15`;
     }}
     onMouseLeave={(e) => {
       e.currentTarget.style.color = '';

@@ -13,6 +13,8 @@
   --text-main: #1a1a1a;
   --text-muted: #666666;
   --overlay: rgba(245, 244, 241, 0.85);
+  --next-hover: #000000;
+  --ai-hover: #000000;
 }
 
 .dark {
@@ -26,6 +28,8 @@
   --text-main: #ededed;
   --text-muted: #909090;
   --overlay: rgba(8, 8, 8, 0.9);
+  --next-hover: #ffffff;
+  --ai-hover: #ffffff;
 }
 
 body {
