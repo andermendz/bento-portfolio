@@ -62,7 +62,7 @@ A veces una palabra corta es un token. A veces una palabra larga se divide en va
 Una persona normal puede pegar esto en un asistente de IA:
 
 ```text
-Please rewrite this message to sound more professional but still warm.
+Reescribe este mensaje para que suene más profesional, pero manteniendo un tono cercano.
 ```
 
 Y debajo pegar una cadena de 20 correos.
@@ -142,14 +142,12 @@ Por eso puede sonar muy informado y aun así estar equivocado.
 Alguien pregunta:
 
 ```text
-Can you summarize the cancellation policy from this document?
+¿Puedes resumir la política de cancelación de este documento?
 ```
 
 Si el documento está sucio, incompleto o fue mal extraído, el modelo puede producir una respuesta que *suena exactamente como una política de cancelación* aunque la fuente no lo respalde del todo.
 
-No es porque sea malvado o flojo. Es porque su trabajo es continuar el patrón con la respuesta que parezca más plausible.
-
-Ahí aparecen las alucinaciones.
+Eso no sucede porque el modelo sea malvado o perezoso, sino porque su trabajo es completar el patrón con la respuesta que parezca más plausible. Es en ese proceso donde surgen las alucinaciones.
 
 ## 6. Las alucinaciones suelen ser conjeturas muy pulidas
 
@@ -169,7 +167,7 @@ Las alucinaciones suelen pasar cuando:
 Un estudiante sube apuntes de clase y pregunta:
 
 ```text
-What were the professor's three main criticisms of the article?
+¿Cuáles fueron las tres críticas principales del profesor al artículo?
 ```
 
 Si los apuntes solo mencionan una crítica claramente y dejan dos insinuadas de forma vaga, el modelo puede igual darte una respuesta limpia en tres partes porque esa forma se siente estadísticamente natural.
@@ -189,14 +187,14 @@ A la gente le encantan los hacks de prompts, pero la mejora más útil suele ser
 En vez de esto:
 
 ```text
-Summarize this document.
+Resume este documento.
 ```
 
 Haz esto:
 
 ```text
-Summarize this document in 5 bullets. If a claim is uncertain, say so explicitly.
-Only use information that appears in the text provided.
+Resume este documento en 5 viñetas. Si una afirmación es incierta, indícalo explícitamente.
+Usa solo la información que aparece en el texto proporcionado.
 ```
 
 Eso no vuelve perfecto al modelo, pero reduce el espacio donde puede aparecer una respuesta convincente pero inventada.
@@ -248,7 +246,7 @@ La diferencia suele estar en cómo fueron entrenados, afinados o guiados para tr
 Si preguntas:
 
 ```text
-Should I buy or lease a car if I drive 12,000 miles a year and plan to keep it for 6 years?
+¿Me conviene comprar o arrendar un carro si manejo 12.000 millas al año y planeo tenerlo durante 6 años?
 ```
 
 Un modelo normal puede darte una respuesta suave y genérica muy rápido.
@@ -321,9 +319,9 @@ No es lo mismo que hacer la acción realmente.
 
 ```json
 {
-  "tool": "checkWeather",
-  "arguments": {
-    "city": "Cartagena"
+  "herramienta": "consultarClima",
+  "argumentos": {
+    "ciudad": "Cartagena"
   }
 }
 ```

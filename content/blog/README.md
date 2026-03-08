@@ -69,6 +69,10 @@ When you publish a new article, use this order:
 - Preserve major section structure so both variants stay easy to maintain.
 - If you adjust examples heavily in one language, make sure the core meaning still matches.
 - Tags can be localized if that improves readability on the rendered page.
+- Keep each file fully in its own language:
+  - `.en.md` should be fully English.
+  - `.es.md` should be fully Spanish.
+- Avoid mixed-language prompts in examples; localize prompt/code-block text too when it is natural language.
 
 ## Writing conventions
 
