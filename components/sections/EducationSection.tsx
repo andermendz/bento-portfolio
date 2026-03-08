@@ -9,11 +9,11 @@ export const EducationSection: React.FC = () => {
     <section className="px-5 sm:px-10 lg:px-16 3xl:px-24">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
-        <header className="mb-10 sm:mb-16 text-center sm:text-left">
-          <h1 className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-6">
+        <header className="mb-5 sm:mb-7 lg:mb-9 3xl:mb-16 text-center sm:text-left">
+          <h1 className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-4 3xl:mb-6">
             {t('educationTitle')}
           </h1>
-          <h2 id="section-title-education" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl 3xl:text-7xl font-black text-text-main leading-[0.9] tracking-tighter mb-8 sm:mb-10">
+          <h2 id="section-title-education" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl 3xl:text-7xl font-black text-text-main leading-[0.9] tracking-tighter mb-5 3xl:mb-10">
             {t('academicBackground').split(' ')[0]}
             <br />
             <span className="text-text-muted/20">{t('academicBackground').split(' ')[1]}</span>
@@ -23,10 +23,10 @@ export const EducationSection: React.FC = () => {
           </p>
         </header>
 
-        <div className="space-y-10 sm:space-y-16 relative">
+        <div className="space-y-5 sm:space-y-7 lg:space-y-9 3xl:space-y-16 relative">
           {/* Main Degree */}
           <article className="group relative">
-            <div className="flex flex-col md:flex-row md:items-start gap-8 sm:gap-12">
+            <div className="flex flex-col md:flex-row md:items-start gap-6 sm:gap-8 lg:gap-10 3xl:gap-12">
               <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-[24px] bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0 group-hover:scale-105 transition-transform duration-500">
                 <GraduationCap size={32} strokeWidth={1.5} />
               </div>

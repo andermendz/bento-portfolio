@@ -189,7 +189,7 @@ function AppContent() {
 
   return (
     <div 
-      className={`min-h-screen bg-page text-text-main p-4 pt-8 md:p-6 md:pt-12 3xl:pt-20 font-sans selection:bg-primary selection:text-primary-fg transition-colors duration-500 overflow-x-hidden flex flex-col items-center ${activeSection ? 'overflow-y-hidden' : ''}`}
+      className={`min-h-screen bg-page text-text-main p-4 pt-8 md:p-6 md:pt-16 3xl:pt-20 font-sans selection:bg-primary selection:text-primary-fg transition-colors duration-500 overflow-x-hidden flex flex-col items-center ${activeSection ? 'overflow-y-hidden' : ''}`}
     >
       {/* Language Transition Effect */}
       <LanguageTransition isActive={isLanguageChanging} language={language} />

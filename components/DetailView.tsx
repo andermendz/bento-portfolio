@@ -74,7 +74,7 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type }) => {
     <motion.div
       ref={modalRef}
       layout
-      className="relative w-full min-h-[calc(100vh-8rem)] sm:min-h-[75vh] max-h-[calc(100vh-8rem)] sm:max-h-[88vh] bg-card rounded-[24px] sm:rounded-[40px] border border-border overflow-hidden flex flex-col shadow-2xl ring-1 ring-white/10 transform-gpu will-change-[transform,height,opacity] flex-1"
+      className="relative w-full min-h-[calc(100vh-8rem)] sm:min-h-[70vh] max-h-[calc(100vh-8rem)] sm:max-h-[82vh] 3xl:max-h-[88vh] bg-card rounded-[24px] sm:rounded-[40px] border border-border overflow-hidden flex flex-col shadow-2xl ring-1 ring-white/10 transform-gpu will-change-[transform,height,opacity] flex-1"
       tabIndex={-1}
       role="region"
       aria-labelledby={`section-title-${type}`}
@@ -116,7 +116,7 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type }) => {
         )}
       </AnimatePresence>
 
-      <div className="flex flex-col w-full min-h-0 flex-1 overflow-y-auto overscroll-contain touch-pan-y relative z-10 modal-scroll pt-16 sm:pt-20 lg:pt-24 3xl:pt-32 pb-10 sm:pb-12 lg:pb-16 3xl:pb-24">
+      <div className="flex flex-col w-full min-h-0 flex-1 overflow-y-auto overscroll-contain touch-pan-y relative z-10 modal-scroll pt-16 sm:pt-20 lg:pt-24 3xl:pt-32 pb-8 sm:pb-10 lg:pb-12 3xl:pb-24">
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none"></div>
         <Suspense fallback={null}>
           <MountNotifier onMount={() => setIsReady(true)}>

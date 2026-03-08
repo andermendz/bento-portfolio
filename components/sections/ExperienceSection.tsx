@@ -9,11 +9,11 @@ export const ExperienceSection: React.FC = () => {
     <section className="px-5 sm:px-10 lg:px-16 3xl:px-24">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
-        <header className="mb-8 sm:mb-12 3xl:mb-16 text-center sm:text-left">
-          <h1 className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-4 3xl:mb-6">
+        <header className="mb-4 sm:mb-6 lg:mb-8 3xl:mb-16 text-center sm:text-left">
+          <h1 className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-3 3xl:mb-6">
             {t('experienceTitle')}
           </h1>
-          <h2 id="section-title-experience" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl 3xl:text-7xl font-black text-text-main leading-[0.9] tracking-tighter mb-6 3xl:mb-10">
+          <h2 id="section-title-experience" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl 3xl:text-7xl font-black text-text-main leading-[0.9] tracking-tighter mb-4 3xl:mb-10">
             {t('workExperience')}
             <br />
             <span className="text-text-muted/20">{t('softwareDeveloper')}</span>
@@ -23,7 +23,7 @@ export const ExperienceSection: React.FC = () => {
           </p>
         </header>
 
-        <div className="space-y-8 sm:space-y-12 3xl:space-y-16 relative">
+        <div className="space-y-6 sm:space-y-8 lg:space-y-10 3xl:space-y-16 relative">
           {/* Vertical Line */}
           <div className="absolute left-[15px] sm:left-[23px] top-4 bottom-4 w-px bg-gradient-to-b from-primary/50 via-border to-transparent"></div>
           
