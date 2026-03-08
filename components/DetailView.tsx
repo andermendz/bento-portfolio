@@ -7,7 +7,6 @@ const AboutSection = lazy(() => import('./sections/AboutSection').then(m => ({ d
 const ExperienceSection = lazy(() => import('./sections/ExperienceSection').then(m => ({ default: m.ExperienceSection })));
 const EducationSection = lazy(() => import('./sections/EducationSection').then(m => ({ default: m.EducationSection })));
 const TechStackSection = lazy(() => import('./sections/TechStackSection').then(m => ({ default: m.TechStackSection })));
-const ProjectsSection = lazy(() => import('./sections/ProjectsSection').then(m => ({ default: m.ProjectsSection })));
 
 interface DetailViewProps {
   onClose: () => void;
@@ -66,8 +65,6 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type }) => {
         return <EducationSection />;
       case 'stack':
         return <TechStackSection />;
-      case 'projects':
-        return <ProjectsSection />;
       default:
         return null;
     }
@@ -100,22 +97,33 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type }) => {
     >
       <AnimatePresence>
         {isReady && (
-          <motion.button
-            initial={{ opacity: 0, x: -12 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -8 }}
-            transition={{ duration: 0.4, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            onClick={onClose}
-            aria-label="Go back"
-            className="absolute top-3 left-3 sm:top-6 sm:left-6 z-40 h-10 sm:h-11 px-3 sm:px-4 rounded-full bg-card/90 hover:bg-text-main hover:text-page flex items-center gap-2 text-text-main transition-all active:scale-95 border border-border shadow-md backdrop-blur-xl"
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute top-0 left-0 right-0 z-40 px-4 py-4 sm:px-8 sm:py-6 flex items-center justify-between pointer-events-none"
           >
-            <ArrowLeft size={18} />
-            <span className="text-xs sm:text-sm font-semibold tracking-wide">Back</span>
-          </motion.button>
+            <button
+              onClick={onClose}
+              aria-label="Go back"
+              className="group h-10 px-4 rounded-full bg-card/60 hover:bg-text-main hover:text-page flex items-center gap-2 text-text-main transition-all active:scale-95 border border-border shadow-lg backdrop-blur-xl pointer-events-auto"
+            >
+              <ArrowLeft size={18} className="group-hover:-translate-x-0.5 transition-transform" />
+              <span className="text-xs sm:text-sm font-bold tracking-tight uppercase tracking-[0.1em]">Back</span>
+            </button>
+            
+            <div className="hidden sm:block pointer-events-none">
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-text-muted/30">
+                {type}
+              </span>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="flex flex-col w-full min-h-0 flex-1 overflow-y-auto overscroll-contain touch-pan-y relative z-10 modal-scroll pt-14 sm:pt-16">
+      <div className="flex flex-col w-full min-h-0 flex-1 overflow-y-auto overscroll-contain touch-pan-y relative z-10 modal-scroll pt-20 sm:pt-24 pb-12 sm:pb-16">
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none"></div>
         <Suspense fallback={null}>
           <MountNotifier onMount={() => setIsReady(true)}>
             <motion.div

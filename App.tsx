@@ -16,7 +16,6 @@ import {
   ExperienceContent,
   EducationContent,
   ContactContent,
-  ProjectsTriggerContent,
 } from './components/CardContents';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 
@@ -158,8 +157,6 @@ function AppContent() {
         return <ExperienceContent />;
       case 'education':
         return <EducationContent />;
-      case 'projects':
-        return <ProjectsTriggerContent />;
       case 'contact':
         return <ContactContent copyToClipboard={copyToClipboard} copiedText={copiedText} />;
 
@@ -185,11 +182,8 @@ function AppContent() {
         return t('experienceTitle');
       case 'education':
         return t('educationTitle');
-      case 'projects':
-        return t('projectsTriggerTitle');
       default:
         return undefined;
-
     }
   };
 

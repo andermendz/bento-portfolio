@@ -13,9 +13,7 @@ import {
   Cpu,
   Sparkles,
   Layout,
-  Server,
-  FolderOpen,
-  Layers
+  Server
 } from 'lucide-react';
 
 import type { ContentWithCopyProps } from '../types';
@@ -279,7 +277,7 @@ export const ExperienceContent: React.FC = () => {
           <Briefcase size={16} className="sm:w-5 sm:h-5" strokeWidth={1.5} />
         </div>
         <div>
-          <p className="text-text-main font-bold text-sm sm:text-base md:text-lg leading-none mb-0.5 sm:mb-1">Visbl</p>
+          <p className="font-black text-sm sm:text-base md:text-lg leading-none mb-0.5 sm:mb-1 text-primary">visbl</p>
           <p className="text-text-muted text-[9px] sm:text-[10px] md:text-xs font-semibold uppercase tracking-wide">{t('technicalLead')}</p>
         </div>
       </div>
@@ -318,42 +316,6 @@ export const EducationContent: React.FC = () => {
             <span className="h-1 w-1 sm:h-1.5 sm:w-1.5 rounded-full bg-emerald-500"></span>
             <p className="text-text-muted text-[10px] sm:text-xs font-medium">{t('technologicalUniversity')}</p>
           </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// ----- PROJECTS TRIGGER CONTENT -----
-
-export const ProjectsTriggerContent: React.FC = () => {
-  const { t } = useLanguage();
-  
-  return (
-    <div className="relative h-full flex flex-col justify-between group/projects overflow-hidden">
-      {/* Background Glow */}
-      <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl group-hover/projects:bg-primary/30 transition-colors duration-500"></div>
-      
-      <div className="relative z-10">
-        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-card border border-border flex items-center justify-center text-text-main shadow-sm mb-4 sm:mb-6 group-hover/projects:border-primary/30 transition-all duration-500">
-          <FolderOpen size={20} className="sm:w-6 sm:h-6" strokeWidth={1.5} />
-        </div>
-        <h3 className="text-lg sm:text-2xl font-bold text-text-main tracking-tight leading-tight">
-          {t('projectsTriggerTitle')}
-        </h3>
-        <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-text-muted mt-2 flex items-center gap-2">
-          <Layers size={12} />
-          {t('projectsTriggerDesc')}
-        </p>
-      </div>
-
-      <div className="relative z-10 flex items-center justify-start mt-auto">
-        <div className="flex -space-x-2">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-card bg-card-hover flex items-center justify-center text-[10px] font-bold text-text-muted">
-              {i === 3 ? "+3" : ""}
-            </div>
-          ))}
         </div>
       </div>
     </div>
