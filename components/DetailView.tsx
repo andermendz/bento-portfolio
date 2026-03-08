@@ -112,17 +112,11 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type }) => {
               <ArrowLeft size={18} className="group-hover:-translate-x-0.5 transition-transform" />
               <span className="text-xs sm:text-sm font-bold tracking-tight uppercase tracking-[0.1em]">Back</span>
             </button>
-            
-            <div className="hidden sm:block pointer-events-none">
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-text-muted/30">
-                {type}
-              </span>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="flex flex-col w-full min-h-0 flex-1 overflow-y-auto overscroll-contain touch-pan-y relative z-10 modal-scroll pt-20 sm:pt-24 pb-12 sm:pb-16">
+      <div className="flex flex-col w-full min-h-0 flex-1 overflow-y-auto overscroll-contain touch-pan-y relative z-10 modal-scroll pt-16 sm:pt-20 lg:pt-24 3xl:pt-32 pb-10 sm:pb-12 lg:pb-16 3xl:pb-24">
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none"></div>
         <Suspense fallback={null}>
           <MountNotifier onMount={() => setIsReady(true)}>

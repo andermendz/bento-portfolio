@@ -13,13 +13,13 @@ export const AboutSection: React.FC = () => {
           <h1 className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-6 animate-fade-in">
             {t('aboutTitle')}
           </h1>
-          <h2 id="section-title-about" className="text-4xl sm:text-6xl md:text-7xl font-black text-text-main leading-[0.9] tracking-tighter mb-10">
+          <h2 id="section-title-about" className="text-4xl sm:text-5xl md:text-6xl 3xl:text-7xl font-black text-text-main leading-[0.9] tracking-tighter mb-10">
             {t('systemsEngineering')}
             <br />
             <span className="text-text-muted/20">{t('scalableArchitect')}</span>
           </h2>
           <div className="h-px w-20 bg-primary mb-10"></div>
-          <p className="text-lg sm:text-2xl text-text-muted leading-relaxed font-medium max-w-3xl">
+          <p className="text-lg sm:text-xl 3xl:text-2xl text-text-muted leading-relaxed font-medium max-w-3xl">
             {t('bioText')}
           </p>
         </header>

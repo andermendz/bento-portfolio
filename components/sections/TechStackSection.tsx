@@ -8,21 +8,21 @@ export const TechStackSection: React.FC = () => {
     <section className="px-5 sm:px-10 lg:px-16 3xl:px-24">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
-        <header className="mb-12 sm:mb-20 text-center sm:text-left">
+        <header className="mb-10 sm:mb-16 text-center sm:text-left">
           <h1 className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-6">
             {t('techStackTitle')}
           </h1>
-          <h2 id="section-title-stack" className="text-4xl sm:text-6xl md:text-7xl font-black text-text-main leading-[0.9] tracking-tighter mb-10">
+          <h2 id="section-title-stack" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl 3xl:text-7xl font-black text-text-main leading-[0.9] tracking-tighter mb-8 sm:mb-10">
             Technical
             <br />
             <span className="text-text-muted/20">Arsenal.</span>
           </h2>
-          <p className="text-lg sm:text-2xl text-text-muted leading-relaxed font-medium max-w-3xl">
+          <p className="text-base sm:text-lg lg:text-xl 3xl:text-2xl text-text-muted leading-relaxed font-medium max-w-3xl">
             {t('technicalArsenalDesc')}
           </p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-20 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-16 pb-12">
           {/* Frontend */}
           <div className="space-y-8">
             <h3 className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-primary mb-6 flex items-center gap-3">

@@ -9,21 +9,21 @@ export const EducationSection: React.FC = () => {
     <section className="px-5 sm:px-10 lg:px-16 3xl:px-24">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
-        <header className="mb-12 sm:mb-20 text-center sm:text-left">
+        <header className="mb-10 sm:mb-16 text-center sm:text-left">
           <h1 className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-6">
             {t('educationTitle')}
           </h1>
-          <h2 id="section-title-education" className="text-4xl sm:text-6xl md:text-7xl font-black text-text-main leading-[0.9] tracking-tighter mb-10">
+          <h2 id="section-title-education" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl 3xl:text-7xl font-black text-text-main leading-[0.9] tracking-tighter mb-8 sm:mb-10">
             {t('academicBackground').split(' ')[0]}
             <br />
             <span className="text-text-muted/20">{t('academicBackground').split(' ')[1]}</span>
           </h2>
-          <p className="text-lg sm:text-2xl text-text-muted leading-relaxed font-medium max-w-3xl">
+          <p className="text-base sm:text-lg lg:text-xl 3xl:text-2xl text-text-muted leading-relaxed font-medium max-w-3xl">
             {t('educationDesc')}
           </p>
         </header>
 
-        <div className="space-y-12 sm:space-y-20 relative">
+        <div className="space-y-10 sm:space-y-16 relative">
           {/* Main Degree */}
           <article className="group relative">
             <div className="flex flex-col md:flex-row md:items-start gap-8 sm:gap-12">
@@ -32,13 +32,13 @@ export const EducationSection: React.FC = () => {
               </div>
               <div className="flex-1">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-                  <h3 className="text-2xl sm:text-4xl font-black text-text-main tracking-tight group-hover:text-primary transition-colors duration-500">
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl 3xl:text-4xl font-black text-text-main tracking-tight group-hover:text-primary transition-colors duration-500">
                     {t('systemsEngineering')}
                   </h3>
                   <span className="text-xs font-black uppercase tracking-widest text-primary bg-primary/10 px-4 py-1.5 rounded-full border border-primary/20 w-fit">2024</span>
                 </div>
-                <p className="text-xl sm:text-2xl text-text-main font-bold mb-2">Fundación Universitaria Tecnológico Comfenalco</p>
-                <p className="text-text-muted text-base sm:text-lg font-medium">{t('professionalDegree')} • Cartagena, Colombia</p>
+                <p className="text-lg sm:text-xl 3xl:text-2xl text-text-main font-bold mb-2">Fundación Universitaria Tecnológico Comfenalco</p>
+                <p className="text-text-muted text-sm sm:text-base 3xl:text-lg font-medium">{t('professionalDegree')} • Cartagena, Colombia</p>
               </div>
             </div>
           </article>
