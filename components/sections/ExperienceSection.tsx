@@ -46,7 +46,7 @@ export const ExperienceSection: React.FC = () => {
                   <div className="absolute left-[-31px] top-1.5 w-3 h-3 rounded-full border-2 border-[#002bc6] bg-card z-10 shadow-[0_0_10px_rgba(0,43,198,0.5)]"></div>
                   <div className="flex flex-col mb-3 3xl:mb-4">
                     <h3 className="font-bold text-text-main text-lg sm:text-xl 3xl:text-2xl leading-none">{t('technicalLead')}</h3>
-                    <span className="text-xs font-bold text-text-muted uppercase tracking-widest mt-2 3xl:mt-3 opacity-60">Mar 2024 — {t('present')}</span>
+                    <span className="text-xs font-bold text-text-muted uppercase tracking-widest mt-2 3xl:mt-3 opacity-60">Mar 2026 — {t('present')}</span>
                   </div>
                   <p className="text-text-muted text-sm sm:text-base 3xl:text-lg leading-relaxed max-w-2xl font-medium">
                     {t('visblDesc')}
@@ -58,7 +58,7 @@ export const ExperienceSection: React.FC = () => {
                   <div className="absolute left-[-31px] top-1.5 w-3 h-3 rounded-full border-2 border-border bg-card z-10"></div>
                   <div className="flex flex-col mb-3 3xl:mb-4">
                     <h3 className="font-bold text-text-main text-lg sm:text-xl 3xl:text-2xl leading-none">{t('softwareDeveloper')}</h3>
-                    <span className="text-xs font-bold text-text-muted uppercase tracking-widest mt-2 3xl:mt-3">2023 — Mar 2024</span>
+                    <span className="text-xs font-bold text-text-muted uppercase tracking-widest mt-2 3xl:mt-3">Mar 2025 — Mar 2026</span>
                   </div>
                   <p className="text-text-muted text-sm sm:text-base 3xl:text-lg leading-relaxed max-w-2xl">
                     {t('visblPrevDesc')}

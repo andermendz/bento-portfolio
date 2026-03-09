@@ -35,8 +35,8 @@ export const translations = {
     // Experience
     experienceTitle: 'Experience',
     technicalLead: 'Technical Lead',
-    softwareDeveloper: 'Software Developer',
-    fullStackDev: 'Full-stack Dev',
+    softwareDeveloper: 'Software Engineer',
+    fullStackDev: 'Full-stack Engineer',
     
     // Education
     educationTitle: 'Education',
@@ -88,7 +88,7 @@ export const translations = {
     universityDiploma: 'University Diploma',
     technologistDegree: 'Technologist Degree',
     webAppDevelopment: 'Web App Development',
-    softwareDevTechnologist: 'Software Dev Technologist',
+    softwareDevTechnologist: 'Software Engineering Technologist',
     
     // Stack Modal
     technicalArsenal: 'Technical Arsenal',
@@ -130,8 +130,8 @@ export const translations = {
     // Experience
     experienceTitle: 'Experiencia',
     technicalLead: 'Líder Técnico',
-    softwareDeveloper: 'Desarrollador de Software',
-    fullStackDev: 'Desarrollador Full-stack',
+    softwareDeveloper: 'Ingeniero de Software',
+    fullStackDev: 'Ingeniero Full-stack',
     
     // Education
     educationTitle: 'Educación',
@@ -183,7 +183,7 @@ export const translations = {
     universityDiploma: 'Diplomado Universitario',
     technologistDegree: 'Título de Tecnólogo',
     webAppDevelopment: 'Desarrollo de Apps Web',
-    softwareDevTechnologist: 'Tecnólogo en Desarrollo de Software',
+    softwareDevTechnologist: 'Tecnólogo en Ingeniería de Software',
     
     // Stack Modal
     technicalArsenal: 'Arsenal Técnico',
