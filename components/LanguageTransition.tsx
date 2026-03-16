@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 
 interface LanguageTransitionProps {
   isActive: boolean;
@@ -12,14 +12,14 @@ export const LanguageTransition: React.FC<LanguageTransitionProps> = ({ isActive
       {isActive && (
         <>
           {/* Main circular reveal effect - monochrome */}
-          <motion.div
+          <m.div
             className="fixed inset-0 z-[200] pointer-events-none overflow-hidden"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, delay: 0.5 }}
           >
             {/* Expanding circle from bottom-left (where language switcher is) */}
-            <motion.div
+            <m.div
               className="absolute rounded-full"
               style={{
                 left: '24px',
@@ -48,7 +48,7 @@ export const LanguageTransition: React.FC<LanguageTransitionProps> = ({ isActive
             />
             
             {/* Second subtle ring */}
-            <motion.div
+            <m.div
               className="absolute rounded-full border border-white/5"
               style={{
                 left: '24px',
@@ -74,10 +74,10 @@ export const LanguageTransition: React.FC<LanguageTransitionProps> = ({ isActive
                 delay: 0.05,
               }}
             />
-          </motion.div>
+          </m.div>
 
           {/* Subtle blur overlay */}
-          <motion.div
+          <m.div
             className="fixed inset-0 z-[199] pointer-events-none backdrop-blur-[2px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -86,7 +86,7 @@ export const LanguageTransition: React.FC<LanguageTransitionProps> = ({ isActive
           />
 
           {/* Language text indicator - monochrome */}
-          <motion.div
+          <m.div
             className="fixed bottom-20 left-6 z-[201] pointer-events-none"
             initial={{ opacity: 0, y: 10, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -97,16 +97,16 @@ export const LanguageTransition: React.FC<LanguageTransitionProps> = ({ isActive
             }}
           >
             <div className="px-4 py-2 rounded-2xl bg-card/90 backdrop-blur-xl border border-border/50 shadow-2xl">
-              <motion.span 
+              <m.span 
                 className="text-xs font-bold uppercase tracking-widest text-text-main"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
               >
                 {language === 'es' ? 'Español' : 'English'}
-              </motion.span>
+              </m.span>
             </div>
-          </motion.div>
+          </m.div>
         </>
       )}
     </AnimatePresence>
@@ -119,7 +119,7 @@ export const LanguageContentWrapper: React.FC<{
   isChanging: boolean;
 }> = ({ children, isChanging }) => {
   return (
-    <motion.div
+    <m.div
       className="flex-1 flex flex-col min-h-0 w-full"
       animate={{ 
         opacity: isChanging ? 0.3 : 1,
@@ -132,6 +132,6 @@ export const LanguageContentWrapper: React.FC<{
       }}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 };

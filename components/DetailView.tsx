@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, Suspense, lazy, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 
 // Lazy load section components
 const AboutSection = lazy(() => import('./sections/AboutSection').then(m => ({ default: m.AboutSection })));
@@ -71,7 +71,7 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type }) => {
   };
 
   return (
-    <motion.div
+    <m.div
       ref={modalRef}
       layout
       className="relative w-full min-h-[calc(100vh-8rem)] sm:min-h-[70vh] max-h-[calc(100vh-8rem)] sm:max-h-[82vh] 3xl:max-h-[88vh] bg-card rounded-[24px] sm:rounded-[40px] border border-border overflow-hidden flex flex-col shadow-2xl ring-1 ring-white/10 transform-gpu will-change-[transform,height,opacity] flex-1"
@@ -97,7 +97,7 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type }) => {
     >
       <AnimatePresence>
         {isReady && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -112,7 +112,7 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type }) => {
               <ArrowLeft size={18} className="group-hover:-translate-x-0.5 transition-transform" />
               <span className="text-xs sm:text-sm font-bold tracking-tight uppercase tracking-[0.1em]">Back</span>
             </button>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
@@ -120,7 +120,7 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type }) => {
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none"></div>
         <Suspense fallback={null}>
           <MountNotifier onMount={() => setIsReady(true)}>
-            <motion.div
+            <m.div
               initial={{ opacity: 0, filter: "blur(4px)" }}
               animate={{ 
                 opacity: isReady ? 1 : 0,
@@ -129,10 +129,10 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type }) => {
               transition={{ duration: 0.5, ease: "easeOut" }}
             >
               {renderSection()}
-            </motion.div>
+            </m.div>
           </MountNotifier>
         </Suspense>
       </div>
-    </motion.div>
+    </m.div>
   );
 };

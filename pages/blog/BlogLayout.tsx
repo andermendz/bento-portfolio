@@ -4,7 +4,7 @@ import { useTheme } from '../../components/ThemeContext';
 import { ArrowLeft, Sun, Moon } from 'lucide-react';
 import { LanguageSwitcher } from '../../components/LanguageSwitcher';
 import { LanguageTransition, LanguageContentWrapper } from '../../components/LanguageTransition';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, LazyMotion, domAnimation, AnimatePresence } from 'framer-motion';
 import { LanguageProvider, useLanguage } from '../../i18n/LanguageContext';
 
 function BlogLayoutContent() {
@@ -55,7 +55,7 @@ function BlogLayoutContent() {
       <LanguageSwitcher onLanguageChange={handleLanguageChange} />
 
       {/* Floating Theme Toggle */}
-      <motion.button
+      <m.button
         className="fixed bottom-6 right-6 z-[120] p-4 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl text-text-main hover:bg-card-hover transition-colors ring-1 ring-white/10"
         onClick={toggleTheme}
         aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
@@ -67,16 +67,16 @@ function BlogLayoutContent() {
       >
         <AnimatePresence mode="wait">
           {theme === 'dark' ? (
-            <motion.div key="sun" initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: 90 }}>
+            <m.div key="sun" initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: 90 }}>
               <Sun size={24} />
-            </motion.div>
+            </m.div>
           ) : (
-            <motion.div key="moon" initial={{ scale: 0, rotate: 90 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: -90 }}>
+            <m.div key="moon" initial={{ scale: 0, rotate: 90 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: -90 }}>
               <Moon size={24} />
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
-      </motion.button>
+      </m.button>
 
       {/* Main Content */}
       <LanguageContentWrapper isChanging={isLanguageChanging}>
@@ -92,7 +92,9 @@ function BlogLayoutContent() {
 export function BlogLayout() {
   return (
     <LanguageProvider>
+      <LazyMotion features={domAnimation}>
       <BlogLayoutContent />
+          </LazyMotion>
     </LanguageProvider>
   );
 }

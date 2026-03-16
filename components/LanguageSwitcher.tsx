@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { useLanguage } from '../i18n/LanguageContext';
 import type { Language } from '../i18n/translations';
 
@@ -33,14 +33,14 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ onLanguageCh
   };
 
   return (
-    <motion.div
+    <m.div
       className="fixed bottom-6 left-6 z-[120] flex items-center gap-1 p-1.5 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl ring-1 ring-white/10"
       initial={{ opacity: 0, scale: 0, x: -20 }}
       animate={{ opacity: 1, scale: 1, x: 0 }}
       transition={{ duration: 0.5, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
     >
       {languages.map((lang) => (
-        <motion.button
+        <m.button
           key={lang.code}
           onClick={() => handleLanguageChange(lang.code)}
           className={`
@@ -56,7 +56,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ onLanguageCh
         >
           {/* Active background pill */}
           {language === lang.code && (
-            <motion.div
+            <m.div
               layoutId="activeLang"
               className="absolute inset-0 bg-text-main rounded-full"
               transition={{ 
@@ -73,8 +73,8 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ onLanguageCh
             <span className="text-sm">{lang.flag}</span>
             <span>{lang.label}</span>
           </span>
-        </motion.button>
+        </m.button>
       ))}
-    </motion.div>
+    </m.div>
   );
 };

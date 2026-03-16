@@ -11,7 +11,10 @@ export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const phiRef = useRef(4.7);
   const sizeRef = useRef(0);
+  const pointerInteracting = useRef<number | null>(null);
+  const pointerInteractionStart = useRef<number | null>(null);
   const [isReady, setIsReady] = useState(false);
+  const [r, setR] = useState(0);
 
   useEffect(() => {
     // Small delay to ensure theme is properly applied before showing
@@ -62,8 +65,10 @@ export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
         }
         
         // Rotation
-        state.phi = phiRef.current + 0.002;
-        phiRef.current = state.phi;
+        if (!pointerInteracting.current) {
+          phiRef.current += 0.002;
+        }
+        state.phi = phiRef.current + r;
 
         // Origin (Cartagena, Colombia)
         const cx = 10.3932; 
@@ -148,12 +153,34 @@ export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
       >
         <canvas
           ref={canvasRef}
+          onPointerDown={(e) => {
+            pointerInteracting.current =
+              e.clientX - pointerInteractionStart.current!;
+            containerRef.current!.style.cursor = 'grabbing';
+          }}
+          onPointerUp={() => {
+            pointerInteracting.current = null;
+            containerRef.current!.style.cursor = 'grab';
+          }}
+          onPointerOut={() => {
+            pointerInteracting.current = null;
+            containerRef.current!.style.cursor = 'grab';
+          }}
+          onMouseMove={(e) => {
+            if (pointerInteracting.current !== null) {
+              const delta = e.clientX - pointerInteracting.current;
+              pointerInteractionStart.current = delta;
+              setR(delta / 200);
+            }
+          }}
           style={{ 
             width: '100%', 
             height: '100%', 
             transform: `scale(${scale})`,
             opacity: isReady ? 1 : 0,
-            transition: 'opacity 0.5s ease-out, filter 0.7s ease-in-out'
+            transition: 'opacity 0.5s ease-out, filter 0.7s ease-in-out',
+            cursor: 'grab',
+            touchAction: 'none'
           }}
           className={`${theme === 'light' ? 'invert brightness-105' : ''}`}
         />

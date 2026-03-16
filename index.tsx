@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import './index.css';
-import App from './App';
-import BlogApp from './BlogApp.tsx';
+
+const App = lazy(() => import('./App'));
+const BlogApp = lazy(() => import('./BlogApp.tsx'));
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -15,11 +16,20 @@ const hostname = window.location.hostname;
 const pathname = window.location.pathname;
 const isBlog = hostname.startsWith('blog.') || pathname.startsWith('/blog');
 
+// Simple loading fallback
+const Loader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-page text-text-main">
+    <div className="w-8 h-8 rounded-full border-4 border-primary/20 border-t-primary animate-spin"></div>
+  </div>
+);
+
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <HelmetProvider>
-      {isBlog ? <BlogApp /> : <App />}
+      <Suspense fallback={<Loader />}>
+        {isBlog ? <BlogApp /> : <App />}
+      </Suspense>
     </HelmetProvider>
   </React.StrictMode>
 );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { motion, useInView } from 'framer-motion';
+import { m, useInView } from 'framer-motion';
 
 interface BentoCardProps {
   children?: React.ReactNode;
@@ -35,10 +35,18 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   `;
 
   return (
-    <motion.div
+    <m.div
       ref={cardRef}
       data-bento-id={dataId}
       onClick={onClick}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={(e) => {
+        if (onClick && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          onClick();
+        }
+      }}
       className={`${baseClasses} ${className}`}
       initial={{
         opacity: 0,
@@ -85,7 +93,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
       }}
     >
       {backgroundImage && (
-        <motion.div
+        <m.div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-110"
           style={{ backgroundImage: `url(${backgroundImage})` }}
           role="img"
@@ -109,6 +117,6 @@ export const BentoCard: React.FC<BentoCardProps> = ({
           </div>
         )}
       </div>
-    </motion.div>
+    </m.div>
   );
 };

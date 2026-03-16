@@ -3,11 +3,13 @@ import { flushSync } from 'react-dom';
 import ErrorBoundary from './components/ErrorBoundary';
 import { BentoCard } from './components/BentoCard';
 import { DetailView } from './components/DetailView';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m, LazyMotion, domAnimation } from "framer-motion";
 import { Sun, Moon } from 'lucide-react';
 
+import { Suspense, lazy } from 'react';
+
 // Import extracted components
-import { MapContent } from './components/Globe';
+const MapContent = lazy(() => import('./components/Globe').then(module => ({ default: module.MapContent })));
 import {
   IntroContent,
   SocialsContent,
@@ -16,7 +18,7 @@ import {
   ExperienceContent,
   EducationContent,
   ContactContent,
-} from './components/CardContents';
+} from './components/cards';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { SEO } from './components/SEO';
 import { ThemeProvider, useTheme } from './components/ThemeContext';
@@ -31,11 +33,13 @@ import {
 
 import { LanguageTransition, LanguageContentWrapper } from './components/LanguageTransition';
 
+import { bentoItems } from './config/layout';
+
 // Import i18n
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext';
 
 // Import types
-import type { BentoItem } from './types';
+// (No types needed here anymore)
 
 type DocumentWithViewTransition = Document & {
   startViewTransition?: (update: () => void) => { finished: Promise<void> };
@@ -151,17 +155,8 @@ function AppContent() {
     runViewTransition(() => setActiveSection(sectionType));
   }, [runViewTransition]);
 
-  // Static items configuration
-  const items: BentoItem[] = [
-    { id: 'intro', colSpan: 'col-span-2 sm:col-span-2' },
-    { id: 'photo', colSpan: 'col-span-1', bgImage: "/profile.png" },
-    { id: 'socials', colSpan: 'col-span-1' },
-    { id: 'stack', colSpan: 'col-span-2 sm:col-span-2', rowSpan: 'row-span-2', hasArrow: true, onClickModal: 'stack' },
-    { id: 'about', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'about' },
-    { id: 'experience', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'experience' },
-    { id: 'education', colSpan: 'col-span-1', hasArrow: true, onClickModal: 'education' },
-    { id: 'map', colSpan: 'col-span-1', noPadding: true },
-  ];
+  // Use imported layout configuration
+  const items = bentoItems;
 
 
   /**
@@ -187,7 +182,11 @@ function AppContent() {
         return <ContactContent copyToClipboard={copyToClipboard} copiedText={copiedText} />;
 
       case 'map':
-        return <MapContent theme={theme} />;
+        return (
+          <Suspense fallback={<div className="w-full h-full flex items-center justify-center text-text-muted"><div className="w-6 h-6 rounded-full border-2 border-primary/20 border-t-primary animate-spin"></div></div>}>
+            <MapContent theme={theme} />
+          </Suspense>
+        );
       default:
         return null;
     }
@@ -234,7 +233,7 @@ function AppContent() {
       <LanguageSwitcher onLanguageChange={handleLanguageChange} />
       
       {/* Theme Toggle Button */}
-      <motion.button
+      <m.button
         className="fixed bottom-6 right-6 z-[120] p-4 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl text-text-main hover:bg-card-hover transition-colors ring-1 ring-white/10"
         onClick={toggleTheme}
         aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
@@ -246,23 +245,23 @@ function AppContent() {
       >
         <AnimatePresence mode="wait">
           {theme === 'dark' ? (
-            <motion.div key="sun" initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: 90 }}>
+            <m.div key="sun" initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: 90 }}>
               <Sun size={24} />
-            </motion.div>
+            </m.div>
           ) : (
-            <motion.div key="moon" initial={{ scale: 0, rotate: 90 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: -90 }}>
+            <m.div key="moon" initial={{ scale: 0, rotate: 90 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: -90 }}>
               <Moon size={24} />
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
-      </motion.button>
+      </m.button>
 
       <LanguageContentWrapper isChanging={isLanguageChanging}>
         <div className={`w-full max-w-[1320px] 3xl:max-w-[1500px] mx-auto pb-24 sm:pb-6 ${activeSection ? 'flex-1 flex flex-col min-h-0' : ''}`}>
           
           <AnimatePresence mode="wait" initial={false}>
             {activeSection ? (
-              <motion.div
+              <m.div
                 key={`section-${activeSection}`}
                 initial={{ opacity: 0.01, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -272,9 +271,9 @@ function AppContent() {
                 style={{ viewTransitionName: 'expanded-section' }}
               >
                 <DetailView onClose={closeSection} type={activeSection} />
-              </motion.div>
+              </m.div>
             ) : (
-              <motion.div
+              <m.div
                 key="grid"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -298,14 +297,14 @@ function AppContent() {
                     {renderCardContent(item.id)}
                   </BentoCard>
                 ))}
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
 
           
           {/* Footer */}
           {!activeSection && (
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 0.5, y: 0 }}
               transition={{ duration: 0.6, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
@@ -324,7 +323,7 @@ function AppContent() {
                 <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></div>
                 <p>{t('role')}</p>
               </div>
-            </motion.div>
+            </m.div>
           )}
         </div>
       </LanguageContentWrapper>
@@ -339,7 +338,9 @@ function App() {
     <ErrorBoundary>
       <LanguageProvider>
         <ThemeProvider>
+          <LazyMotion features={domAnimation}>
           <AppContent />
+                  </LazyMotion>
         </ThemeProvider>
       </LanguageProvider>
     </ErrorBoundary>

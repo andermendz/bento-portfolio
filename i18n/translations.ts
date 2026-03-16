@@ -27,6 +27,7 @@ export const translations = {
     // Blog
     blogTitle: 'Blog',
     readArticles: 'Read my latest articles.',
+    latestPost: 'Latest Post',
     
     // About
     aboutTitle: 'About',
@@ -122,6 +123,7 @@ export const translations = {
     // Blog
     blogTitle: 'Blog',
     readArticles: 'Lee mis últimos artículos.',
+    latestPost: 'Último Artículo',
     
     // About
     aboutTitle: 'Sobre mí',
