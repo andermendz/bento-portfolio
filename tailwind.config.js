@@ -9,6 +9,7 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx}",
     "./hooks/**/*.{js,ts,jsx,tsx}",
     "./i18n/**/*.{js,ts,jsx,tsx}",
+    "./config/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: 'class',
   theme: {
