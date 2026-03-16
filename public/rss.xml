@@ -5,8 +5,15 @@
     <link>https://blog.andermendz.dev/</link>
     <description>Technical notes on AI systems, LLM behavior, context windows, and product engineering.</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 08 Mar 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 15 Mar 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://blog.andermendz.dev/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Understanding Diffusion Models: How AI Generates Images</title>
+      <link>https://blog.andermendz.dev/diffusion-models</link>
+      <guid isPermaLink="true">https://blog.andermendz.dev/diffusion-models</guid>
+      <pubDate>Sun, 15 Mar 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[From pure static to photorealism in seconds. A practical breakdown of how diffusion models work, how they understand text prompts, and the magic behind modern AI image generation.]]></description>
+    </item>
     <item>
       <title>How AI Actually Works</title>
       <link>https://blog.andermendz.dev/how-ai-actually-works</link>

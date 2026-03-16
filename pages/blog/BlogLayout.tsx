@@ -17,7 +17,29 @@ function BlogLayoutContent() {
   const backLabel = isBlogHome
     ? (isSpanish ? 'Volver' : 'Back')
     : (isSpanish ? 'Volver a artículos' : 'Back to articles');
-  const homeHref = isSpanish ? 'https://andermendz.dev/?lang=es' : 'https://andermendz.dev/';
+  const getHomeHref = () => {
+    if (typeof window === 'undefined') return '/';
+    
+    const host = window.location.host; // e.g., "blog.localhost:3000", "blog.andermendz.dev"
+    const hostname = window.location.hostname;
+    const protocol = window.location.protocol;
+    const langQuery = language === 'es' ? '?lang=es' : '';
+
+    if (hostname === 'blog.andermendz.dev' || hostname === 'www.blog.andermendz.dev') {
+      return `https://andermendz.dev/${langQuery}`;
+    }
+    
+    // For localhost development, if we are on a blog subdomain, strip it to go back to root
+    if (hostname.startsWith('blog.')) {
+      const mainHost = host.replace(/^blog\./, '');
+      return `${protocol}//${mainHost}/${langQuery}`;
+    }
+
+    // Fallback if accessed via path /blog
+    return `/${langQuery}`;
+  };
+
+  const homeHref = getHomeHref();
   const blogHomeHref = isSpanish ? '/?lang=es' : '/';
 
   const handleLanguageChange = () => {
