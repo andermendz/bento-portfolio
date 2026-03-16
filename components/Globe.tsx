@@ -11,20 +11,10 @@ export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const phiRef = useRef(4.7);
   const sizeRef = useRef(0);
-  
-  // Physics & Interaction refs
-  const isDraggingRef = useRef(false);
   const pointerInteracting = useRef<number | null>(null);
-  const velocityRef = useRef(0);
-  const lastXRef = useRef(0);
-  const lastTimeRef = useRef(0);
-  
+  const pointerInteractionStart = useRef<number | null>(null);
   const [isReady, setIsReady] = useState(false);
-
-  // Physics constants
-  const baseVelocity = 0.002;
-  const friction = 0.96; // Increased from 0.94 so momentum decays slower (spins longer)
-  const dragSensitivity = 0.008; // Doubled from 0.004 so dragging applies 2x more force
+  const [r, setR] = useState(0);
 
   useEffect(() => {
     // Small delay to ensure theme is properly applied before showing
@@ -74,19 +64,11 @@ export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
           state.height = sizeRef.current * 2;
         }
         
-        // Rotation & Physics Update
-        if (isDraggingRef.current) {
-          // If holding still while dragging, slowly kill the stored velocity so it doesn't 
-          // suddenly spin fast if released after a long pause
-          velocityRef.current *= 0.8;
-        } else {
-          // Apply friction to slow down over time
-          velocityRef.current *= friction;
-          // Move phi by the base velocity plus whatever momentum velocity is left
-          phiRef.current += baseVelocity + velocityRef.current;
+        // Rotation
+        if (!pointerInteracting.current) {
+          phiRef.current += 0.002;
         }
-
-        state.phi = phiRef.current;
+        state.phi = phiRef.current + r;
 
         // Origin (Cartagena, Colombia)
         const cx = 10.3932; 
@@ -172,42 +154,26 @@ export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
         <canvas
           ref={canvasRef}
           onPointerDown={(e) => {
-            isDraggingRef.current = true;
-            pointerInteracting.current = e.clientX;
-            lastXRef.current = e.clientX;
-            lastTimeRef.current = performance.now();
-            velocityRef.current = 0; // Stop current momentum
-            if (containerRef.current) containerRef.current.style.cursor = 'grabbing';
+            pointerInteracting.current =
+              e.clientX - pointerInteractionStart.current!;
+            containerRef.current!.style.cursor = 'grabbing';
           }}
           onPointerUp={() => {
-            isDraggingRef.current = false;
             pointerInteracting.current = null;
-            if (containerRef.current) containerRef.current.style.cursor = 'grab';
+            containerRef.current!.style.cursor = 'grab';
           }}
           onPointerOut={() => {
-            isDraggingRef.current = false;
             pointerInteracting.current = null;
-            if (containerRef.current) containerRef.current.style.cursor = 'grab';
+            containerRef.current!.style.cursor = 'grab';
           }}
-          onPointerMove={(e) => {
-            if (isDraggingRef.current) {
-              const now = performance.now();
-              const dt = now - lastTimeRef.current;
-              const deltaX = e.clientX - lastXRef.current;
-              
-              lastXRef.current = e.clientX;
-              lastTimeRef.current = now;
-              
-              // Apply rotation immediately
-              phiRef.current += deltaX * dragSensitivity;
-              
-              // Store velocity for momentum (cap to prevent wild spins on very tiny dt values)
-              if (dt > 0) {
-                velocityRef.current = deltaX * dragSensitivity;
-              }
+          onMouseMove={(e) => {
+            if (pointerInteracting.current !== null) {
+              const delta = e.clientX - pointerInteracting.current;
+              pointerInteractionStart.current = delta;
+              setR(delta / 200);
             }
           }}
-          style={{
+          style={{ 
             width: '100%', 
             height: '100%', 
             transform: `scale(${scale})`,
