@@ -119,7 +119,7 @@ export function BlogHome() {
               </div>
 
               <h2 className="text-3xl font-black leading-tight tracking-tight text-text-main sm:text-4xl md:text-5xl">
-                <Link to={articleHref(featuredPost.slug)} className="transition-colors hover:text-primary">
+                <Link to={articleHref(featuredPost.slug)} className="transition-colors hover:text-primary after:absolute after:inset-0 after:z-20">
                   {featuredPost.title}
                 </Link>
               </h2>
@@ -140,7 +140,7 @@ export function BlogHome() {
 
               <Link
                 to={articleHref(featuredPost.slug)}
-                className="inline-flex items-center gap-2 rounded-full bg-text-main px-5 py-3 text-sm font-semibold text-page transition-transform duration-300 hover:-translate-y-0.5"
+                className="relative z-30 inline-flex items-center gap-2 rounded-full bg-text-main px-5 py-3 text-sm font-semibold text-page transition-transform duration-300 hover:-translate-y-0.5"
               >
                 {ui.readArticle}
                 <span aria-hidden="true">&rarr;</span>
@@ -167,7 +167,7 @@ export function BlogHome() {
                 </div>
 
                 <h3 className="text-2xl font-bold tracking-tight text-text-main transition-colors group-hover:text-primary">
-                  <Link to={articleHref(post.slug)}>{post.title}</Link>
+                  <Link to={articleHref(post.slug)} className="after:absolute after:inset-0 after:z-20">{post.title}</Link>
                 </h3>
 
                 <p className="mt-4 text-sm leading-7 text-text-muted">{post.excerpt}</p>
