@@ -121,14 +121,15 @@ export const LanguageContentWrapper: React.FC<{
   return (
     <m.div
       className="flex-1 flex flex-col min-h-0 w-full"
+      style={{ willChange: 'filter, opacity, transform' }}
       animate={{ 
-        opacity: isChanging ? 0.3 : 1,
-        scale: isChanging ? 0.98 : 1,
-        filter: isChanging ? 'blur(4px)' : 'blur(0px)',
+        opacity: isChanging ? 0.4 : 1,
+        scale: isChanging ? 0.985 : 1,
+        filter: isChanging ? 'blur(2.5px)' : 'blur(0px)',
       }}
       transition={{ 
-        duration: 0.3,
-        ease: 'easeInOut'
+        duration: 0.35,
+        ease: [0.22, 1, 0.36, 1]
       }}
     >
       {children}

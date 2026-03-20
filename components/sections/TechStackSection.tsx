@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLanguage } from '../../i18n/LanguageContext';
+import { m } from 'framer-motion';
 
 export const TechStackSection: React.FC = () => {
   const { t } = useLanguage();
@@ -8,31 +9,55 @@ export const TechStackSection: React.FC = () => {
     <section className="px-5 sm:px-10 lg:px-16 3xl:px-24">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
-        <header className="mb-5 sm:mb-7 lg:mb-9 3xl:mb-16 text-center sm:text-left">
-          <h1 className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-4 3xl:mb-6">
+        <header className="mb-8 sm:mb-10 lg:mb-12 3xl:mb-20 text-center sm:text-left">
+          <m.h1 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-4 3xl:mb-6"
+          >
             {t('techStackTitle')}
-          </h1>
-          <h2 id="section-title-stack" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl 3xl:text-7xl font-black text-text-main leading-[0.9] tracking-tighter mb-5 3xl:mb-10">
+          </m.h1>
+          <m.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            id="section-title-stack" 
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl 3xl:text-7xl font-black text-text-main leading-[0.9] tracking-tighter mb-5 3xl:mb-10"
+          >
             Technical
             <br />
             <span className="text-text-muted/20">Arsenal.</span>
-          </h2>
-          <p className="text-base sm:text-lg lg:text-xl 3xl:text-2xl text-text-muted leading-relaxed font-medium max-w-3xl">
+          </m.h2>
+          <m.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-base sm:text-lg lg:text-xl 3xl:text-2xl text-text-muted leading-relaxed font-medium max-w-3xl"
+          >
             {t('technicalArsenalDesc')}
-          </p>
+          </m.p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-7 lg:gap-9 3xl:gap-16 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 3xl:gap-20 pb-16">
           {/* Frontend */}
-          <div className="space-y-8">
-            <h3 className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-primary mb-6 flex items-center gap-3">
+          <m.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="space-y-6"
+          >
+            <h3 className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-primary mb-4 flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary-rgb),0.6)]"></div>
               {t('frontend')}
             </h3>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2.5">
               {[
                 { name: 'React', color: '#61DAFB' },
-                { name: 'Next.js', color: 'var(--next-hover)' },
+                { name: 'Next.js', color: '#FFFFFF' },
                 { name: 'TypeScript', color: '#3178C6' },
                 { name: 'Tailwind CSS', color: '#06B6D4' },
                 { name: 'Vue.js', color: '#41B883' },
@@ -41,15 +66,21 @@ export const TechStackSection: React.FC = () => {
                 <TechTag key={tech.name} name={tech.name} color={tech.color} />
               ))}
             </div>
-          </div>
+          </m.div>
 
           {/* Backend */}
-          <div className="space-y-8">
-            <h3 className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-primary mb-6 flex items-center gap-3">
+          <m.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="space-y-6"
+          >
+            <h3 className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-primary mb-4 flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary-rgb),0.6)]"></div>
               {t('backend')}
             </h3>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2.5">
               {[
                 { name: 'Node.js', color: '#339933' },
                 { name: 'Python', color: '#3776AB' },
@@ -61,18 +92,24 @@ export const TechStackSection: React.FC = () => {
                 <TechTag key={tech.name} name={tech.name} color={tech.color} />
               ))}
             </div>
-          </div>
+          </m.div>
 
           {/* AI & Machine Learning */}
-          <div className="space-y-8">
-            <h3 className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-primary mb-6 flex items-center gap-3">
+          <m.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+            className="space-y-6"
+          >
+            <h3 className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-primary mb-4 flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary-rgb),0.6)]"></div>
               {t('aiMl')}
             </h3>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2.5">
               {[
                 { name: 'Gemini API', color: '#8E75FF' },
-                { name: 'OpenAI', color: 'var(--ai-hover)' },
+                { name: 'OpenAI', color: '#10A37F' },
                 { name: 'PyTorch', color: '#EE4C2C' },
                 { name: 'TensorFlow', color: '#FF6F00' },
                 { name: 'LangChain', color: '#3BE0C0' },
@@ -80,27 +117,33 @@ export const TechStackSection: React.FC = () => {
                 <TechTag key={tech.name} name={tech.name} color={tech.color} />
               ))}
             </div>
-          </div>
+          </m.div>
 
           {/* Database */}
-          <div className="space-y-8">
-            <h3 className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-primary mb-6 flex items-center gap-3">
+          <m.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6 }}
+            className="space-y-6"
+          >
+            <h3 className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-primary mb-4 flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary-rgb),0.6)]"></div>
               {t('database')}
             </h3>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2.5">
               {[
                 { name: 'PostgreSQL', color: '#4169E1' },
                 { name: 'MongoDB', color: '#47A248' },
                 { name: 'Redis', color: '#DC382D' },
                 { name: 'Supabase', color: '#3ECF8E' },
-                { name: 'Prisma', color: '#16A394' },
-                { name: 'Pinecone', color: 'var(--ai-hover)' },
+                { name: 'Prisma', color: '#2D3748' },
+                { name: 'Pinecone', color: '#10A37F' },
               ].map(tech => (
                 <TechTag key={tech.name} name={tech.name} color={tech.color} />
               ))}
             </div>
-          </div>
+          </m.div>
         </div>
       </div>
     </section>
@@ -108,20 +151,16 @@ export const TechStackSection: React.FC = () => {
 };
 
 const TechTag: React.FC<{ name: string; color: string }> = ({ name, color }) => (
-  <span 
-    className="px-5 py-2.5 rounded-xl bg-card-hover text-text-muted text-xs font-bold border border-border transition-all duration-300 cursor-default hover:scale-105 hover:text-text-main"
-    onMouseEnter={(e) => {
-      const targetColor = color.startsWith('var(') ? getComputedStyle(document.documentElement).getPropertyValue(color.match(/\(([^)]+)\)/)![1]).trim() : color;
-      e.currentTarget.style.color = targetColor;
-      e.currentTarget.style.borderColor = `${targetColor}40`;
-      e.currentTarget.style.boxShadow = `0 0 15px ${targetColor}15`;
+  <m.span 
+    whileHover={{ 
+      scale: 1.05,
+      color: color,
+      borderColor: `${color}40`,
+      boxShadow: `0 0 20px ${color}15`
     }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.color = '';
-      e.currentTarget.style.borderColor = '';
-      e.currentTarget.style.boxShadow = '';
-    }}
+    whileTap={{ scale: 0.95 }}
+    className="px-4 py-2 rounded-xl bg-card-hover text-text-muted text-xs font-bold border border-border transition-all duration-200 cursor-default"
   >
     {name}
-  </span>
+  </m.span>
 );

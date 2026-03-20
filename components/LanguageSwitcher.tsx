@@ -22,14 +22,14 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ onLanguageCh
     setIsAnimating(true);
     onLanguageChange?.();
     
-    // Small delay before changing language for effect sync
+    // Increased delay before changing language to ensure content is blurred
     setTimeout(() => {
       setLanguage(newLang);
-    }, 150);
+    }, 300);
     
     setTimeout(() => {
       setIsAnimating(false);
-    }, 800);
+    }, 900);
   };
 
   return (

@@ -80,17 +80,17 @@ function AppContent() {
   const blogHref = getBlogHref();
 
   const homepageTitle = isSpanish
-    ? 'Anderson Mendoza | Ingeniero Full-Stack y Constructor de Productos con IA'
-    : 'Anderson Mendoza | Full-Stack Engineer and AI Product Builder';
+    ? 'Anderson Mendoza | Ingeniero de Software'
+    : 'Anderson Mendoza | Software Engineer';
   const homepageSeoTitle = isSpanish
-    ? 'Ingeniero Full-Stack y Constructor de Productos con IA'
-    : 'Full-Stack Engineer and AI Product Builder';
+    ? 'Ingeniero de Software'
+    : 'Software Engineer';
   const homepageDescription = isSpanish
-    ? 'Portfolio y blog de Anderson Mendoza, ingeniero full-stack y constructor de productos con IA en Cartagena, Colombia. Especializado en React, TypeScript, Node.js y aplicaciones impulsadas por LLMs.'
-    : 'Portfolio and blog of Anderson Mendoza, a full-stack engineer and AI product builder in Cartagena, Colombia. Specialized in React, TypeScript, Node.js, and LLM-powered applications.';
+    ? 'Portfolio y blog de Anderson Mendoza, ingeniero de software en Cartagena, Colombia. Especializado en React, TypeScript, Node.js y aplicaciones con IA.'
+    : 'Portfolio and blog of Anderson Mendoza, a software engineer in Cartagena, Colombia. Specialized in React, TypeScript, Node.js, and AI-powered applications.';
   const homepageKeywords = isSpanish
-    ? [...DEFAULT_KEYWORDS, 'ingeniero full-stack', 'portfolio desarrollador', 'constructor de productos con IA', 'ingeniero de software Colombia']
-    : [...DEFAULT_KEYWORDS, 'developer portfolio', 'software engineer portfolio', 'AI product builder portfolio'];
+    ? [...DEFAULT_KEYWORDS, 'ingeniero de software', 'portfolio desarrollador', 'desarrollador react']
+    : [...DEFAULT_KEYWORDS, 'software engineer', 'developer portfolio', 'react developer'];
   const homepageCanonical = absoluteUrl(isSpanish ? '/?lang=es' : '/');
   const homepageAlternates = [
     { hrefLang: 'en', href: absoluteUrl('/') },
@@ -361,8 +361,8 @@ function App() {
       <LanguageProvider>
         <ThemeProvider>
           <LazyMotion features={domAnimation}>
-          <AppContent />
-                  </LazyMotion>
+            <AppContent />
+          </LazyMotion>
         </ThemeProvider>
       </LanguageProvider>
     </ErrorBoundary>

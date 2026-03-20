@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { m, useInView } from 'framer-motion';
+import { m, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 interface BentoCardProps {
   children?: React.ReactNode;
@@ -27,18 +27,50 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   noPadding = false,
   index = 0
 }) => {
-  const cardRef = React.useRef(null);
+  const cardRef = React.useRef<HTMLDivElement>(null);
   const isInView = useInView(cardRef, { once: true, margin: "-100px" });
-  const baseClasses = `relative overflow-hidden rounded-[20px] sm:rounded-[28px] md:rounded-[32px] text-left transition-[background-color,box-shadow,border-color,transform] duration-300 group select-none
+  
+  // Mouse tracking for 3D tilt
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["1.5deg", "-1.5deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-1.5deg", "1.5deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!onClick || !cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  const baseClasses = `relative overflow-hidden rounded-[20px] sm:rounded-[28px] md:rounded-[32px] text-left transition-[background-color,box-shadow,border-color] duration-300 group select-none
       bg-card backdrop-blur-xl shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_1px_2px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)] border border-transparent dark:border-white/5 hover:border-primary/10
-      ${onClick ? 'cursor-pointer hover:bg-card-hover hover:-translate-y-1' : ''}
+      ${onClick ? 'cursor-pointer hover:bg-card-hover' : ''}
   `;
 
   return (
     <m.div
       ref={cardRef}
+      layout="position"
       data-bento-id={dataId}
       onClick={onClick}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
       onKeyDown={(e) => {
@@ -48,6 +80,13 @@ export const BentoCard: React.FC<BentoCardProps> = ({
         }
       }}
       className={`${baseClasses} ${className}`}
+      style={{ 
+        rotateX: onClick ? rotateX : 0,
+        rotateY: onClick ? rotateY : 0,
+        WebkitTapHighlightColor: 'transparent',
+        transformStyle: "preserve-3d",
+        willChange: "transform"
+      }}
       initial={{
         opacity: 0,
         y: 30,
@@ -59,8 +98,8 @@ export const BentoCard: React.FC<BentoCardProps> = ({
         scale: isInView ? 1 : 0.95
       }}
       whileHover={onClick ? { 
-        y: -6, 
-        scale: 1.02,
+        y: -4, 
+        scale: 1.01,
         transition: { 
           type: 'spring', 
           stiffness: 400, 
@@ -83,13 +122,10 @@ export const BentoCard: React.FC<BentoCardProps> = ({
         // Smooth layout transition for card-to-modal expansion
         layout: {
           type: 'spring',
-          stiffness: 200,
+          stiffness: 180,
           damping: 28,
           mass: 0.8
         }
-      }}
-      style={{ 
-        WebkitTapHighlightColor: 'transparent'
       }}
     >
       {backgroundImage && (

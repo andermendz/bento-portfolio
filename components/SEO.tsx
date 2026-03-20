@@ -72,6 +72,12 @@ export function SEO({
       <meta name="robots" content={robotsContent} />
       <meta name="googlebot" content={robotsContent} />
       <meta name="application-name" content={SITE_NAME} />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+      <meta name="format-detection" content="telephone=no" />
+      <meta name="mobile-web-app-capable" content="yes" />
+      <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+      <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 
       <link rel="canonical" href={url} />
       {alternates?.map((alternate) => (

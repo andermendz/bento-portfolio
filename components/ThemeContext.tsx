@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
+import { flushSync } from 'react-dom';
 import { Theme } from '../types';
 
 interface ThemeContextType {
@@ -31,9 +32,19 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
-  };
+  const toggleTheme = useCallback(() => {
+    // Support for Document View Transitions API
+    if (!(document as any).startViewTransition) {
+      setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+      return;
+    }
+
+    (document as any).startViewTransition(() => {
+      flushSync(() => {
+        setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+      });
+    });
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

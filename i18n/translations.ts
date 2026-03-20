@@ -6,7 +6,7 @@ export const translations = {
   en: {
     // Intro
     availableForWork: 'Available for work',
-    introBio: 'Lead Systems Engineer building <scalable>scalable</scalable>, <performance>high-performance</performance> digital experiences.',
+    introBio: 'Software Engineer building <scalable>scalable</scalable>, <performance>high-performance</performance> digital experiences.',
     
     // Socials
     letsConnect: "Let's connect",
@@ -57,7 +57,7 @@ export const translations = {
     
     // Footer (use {year} placeholder; replaced at runtime with current year)
     copyright: '© {year} Anderson Mendoza.',
-    role: 'Lead Systems Engineer',
+    role: 'Software Engineer',
     
     // Detail Views
     // About Modal
@@ -67,7 +67,7 @@ export const translations = {
     detailOriented: 'Detail Oriented',
     problemSolver: 'Problem Solver',
     bio: 'Bio',
-    bioText: 'I am a Lead Systems Engineer from Cartagena, Colombia. My work focuses on building efficient, scalable web applications and leading technical teams to success. I thrive in dynamic environments where I can apply my skills in modern web frameworks and high-performance system architecture.',
+    bioText: 'I am a Software Engineer from Cartagena, Colombia. My work focuses on building efficient, scalable web applications and high-performance system architecture.',
     philosophy: 'Philosophy',
     userCentricDesign: 'User-Centric Design',
     userCentricDesignDesc: 'Prioritizing intuitive interfaces and seamless interactions.',
@@ -102,7 +102,7 @@ export const translations = {
   es: {
     // Intro
     availableForWork: 'Disponible para trabajar',
-    introBio: 'Lead Systems Engineer creando experiencias digitales <scalable>escalables</scalable> y de <performance>alto rendimiento</performance>.',
+    introBio: 'Ingeniero de Software creando experiencias digitales <scalable>escalables</scalable> y de <performance>alto rendimiento</performance>.',
     
     // Socials
     letsConnect: 'Conectemos',
@@ -153,7 +153,7 @@ export const translations = {
     
     // Footer (use {year} placeholder; replaced at runtime with current year)
     copyright: '© {year} Anderson Mendoza.',
-    role: 'Lead Systems Engineer',
+    role: 'Ingeniero de Software',
     
     // Detail Views
     // About Modal
@@ -163,7 +163,7 @@ export const translations = {
     detailOriented: 'Orientado al Detalle',
     problemSolver: 'Solucionador de Problemas',
     bio: 'Biografía',
-    bioText: 'Soy un Ingeniero de Sistemas y Líder Técnico de Cartagena, Colombia. Mi trabajo se enfoca en construir aplicaciones web eficientes y escalables, liderando equipos técnicos hacia el éxito. Prospero en entornos dinámicos donde puedo aplicar mis habilidades en frameworks web modernos y arquitectura de sistemas de alto rendimiento.',
+    bioText: 'Soy un Ingeniero de Software de Cartagena, Colombia. Mi trabajo se enfoca en construir aplicaciones web eficientes y escalables, con un fuerte enfoque en arquitectura de sistemas de alto rendimiento.',
     philosophy: 'Filosofía',
     userCentricDesign: 'Diseño Centrado en el Usuario',
     userCentricDesignDesc: 'Priorizando interfaces intuitivas e interacciones fluidas.',

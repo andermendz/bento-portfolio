@@ -1,36 +1,30 @@
 export const SITE_URL = 'https://andermendz.dev';
 export const BLOG_URL = 'https://blog.andermendz.dev';
 export const SITE_NAME = 'Anderson Mendoza';
-export const SITE_TITLE = 'Anderson Mendoza | Full-Stack Engineer, AI Builder, and Technical Lead';
-export const SITE_DESCRIPTION = 'Portfolio and blog of Anderson Mendoza, a full-stack engineer and AI product builder from Cartagena, Colombia specializing in React, TypeScript, Node.js, and LLM-powered applications.';
+export const SITE_TITLE = 'Anderson Mendoza | Software Engineer';
+export const SITE_DESCRIPTION = 'Portfolio and blog of Anderson Mendoza, a software engineer from Cartagena, Colombia specializing in React, TypeScript, Node.js, and AI-powered applications.';
 export const SITE_TWITTER = '@andermendz';
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/profile.png`;
-export const DEFAULT_OG_IMAGE_ALT = 'Portrait of Anderson Mendoza, full-stack engineer and AI builder';
+export const DEFAULT_OG_IMAGE_ALT = 'Portrait of Anderson Mendoza, software engineer';
 
 export const DEFAULT_KEYWORDS = [
   'Anderson Mendoza',
   'Anderson Mendoza portfolio',
-  'full-stack engineer',
-  'AI engineer',
+  'software engineer',
   'technical lead',
   'React developer',
   'TypeScript developer',
   'Node.js developer',
-  'LLM engineer',
-  'AI product builder',
+  'AI engineer',
   'software engineer Colombia',
   'Cartagena software engineer',
 ];
 
 export const BLOG_KEYWORDS = [
   'AI blog',
-  'LLM blog',
-  'AI engineering notes',
-  'context windows',
-  'tokens',
-  'hallucinations',
-  'reasoning models',
-  'multimodal AI',
+  'Software Engineering blog',
+  'web development',
+  'LLM notes',
 ];
 
 export function absoluteUrl(path = '/') {
@@ -75,7 +69,7 @@ export function buildPersonSchema() {
     name: 'Anderson Mendoza',
     url: SITE_URL,
     image: DEFAULT_OG_IMAGE,
-    jobTitle: 'Full-Stack Engineer and AI Builder',
+    jobTitle: 'Software Engineer',
     description: SITE_DESCRIPTION,
     address: {
       '@type': 'PostalAddress',
@@ -93,12 +87,38 @@ export function buildPersonSchema() {
       'Node.js',
       'Next.js',
       'LLMs',
-      'AI Product Engineering',
-      'Retrieval-Augmented Generation',
+      'AI Engineering',
       'System Design',
       'MongoDB',
       'PostgreSQL',
+      'Python',
+      'Framer Motion',
     ],
+  };
+}
+
+export function buildJobPostingSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'JobPosting',
+    title: 'Software Engineer',
+    description: SITE_DESCRIPTION,
+    datePosted: '2024-01-01',
+    validThrough: '2026-12-31',
+    hiringOrganization: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      sameAs: SITE_URL,
+    },
+    jobLocation: {
+      '@type': 'Place',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Cartagena',
+        addressCountry: 'Colombia',
+      },
+    },
+    skills: DEFAULT_KEYWORDS.join(', '),
   };
 }
 
