@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { m } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../i18n/LanguageContext';
 import type { Language } from '../i18n/translations';
 
@@ -10,6 +10,7 @@ interface LanguageSwitcherProps {
 export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ onLanguageChange }) => {
   const { language, setLanguage } = useLanguage();
   const [isAnimating, setIsAnimating] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   const languages: { code: Language; label: string; flag: string }[] = [
     { code: 'en', label: 'EN', flag: '🇺🇸' },
@@ -34,10 +35,10 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ onLanguageCh
 
   return (
     <m.div
-      className="fixed bottom-6 left-6 z-[120] flex items-center gap-1 p-1.5 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl ring-1 ring-white/10"
-      initial={{ opacity: 0, scale: 0, x: -20 }}
+      className="fixed z-[120] flex items-center gap-1 p-1.5 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl ring-1 ring-white/10 bottom-[max(1.5rem,env(safe-area-inset-bottom))] left-[max(1.5rem,env(safe-area-inset-left))]"
+      initial={reduceMotion ? { opacity: 1, scale: 1, x: 0 } : { opacity: 0, scale: 0, x: -20 }}
       animate={{ opacity: 1, scale: 1, x: 0 }}
-      transition={{ duration: 0.5, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: reduceMotion ? 0 : 0.5, delay: reduceMotion ? 0 : 1.1, ease: [0.22, 1, 0.36, 1] }}
     >
       {languages.map((lang) => (
         <m.button

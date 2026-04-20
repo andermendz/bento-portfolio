@@ -9,15 +9,38 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+const STORAGE_KEY = 'portfolio-theme';
+
+function readStoredTheme(): Theme | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const v = localStorage.getItem(STORAGE_KEY);
+    if (v === 'dark' || v === 'light') return v;
+  } catch {
+    /* ignore */
+  }
+  return null;
+}
+
+function getInitialTheme(): Theme {
+  const stored = readStoredTheme();
+  if (stored) return stored;
+  if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: light)').matches) {
+    return 'light';
+  }
+  return 'dark';
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark');
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
 
   useEffect(() => {
-    // Check system preference on load (optional)
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      setTheme('light');
+    try {
+      localStorage.setItem(STORAGE_KEY, theme);
+    } catch {
+      /* ignore quota / private mode */
     }
-  }, []);
+  }, [theme]);
 
   useEffect(() => {
     try {

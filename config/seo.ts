@@ -93,6 +93,9 @@ export function buildPersonSchema() {
       'PostgreSQL',
       'Python',
       'Framer Motion',
+      'Rust',
+      'Tauri',
+      'Speech-to-text',
     ],
   };
 }

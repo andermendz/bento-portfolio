@@ -1,9 +1,8 @@
 import React from 'react';
 import { Mail } from 'lucide-react';
-import type { ContentWithCopyProps } from '../../types';
 import { useLanguage } from '../../i18n/LanguageContext';
 
-export const ContactContent: React.FC<ContentWithCopyProps> = () => {
+export const ContactContent: React.FC = () => {
   const { t } = useLanguage();
   
   return (
