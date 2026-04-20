@@ -27,13 +27,6 @@ export interface Project {
   color: string;
 }
 
-// Props interfaces for content components
-
-export interface ContentWithCopyProps {
-  copyToClipboard: (text: string, label: string) => void;
-  copiedText: string | null;
-}
-
 export interface MapContentProps {
   theme: Theme;
 }

@@ -3,7 +3,7 @@ import { flushSync } from 'react-dom';
 import ErrorBoundary from './components/ErrorBoundary';
 import { BentoCard } from './components/BentoCard';
 import { DetailView } from './components/DetailView';
-import { AnimatePresence, m, LazyMotion, domAnimation } from "framer-motion";
+import { AnimatePresence, m, LazyMotion, domAnimation, useReducedMotion } from "framer-motion";
 import { Sun, Moon } from 'lucide-react';
 
 import { Suspense, lazy } from 'react';
@@ -16,8 +16,8 @@ import {
   TechStackContent,
   AboutContent,
   ExperienceContent,
+  ProjectsContent,
   EducationContent,
-  ContactContent,
 } from './components/cards';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { SEO } from './components/SEO';
@@ -49,9 +49,9 @@ type DocumentWithViewTransition = Document & {
 
 function AppContent() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
-  const [copiedText, setCopiedText] = useState<string | null>(null);
 
   const { theme, toggleTheme } = useTheme();
+  const reduceMotion = useReducedMotion();
   const [isLanguageChanging, setIsLanguageChanging] = useState(false);
   
   const { t, language } = useLanguage();
@@ -141,23 +141,6 @@ function AppContent() {
     }
   }, [activeSection]);
 
-  /**
-   * Copies the provided text to the clipboard and shows a temporary success message.
-   * @param text - The text to copy
-   * @param label - The label for the copied text (for display purposes)
-   */
-  const copyToClipboard = async (text: string, label: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopiedText(label);
-      setTimeout(() => setCopiedText(null), 2000);
-    } catch (error) {
-      console.error('Failed to copy to clipboard:', error);
-      // Fallback: could show an alert or toast
-      alert('Failed to copy to clipboard. Please try again.');
-    }
-  };
-
   const runViewTransition = useCallback((update: () => void) => {
     const doc = document as DocumentWithViewTransition;
     if (typeof doc.startViewTransition === 'function') {
@@ -198,10 +181,10 @@ function AppContent() {
         return <AboutContent />;
       case 'experience':
         return <ExperienceContent />;
+      case 'projects':
+        return <ProjectsContent />;
       case 'education':
         return <EducationContent />;
-      case 'contact':
-        return <ContactContent copyToClipboard={copyToClipboard} copiedText={copiedText} />;
 
       case 'map':
         return (
@@ -227,6 +210,8 @@ function AppContent() {
         return t('aboutTitle');
       case 'experience':
         return t('experienceTitle');
+      case 'projects':
+        return t('projectsTitle');
       case 'education':
         return t('educationTitle');
       default:
@@ -238,6 +223,9 @@ function AppContent() {
     <div 
       className={`min-h-screen bg-page text-text-main p-4 pt-8 md:p-6 md:pt-16 3xl:pt-20 font-sans selection:bg-primary selection:text-primary-fg transition-colors duration-500 overflow-x-hidden flex flex-col items-center ${activeSection ? 'overflow-y-hidden' : ''}`}
     >
+      <a href="#main-content" className="skip-to-main">
+        {t('skipToMainContent')}
+      </a>
       <SEO 
         title={homepageSeoTitle}
         description={homepageDescription}
@@ -256,22 +244,22 @@ function AppContent() {
       
       {/* Theme Toggle Button */}
       <m.button
-        className="fixed bottom-6 right-6 z-[120] p-4 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl text-text-main hover:bg-card-hover transition-colors ring-1 ring-white/10"
+        className="fixed z-[120] p-4 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl text-text-main hover:bg-card-hover transition-colors ring-1 ring-white/10 bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-[max(1.5rem,env(safe-area-inset-right))]"
         onClick={toggleTheme}
         aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
-        initial={{ opacity: 0, scale: 0, rotate: -180 }}
+        initial={reduceMotion ? { opacity: 1, scale: 1, rotate: 0 } : { opacity: 0, scale: 0, rotate: -180 }}
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
-        transition={{ duration: 0.5, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
-        whileHover={{ scale: 1.1, rotate: 10 }}
-        whileTap={{ scale: 0.9 }}
+        transition={{ duration: reduceMotion ? 0 : 0.5, delay: reduceMotion ? 0 : 1.0, ease: [0.22, 1, 0.36, 1] }}
+        whileHover={reduceMotion ? undefined : { scale: 1.1, rotate: 10 }}
+        whileTap={reduceMotion ? undefined : { scale: 0.9 }}
       >
         <AnimatePresence mode="wait">
           {theme === 'dark' ? (
-            <m.div key="sun" initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: 90 }}>
+            <m.div key="sun" initial={reduceMotion ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} exit={reduceMotion ? { opacity: 0 } : { scale: 0, rotate: 90 }}>
               <Sun size={24} />
             </m.div>
           ) : (
-            <m.div key="moon" initial={{ scale: 0, rotate: 90 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: -90 }}>
+            <m.div key="moon" initial={reduceMotion ? { scale: 1, rotate: 0 } : { scale: 0, rotate: 90 }} animate={{ scale: 1, rotate: 0 }} exit={reduceMotion ? { opacity: 0 } : { scale: 0, rotate: -90 }}>
               <Moon size={24} />
             </m.div>
           )}
@@ -279,7 +267,11 @@ function AppContent() {
       </m.button>
 
       <LanguageContentWrapper isChanging={isLanguageChanging}>
-        <div className={`w-full max-w-[1320px] 3xl:max-w-[1500px] mx-auto pb-24 sm:pb-6 ${activeSection ? 'flex-1 flex flex-col min-h-0' : ''}`}>
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className={`w-full max-w-[1320px] 3xl:max-w-[1500px] mx-auto pb-24 sm:pb-6 outline-none ${activeSection ? 'flex-1 flex flex-col min-h-0' : ''}`}
+        >
           
           <AnimatePresence mode="wait" initial={false}>
             {activeSection ? (
@@ -327,9 +319,9 @@ function AppContent() {
           {/* Footer */}
           {!activeSection && (
             <m.div 
-              initial={{ opacity: 0, y: 20 }}
+              initial={reduceMotion ? { opacity: 0.5, y: 0 } : { opacity: 0, y: 20 }}
               animate={{ opacity: 0.5, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: reduceMotion ? 0 : 0.6, delay: reduceMotion ? 0 : 0.9, ease: [0.22, 1, 0.36, 1] }}
               className="mt-8 flex flex-col md:flex-row justify-between items-center text-text-muted text-xs font-medium uppercase tracking-wider gap-4"
             >
               <div className="flex items-center gap-3">
@@ -342,12 +334,12 @@ function AppContent() {
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></div>
+                <div className={`h-1.5 w-1.5 rounded-full bg-primary ${reduceMotion ? '' : 'animate-pulse'}`} />
                 <p>{t('role')}</p>
               </div>
             </m.div>
           )}
-        </div>
+        </main>
       </LanguageContentWrapper>
     </div>
   );

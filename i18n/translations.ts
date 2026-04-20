@@ -58,6 +58,12 @@ export const translations = {
     // Footer (use {year} placeholder; replaced at runtime with current year)
     copyright: '© {year} Anderson Mendoza.',
     role: 'Software Engineer',
+
+    // A11y & chrome
+    skipToMainContent: 'Skip to main content',
+    back: 'Back',
+    sectionLoading: 'Loading section…',
+    copyFailed: 'Could not copy. Please try again.',
     
     // Detail Views
     // About Modal
@@ -81,6 +87,15 @@ export const translations = {
     visblDesc: 'Leading the technical direction and architecture of the platform. Contributing to strategic decisions and mentoring development teams while maintaining core features.',
     visblPrevDesc: 'Developed core platform features and maintained robust software architecture to ensure scalability and performance.',
     comfenalcoDesc: 'Built and maintained academic management systems using PHP and Modern JS. Focused on delivering user-friendly interfaces and optimizing database queries.',
+    openSourceProject: 'Open source',
+    escribboName: 'Escribbo',
+    escribboDesc: 'Escribbo turns what you say into text on your machine using local AI models (Whisper and Parakeet)—fully offline, so your voice stays private. A shortcut, you speak, and it types into whatever app you are using on Windows, macOS, or Linux. It is free, open source (MIT), with downloads at escribbo.com and the full project on GitHub (including signed releases and docs).',
+    escribboWebsite: 'Website',
+    escribboRepo: 'GitHub',
+    projectsTitle: 'Projects',
+    projectsHeadline: 'Selected work.',
+    projectsSectionDesc: 'Apps and sites you can try—details and links to the site and repo below.',
+    projectsCardHint: 'Escribbo — offline dictation with local Whisper & Parakeet',
     
     // Education Modal
     academicBackground: 'Academic Background.',
@@ -154,6 +169,12 @@ export const translations = {
     // Footer (use {year} placeholder; replaced at runtime with current year)
     copyright: '© {year} Anderson Mendoza.',
     role: 'Ingeniero de Software',
+
+    // A11y & chrome
+    skipToMainContent: 'Ir al contenido principal',
+    back: 'Volver',
+    sectionLoading: 'Cargando sección…',
+    copyFailed: 'No se pudo copiar. Inténtalo de nuevo.',
     
     // Detail Views
     // About Modal
@@ -177,6 +198,15 @@ export const translations = {
     visblDesc: 'Liderando la dirección técnica y arquitectura de la plataforma. Contribuyendo a decisiones estratégicas y mentoría de equipos de desarrollo mientras mantengo funcionalidades principales.',
     visblPrevDesc: 'Desarrollé características principales de la plataforma y mantuve una arquitectura de software robusta para garantizar escalabilidad y rendimiento.',
     comfenalcoDesc: 'Construí y mantuve sistemas de gestión académica usando PHP y JS moderno. Enfocado en entregar interfaces amigables y optimizar consultas de base de datos.',
+    openSourceProject: 'Código abierto',
+    escribboName: 'Escribbo',
+    escribboDesc: 'Escribbo convierte lo que dices en texto en tu equipo usando modelos de IA locales (Whisper y Parakeet), todo sin conexión para que tu voz no salga de la máquina. Un atajo, hablas y escribe en la app que tengas al frente en Windows, macOS o Linux. Es gratuito y de código abierto (MIT), con descargas en escribbo.com y el proyecto completo en GitHub (releases firmados y documentación).',
+    escribboWebsite: 'Sitio',
+    escribboRepo: 'GitHub',
+    projectsTitle: 'Proyectos',
+    projectsHeadline: 'Trabajos destacados.',
+    projectsSectionDesc: 'Apps y sitios que puedes probar—más abajo enlaces al sitio y al repositorio.',
+    projectsCardHint: 'Escribbo — dictado offline con Whisper y Parakeet en local',
     
     // Education Modal
     academicBackground: 'Trayectoria Académica.',

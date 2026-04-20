@@ -4,5 +4,6 @@ export * from './TechStackCard';
 export * from './AboutCard';
 export * from './BlogCard';
 export * from './ExperienceCard';
+export * from './ProjectsCard';
 export * from './EducationCard';
 export * from './ContactCard';

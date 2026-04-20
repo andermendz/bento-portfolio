@@ -1,5 +1,5 @@
 import React from 'react';
-import { m, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence, useReducedMotion } from 'framer-motion';
 
 interface LanguageTransitionProps {
   isActive: boolean;
@@ -7,6 +7,10 @@ interface LanguageTransitionProps {
 }
 
 export const LanguageTransition: React.FC<LanguageTransitionProps> = ({ isActive, language }) => {
+  const reduceMotion = useReducedMotion();
+  if (reduceMotion) {
+    return null;
+  }
   return (
     <AnimatePresence>
       {isActive && (
@@ -118,17 +122,18 @@ export const LanguageContentWrapper: React.FC<{
   children: React.ReactNode;
   isChanging: boolean;
 }> = ({ children, isChanging }) => {
+  const reduceMotion = useReducedMotion();
   return (
     <m.div
       className="flex-1 flex flex-col min-h-0 w-full"
-      style={{ willChange: 'filter, opacity, transform' }}
+      style={reduceMotion ? undefined : { willChange: 'filter, opacity, transform' }}
       animate={{ 
-        opacity: isChanging ? 0.4 : 1,
-        scale: isChanging ? 0.985 : 1,
-        filter: isChanging ? 'blur(2.5px)' : 'blur(0px)',
+        opacity: isChanging && !reduceMotion ? 0.4 : 1,
+        scale: isChanging && !reduceMotion ? 0.985 : 1,
+        filter: isChanging && !reduceMotion ? 'blur(2.5px)' : 'blur(0px)',
       }}
       transition={{ 
-        duration: 0.35,
+        duration: reduceMotion ? 0 : 0.35,
         ease: [0.22, 1, 0.36, 1]
       }}
     >
