@@ -31,22 +31,25 @@ export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const phiRef = useRef(4.7);
+  const thetaRef = useRef(0.25);
   const sizeRef = useRef(0);
-  const pointerInteracting = useRef<number | null>(null);
-  const pointerInteractionStart = useRef<number | null>(null);
+
+  // Drag state — all refs so we don't re-render on every pixel.
+  const isDragging = useRef(false);
+  const lastPointer = useRef<{ x: number; y: number } | null>(null);
+  const velocity = useRef<{ phi: number; theta: number }>({ phi: 0, theta: 0 });
+  const lastMoveTime = useRef(0);
+
   const [isReady, setIsReady] = useState(false);
-  const [r, setR] = useState(0);
 
   useEffect(() => {
-    // Small delay to ensure theme is properly applied before showing
     const showTimer = setTimeout(() => setIsReady(true), 100);
     return () => clearTimeout(showTimer);
   }, []);
 
   useEffect(() => {
     let size = 0;
-    
-    // Use container height as the base size to keep consistent zoom
+
     if (containerRef.current) {
       size = containerRef.current.offsetHeight;
       sizeRef.current = size;
@@ -58,19 +61,23 @@ export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
         sizeRef.current = size;
       }
     };
-    
+
     window.addEventListener('resize', onResize);
     setTimeout(onResize, 100);
 
     if (!canvasRef.current) return;
 
+    // Clamp vertical tilt so the user can't flip the globe inside-out.
+    const THETA_MIN = -Math.PI / 2 + 0.1;
+    const THETA_MAX = Math.PI / 2 - 0.1;
+
     const globe = createGlobe(canvasRef.current, {
       devicePixelRatio: 2,
-      width: size * 2 || 100, 
+      width: size * 2 || 100,
       height: size * 2 || 100,
-      phi: phiRef.current, 
-      theta: 0.25, 
-      dark: 1, 
+      phi: phiRef.current,
+      theta: thetaRef.current,
+      dark: 1,
       diffuse: 1.2,
       mapSamples: 16000,
       mapBrightness: 6,
@@ -78,18 +85,37 @@ export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
       markerColor: GLOBE_PULSE.markerColor,
       glowColor: [0.15, 0.15, 0.15],
       opacity: 1,
-      markers: [], 
+      markers: [],
       onRender: (state) => {
         if (sizeRef.current > 0) {
           state.width = sizeRef.current * 2;
           state.height = sizeRef.current * 2;
         }
-        
-        // Rotation
-        if (!pointerInteracting.current) {
-          phiRef.current += 0.002;
+
+        if (isDragging.current) {
+          // Velocity is applied directly in the pointer-move handler.
+          // Decay it here to zero so release doesn't snap.
+          velocity.current.phi *= 0.9;
+          velocity.current.theta *= 0.9;
+        } else {
+          // Inertial spin from the last flick, then settle into the idle drift.
+          phiRef.current += velocity.current.phi;
+          thetaRef.current += velocity.current.theta;
+          velocity.current.phi *= 0.95;
+          velocity.current.theta *= 0.95;
+
+          // Gentle auto-rotation once the flick has decayed.
+          const idleSpin = 0.002;
+          phiRef.current += idleSpin;
+
+          // Ease theta back toward a comfortable tilt when user lets go.
+          thetaRef.current += (0.25 - thetaRef.current) * 0.01;
         }
-        state.phi = phiRef.current + r;
+
+        thetaRef.current = Math.max(THETA_MIN, Math.min(THETA_MAX, thetaRef.current));
+
+        state.phi = phiRef.current;
+        state.theta = thetaRef.current;
 
         const cx = GLOBE_PULSE.originLat;
         const cy = GLOBE_PULSE.originLon;
@@ -165,33 +191,66 @@ export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
         <canvas
           ref={canvasRef}
           onPointerDown={(e) => {
-            pointerInteracting.current =
-              e.clientX - pointerInteractionStart.current!;
-            containerRef.current!.style.cursor = 'grabbing';
+            isDragging.current = true;
+            lastPointer.current = { x: e.clientX, y: e.clientY };
+            lastMoveTime.current = performance.now();
+            velocity.current = { phi: 0, theta: 0 };
+            e.currentTarget.setPointerCapture(e.pointerId);
+            if (containerRef.current) containerRef.current.style.cursor = 'grabbing';
           }}
-          onPointerUp={() => {
-            pointerInteracting.current = null;
-            containerRef.current!.style.cursor = 'grab';
+          onPointerMove={(e) => {
+            if (!isDragging.current || !lastPointer.current) return;
+
+            const dx = e.clientX - lastPointer.current.x;
+            const dy = e.clientY - lastPointer.current.y;
+            lastPointer.current = { x: e.clientX, y: e.clientY };
+
+            // Pointer movement → angular velocity. Scale tuned to feel like
+            // 1 screen-width ≈ one full rotation on a mid-sized globe.
+            // Google-Earth "grab the globe" feel: point under the cursor tracks
+            // with the cursor.
+            const phiDelta = dx * 0.005;
+            const thetaDelta = dy * 0.005;
+
+            phiRef.current += phiDelta;
+            thetaRef.current += thetaDelta;
+
+            // Track velocity so release carries momentum.
+            const now = performance.now();
+            const dt = Math.max(1, now - lastMoveTime.current);
+            lastMoveTime.current = now;
+            // Frame-normalized velocity (~16ms/frame baseline).
+            velocity.current.phi = (phiDelta / dt) * 16;
+            velocity.current.theta = (thetaDelta / dt) * 16;
           }}
-          onPointerOut={() => {
-            pointerInteracting.current = null;
-            containerRef.current!.style.cursor = 'grab';
+          onPointerUp={(e) => {
+            isDragging.current = false;
+            lastPointer.current = null;
+            try {
+              e.currentTarget.releasePointerCapture(e.pointerId);
+            } catch { /* no capture */ }
+            if (containerRef.current) containerRef.current.style.cursor = 'grab';
           }}
-          onMouseMove={(e) => {
-            if (pointerInteracting.current !== null) {
-              const delta = e.clientX - pointerInteracting.current;
-              pointerInteractionStart.current = delta;
-              setR(delta / 200);
+          onPointerCancel={() => {
+            isDragging.current = false;
+            lastPointer.current = null;
+            velocity.current = { phi: 0, theta: 0 };
+            if (containerRef.current) containerRef.current.style.cursor = 'grab';
+          }}
+          onPointerLeave={() => {
+            if (!isDragging.current && containerRef.current) {
+              containerRef.current.style.cursor = 'grab';
             }
           }}
-          style={{ 
-            width: '100%', 
-            height: '100%', 
+          style={{
+            width: '100%',
+            height: '100%',
             transform: `scale(${scale})`,
             opacity: isReady ? 1 : 0,
             transition: 'opacity 0.5s ease-out, filter 0.7s ease-in-out',
             cursor: 'grab',
-            touchAction: 'none'
+            touchAction: 'none',
+            userSelect: 'none',
           }}
           className={`${theme === 'light' ? 'invert brightness-105' : ''}`}
         />

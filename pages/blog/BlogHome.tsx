@@ -84,7 +84,7 @@ export function BlogHome() {
   const blogUrl = blogAbsoluteUrl(isSpanish ? '/?lang=es' : '/');
   const blogDescription = t('blogHeroSubline');
   const blogKeywords = Array.from(new Set([...BLOG_KEYWORDS, ...posts.flatMap((post) => post.tags)]));
-  const uiTitle = isSpanish ? 'Blog de IA' : 'AI Blog';
+  const uiTitle = t('blogAppTitle');
   const siteBlogName = uiTitle;
   const articleHref = (slug: string) => (isSpanish ? `/${slug}?lang=es` : `/${slug}`);
   const formatDate = (iso: string) =>
@@ -115,7 +115,7 @@ export function BlogHome() {
     },
     buildBreadcrumbSchema([
       { name: t('home'), item: absoluteUrl(isSpanish ? '/?lang=es' : '/') },
-      { name: 'Blog', item: blogUrl },
+      { name: t('blogTitle'), item: blogUrl },
     ]),
     {
       '@context': 'https://schema.org',
@@ -130,7 +130,7 @@ export function BlogHome() {
   ];
 
   return (
-    <div ref={rootRef} className="w-full">
+    <div key={language} ref={rootRef} className="w-full">
       <SEO
         title={uiTitle}
         description={blogDescription}

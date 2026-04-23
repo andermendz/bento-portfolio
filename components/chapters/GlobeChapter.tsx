@@ -53,7 +53,7 @@ export const GlobeChapter: React.FC<GlobeChapterProps> = ({ theme }) => {
     <section
       ref={rootRef}
       className="relative w-full px-5 sm:px-10 lg:px-16 3xl:px-24 py-24 sm:py-32"
-      aria-label="Location"
+      aria-label={t('ariaGlobeChapter')}
     >
       <div
         ref={headingRef}

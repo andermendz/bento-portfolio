@@ -7,54 +7,55 @@ export const translations = {
     // Intro
     availableForWork: 'Available for work',
     introBio: 'Software Engineer building <scalable>scalable</scalable>, <performance>high-performance</performance> digital experiences.',
-    
+
     // Socials
     letsConnect: "Let's connect",
-    letsTalk: "Let's Talk",
-    letsTalkDesc: 'Available for freelance and full-time opportunities.',
-    currentlyAvailable: 'Currently Available',
-    contactMsg: 'Interested in working together or just want to say hi? Feel free to reach out.',
-    emailMe: 'Email Me',
-    emailDesc: 'Direct communication for detailed discussions.',
+    letsTalk: "Let's talk",
+    letsTalkDesc: 'Open to freelance projects and full-time roles.',
+    currentlyAvailable: 'Currently available',
+    contactMsg: 'Want to work together, or just say hi? Drop me a line.',
+    emailMe: 'Email',
+    emailDesc: 'The direct line for anything substantive.',
     emailAddress: 'andermendz@proton.me',
     linkedIn: 'LinkedIn',
-    linkedInDesc: 'Connect professionally and explore opportunities.',
+    linkedInDesc: 'To connect and explore opportunities.',
     linkedInHandle: '/in/andermendz',
-    
+
     // Tech Stack
     techStackTitle: 'Tech Stack',
 
     // Blog
     blogTitle: 'Blog',
-    readArticles: 'Read my latest articles.',
-    latestPost: 'Latest Post',
-    
+    blogAppTitle: 'AI Blog',
+    readArticles: 'The latest things I have written.',
+    latestPost: 'Latest post',
+
     // About
     aboutTitle: 'About',
     aboutPhrase: 'Obsessed with <details>details</details> and <performance>performance</performance>.',
-    
+
     // Experience
     experienceTitle: 'Experience',
     technicalLead: 'Technical Lead',
     softwareDeveloper: 'Software Engineer',
     fullStackDev: 'Full-stack Engineer',
-    
+
     // Education
     educationTitle: 'Education',
     systemsEngineering: 'Systems Engineering',
     technologicalUniversity: 'Technological University',
-    
+
     // Contact
     contactTitle: "Let's connect.",
     connectOnLinkedIn: 'Connect on LinkedIn',
     open: 'Open',
     copy: 'Copy',
     copied: 'Copied',
-    
+
     // Map
     basedIn: 'Based in',
     location: 'Cartagena, CO',
-    
+
     // Footer (use {year} placeholder; replaced at runtime with current year)
     copyright: '© {year} Anderson Mendoza.',
     role: 'Software Engineer',
@@ -64,51 +65,51 @@ export const translations = {
     back: 'Back',
     sectionLoading: 'Loading section…',
     copyFailed: 'Could not copy. Please try again.',
-    
+
     // Detail Views
     // About Modal
     profile: 'Profile',
-    scalableArchitect: 'Scalable Architect.',
+    scalableArchitect: 'Scalable systems.',
     proactive: 'Proactive',
-    detailOriented: 'Detail Oriented',
-    problemSolver: 'Problem Solver',
+    detailOriented: 'Detail-oriented',
+    problemSolver: 'Problem-solver',
     bio: 'Bio',
-    bioText: 'I am a Software Engineer from Cartagena, Colombia. My work focuses on building efficient, scalable web applications and high-performance system architecture.',
+    bioText: 'Software Engineer based in Cartagena, Colombia. I build scalable web applications and high-performance system architectures.',
     philosophy: 'Philosophy',
-    userCentricDesign: 'User-Centric Design',
-    userCentricDesignDesc: 'Prioritizing intuitive interfaces and seamless interactions.',
-    performanceFirst: 'Performance First',
-    performanceFirstDesc: 'Optimizing code for maximum speed and efficiency.',
-    
+    userCentricDesign: 'User-centric design',
+    userCentricDesignDesc: 'Clear, intuitive interfaces with the right rhythm.',
+    performanceFirst: 'Performance-first',
+    performanceFirstDesc: 'Fast, efficient code — no compromises.',
+
     // Experience Modal
     workExperience: 'Work Experience',
-    workExperienceDesc: 'My professional journey in software development.',
+    workExperienceDesc: 'My path as a software engineer.',
     present: 'Present',
-    visblDesc: 'Leading the technical direction and architecture of the platform. Contributing to strategic decisions and mentoring development teams while maintaining core features.',
-    visblPrevDesc: 'Developed core platform features and maintained robust software architecture to ensure scalability and performance.',
-    comfenalcoDesc: 'Built and maintained academic management systems using PHP and Modern JS. Focused on delivering user-friendly interfaces and optimizing database queries.',
+    visblDesc: 'Leading the technical direction and architecture of the platform, driving strategic decisions, and mentoring development teams while maintaining core features.',
+    visblPrevDesc: 'Shipped core platform features and maintained a robust software architecture built for scalability and performance.',
+    comfenalcoDesc: 'Built and maintained academic management systems in PHP and modern JS, with a focus on clean interfaces and well-tuned database queries.',
     openSourceProject: 'Open source',
     escribboName: 'Escribbo',
-    escribboDesc: 'Escribbo turns what you say into text on your machine using local AI models (Whisper and Parakeet)—fully offline, so your voice stays private. A shortcut, you speak, and it types into whatever app you are using on Windows, macOS, or Linux. It is free, open source (MIT), with downloads at escribbo.com and the full project on GitHub (including signed releases and docs).',
+    escribboDesc: 'Escribbo turns what you say into text on your own machine using local AI models (Whisper and Parakeet). Fully offline, so your voice never leaves the device. One shortcut, you speak, and it types into whichever app you are using on Windows, macOS, or Linux. Free and open source (MIT), with downloads at escribbo.com and the full project on GitHub (signed releases and docs included).',
     escribboWebsite: 'Website',
     escribboRepo: 'GitHub',
     projectsTitle: 'Projects',
     projectsHeadline: 'Selected work.',
-    projectsSectionDesc: 'Apps and sites you can try—details and links to the site and repo below.',
+    projectsSectionDesc: 'Apps and sites you can actually try. Links to the site and repo below.',
     projectsCardHint: 'Escribbo — offline dictation with local Whisper & Parakeet',
-    
+
     // Education Modal
-    academicBackground: 'Academic Background.',
+    academicBackground: 'Academic background.',
     educationDesc: 'Academic background and certifications.',
     professionalDegree: 'Professional Degree',
     universityDiploma: 'University Diploma',
     technologistDegree: 'Technologist Degree',
-    webAppDevelopment: 'Web App Development',
+    webAppDevelopment: 'Web Application Development',
     softwareDevTechnologist: 'Software Engineering Technologist',
-    
+
     // Stack Modal
-    technicalArsenal: 'Technical Arsenal',
-    technicalArsenalDesc: 'A comprehensive toolkit for full-stack development, ranging from modern front-end frameworks to robust backend systems and AI integration.',
+    technicalArsenal: 'Technical Toolkit',
+    technicalArsenalDesc: 'A full-stack toolkit: modern frontend frameworks, solid backend systems, and AI integration.',
     frontend: 'Frontend',
     backend: 'Backend',
     aiMl: 'AI & Machine Learning',
@@ -124,9 +125,9 @@ export const translations = {
 
     // Hero
     scrollCue: 'Scroll',
-    roleInterface: 'Interface Craftsman',
-    roleSystems: 'Systems Thinker',
-    roleAi: 'AI Builder',
+    roleInterface: 'Interface craft',
+    roleSystems: 'Systems thinking',
+    roleAi: 'AI engineering',
 
     // Story
     since: 'Est. 2020',
@@ -140,7 +141,7 @@ export const translations = {
 
     // Globe
     remoteSubline: 'Remote-first. Shipping worldwide.',
-    basedInBody: 'Based in {location}, I work async-friendly across timezones with teams everywhere — full-time and freelance.',
+    basedInBody: 'Based in {location}, I work async across timezones with teams everywhere — full-time and freelance.',
     coordinates: 'Coordinates',
     timezone: 'Timezone',
 
@@ -158,7 +159,7 @@ export const translations = {
     blogBackToArticles: 'Back to articles',
     blogHeroKicker: 'Writing',
     blogHeroHeadline: 'Thinking out loud.',
-    blogHeroSubline: 'Essays, notes, and field-reports on whatever I am currently thinking about — software, AI, tools, design, the craft, and everything adjacent.',
+    blogHeroSubline: 'Essays, notes, and field reports on whatever I am currently thinking about — software, AI, tools, design, the craft, and everything adjacent.',
     onThisPage: 'On this page',
     upNext: 'Up next',
     updatedLabel: 'Updated',
@@ -170,23 +171,54 @@ export const translations = {
     home: 'Home',
     copyLink: 'Copy link',
     linkCopied: 'Link copied',
+
+    // Blog post shell (not found + summary strip)
+    blogNotFoundTitle: 'Post not found',
+    blogNotFoundDescription: "The article you're looking for doesn't exist.",
+    blogReturnToBlog: 'Return to blog',
+    blogSummaryNote:
+      'This post focuses on the mechanics that shape real LLM products: token budgets, retrieval quality, execution boundaries, and response control.',
+
+    // A11y: regions / icon buttons (theme uses pair below)
+    ariaBentoOverview: 'Bento overview',
+    ariaGlobeChapter: 'Location and globe',
+    ariaHeroIntro: 'Introduction',
+    ariaGithub: 'GitHub',
+    ariaLinkedin: 'LinkedIn',
+    ariaGithubProfile: 'GitHub profile',
+    ariaLinkedinProfile: 'LinkedIn profile',
+    ariaProfilePhotoCard: 'Profile photo of the developer',
+    ariaBackgroundImageCard: 'Background image',
+    themeSwitchToLight: 'Switch to light theme',
+    themeSwitchToDark: 'Switch to dark theme',
+
+    // Error boundary (reads saved language; outside React provider)
+    errorPageTitle: 'Something went wrong',
+    errorPageDescription: 'Sorry — an unexpected error occurred.',
+    errorPageReload: 'Reload page',
+
+    // Intro loader word deck (first word stays proper name in markup)
+    introLoaderDeck1: 'BUILDER',
+    introLoaderDeck2: 'ENGINEER',
+    introLoaderDeck3: 'READY',
+    introLoaderFooter: 'Portfolio · {year}',
   },
   es: {
     // Intro
     availableForWork: 'Disponible para trabajar',
     introBio: 'Ingeniero de Software creando experiencias digitales <scalable>escalables</scalable> y de <performance>alto rendimiento</performance>.',
-    
+
     // Socials
     letsConnect: 'Conectemos',
     letsTalk: 'Hablemos',
-    letsTalkDesc: 'Disponible para proyectos freelance y oportunidades de tiempo completo.',
-    currentlyAvailable: 'Disponible Actualmente',
-    contactMsg: '¿Interesado en trabajar juntos o simplemente quieres saludar? No dudes en contactarme.',
-    emailMe: 'Envíame un Email',
-    emailDesc: 'Comunicación directa para discusiones detalladas.',
+    letsTalkDesc: 'Abierto a proyectos freelance y roles de tiempo completo.',
+    currentlyAvailable: 'Disponible ahora',
+    contactMsg: '¿Quieres trabajar juntos o solo saludar? Escríbeme.',
+    emailMe: 'Email',
+    emailDesc: 'La vía directa para hablar de algo en serio.',
     emailAddress: 'andermendz@proton.me',
     linkedIn: 'LinkedIn',
-    linkedInDesc: 'Conecta profesionalmente y explora oportunidades.',
+    linkedInDesc: 'Para conectar y explorar oportunidades.',
     linkedInHandle: '/in/andermendz',
 
     // Tech Stack
@@ -194,35 +226,36 @@ export const translations = {
 
     // Blog
     blogTitle: 'Blog',
-    readArticles: 'Lee mis últimos artículos.',
-    latestPost: 'Último Artículo',
-    
+    blogAppTitle: 'Blog de IA',
+    readArticles: 'Lo último que he escrito.',
+    latestPost: 'Último artículo',
+
     // About
     aboutTitle: 'Sobre mí',
     aboutPhrase: 'Obsesionado con los <details>detalles</details> y el <performance>rendimiento</performance>.',
-    
+
     // Experience
     experienceTitle: 'Experiencia',
     technicalLead: 'Líder Técnico',
     softwareDeveloper: 'Ingeniero de Software',
     fullStackDev: 'Ingeniero Full-stack',
-    
+
     // Education
     educationTitle: 'Educación',
     systemsEngineering: 'Ingeniería de Sistemas',
     technologicalUniversity: 'Universidad Tecnológica',
-    
+
     // Contact
     contactTitle: 'Conectemos.',
     connectOnLinkedIn: 'Conectar en LinkedIn',
     open: 'Abrir',
     copy: 'Copiar',
     copied: 'Copiado',
-    
+
     // Map
     basedIn: 'Ubicado en',
     location: 'Cartagena, CO',
-    
+
     // Footer (use {year} placeholder; replaced at runtime with current year)
     copyright: '© {year} Anderson Mendoza.',
     role: 'Ingeniero de Software',
@@ -232,55 +265,55 @@ export const translations = {
     back: 'Volver',
     sectionLoading: 'Cargando sección…',
     copyFailed: 'No se pudo copiar. Inténtalo de nuevo.',
-    
+
     // Detail Views
     // About Modal
     profile: 'Perfil',
-    scalableArchitect: 'Arquitecto Escalable.',
+    scalableArchitect: 'Sistemas escalables.',
     proactive: 'Proactivo',
-    detailOriented: 'Orientado al Detalle',
-    problemSolver: 'Solucionador de Problemas',
+    detailOriented: 'Atención al detalle',
+    problemSolver: 'Resolución de problemas',
     bio: 'Biografía',
-    bioText: 'Soy un Ingeniero de Software de Cartagena, Colombia. Mi trabajo se enfoca en construir aplicaciones web eficientes y escalables, con un fuerte enfoque en arquitectura de sistemas de alto rendimiento.',
+    bioText: 'Ingeniero de Software en Cartagena, Colombia. Construyo aplicaciones web escalables y arquitecturas de sistemas de alto rendimiento.',
     philosophy: 'Filosofía',
-    userCentricDesign: 'Diseño Centrado en el Usuario',
-    userCentricDesignDesc: 'Priorizando interfaces intuitivas e interacciones fluidas.',
-    performanceFirst: 'Rendimiento Primero',
-    performanceFirstDesc: 'Optimizando código para máxima velocidad y eficiencia.',
-    
+    userCentricDesign: 'Diseño centrado en el usuario',
+    userCentricDesignDesc: 'Interfaces claras, intuitivas y con buen ritmo.',
+    performanceFirst: 'Rendimiento ante todo',
+    performanceFirstDesc: 'Código rápido y eficiente, sin concesiones.',
+
     // Experience Modal
     workExperience: 'Experiencia Laboral',
-    workExperienceDesc: 'Mi trayectoria profesional en desarrollo de software.',
+    workExperienceDesc: 'Mi camino como ingeniero de software.',
     present: 'Actual',
-    visblDesc: 'Liderando la dirección técnica y arquitectura de la plataforma. Contribuyendo a decisiones estratégicas y mentoría de equipos de desarrollo mientras mantengo funcionalidades principales.',
-    visblPrevDesc: 'Desarrollé características principales de la plataforma y mantuve una arquitectura de software robusta para garantizar escalabilidad y rendimiento.',
-    comfenalcoDesc: 'Construí y mantuve sistemas de gestión académica usando PHP y JS moderno. Enfocado en entregar interfaces amigables y optimizar consultas de base de datos.',
+    visblDesc: 'Lidero la dirección técnica y la arquitectura de la plataforma, participo en las decisiones estratégicas y hago mentoría a los equipos de desarrollo mientras mantengo las funcionalidades clave.',
+    visblPrevDesc: 'Desarrollé funcionalidades clave de la plataforma y mantuve una arquitectura sólida, pensada para escalar y rendir bien.',
+    comfenalcoDesc: 'Construí y mantuve sistemas de gestión académica en PHP y JS moderno, con foco en interfaces cuidadas y consultas de base de datos bien optimizadas.',
     openSourceProject: 'Código abierto',
     escribboName: 'Escribbo',
-    escribboDesc: 'Escribbo convierte lo que dices en texto en tu equipo usando modelos de IA locales (Whisper y Parakeet), todo sin conexión para que tu voz no salga de la máquina. Un atajo, hablas y escribe en la app que tengas al frente en Windows, macOS o Linux. Es gratuito y de código abierto (MIT), con descargas en escribbo.com y el proyecto completo en GitHub (releases firmados y documentación).',
+    escribboDesc: 'Escribbo convierte en texto lo que dices, en tu propio equipo, usando modelos de IA locales (Whisper y Parakeet). Todo offline, para que tu voz nunca salga de la máquina. Activas un atajo, hablas, y el texto aparece en la app que tengas al frente en Windows, macOS o Linux. Gratuito y de código abierto (MIT): descargas en escribbo.com y el proyecto completo en GitHub (con releases firmados y documentación).',
     escribboWebsite: 'Sitio',
     escribboRepo: 'GitHub',
     projectsTitle: 'Proyectos',
-    projectsHeadline: 'Trabajos destacados.',
-    projectsSectionDesc: 'Apps y sitios que puedes probar—más abajo enlaces al sitio y al repositorio.',
+    projectsHeadline: 'Trabajo destacado.',
+    projectsSectionDesc: 'Apps y sitios que puedes probar de verdad. Debajo, enlaces al sitio y al repositorio.',
     projectsCardHint: 'Escribbo — dictado offline con Whisper y Parakeet en local',
-    
+
     // Education Modal
-    academicBackground: 'Trayectoria Académica.',
+    academicBackground: 'Trayectoria académica.',
     educationDesc: 'Formación académica y certificaciones.',
     professionalDegree: 'Título Profesional',
     universityDiploma: 'Diplomado Universitario',
     technologistDegree: 'Título de Tecnólogo',
-    webAppDevelopment: 'Desarrollo de Apps Web',
+    webAppDevelopment: 'Desarrollo de Aplicaciones Web',
     softwareDevTechnologist: 'Tecnólogo en Ingeniería de Software',
-    
+
     // Stack Modal
-    technicalArsenal: 'Arsenal Técnico',
-    technicalArsenalDesc: 'Un conjunto completo de herramientas para desarrollo full-stack, desde frameworks frontend modernos hasta sistemas backend robustos e integración de IA.',
+    technicalArsenal: 'Stack técnico',
+    technicalArsenalDesc: 'Herramientas para desarrollo full-stack: desde frameworks de frontend modernos hasta sistemas backend sólidos e integración con IA.',
     frontend: 'Frontend',
     backend: 'Backend',
     aiMl: 'IA y Machine Learning',
-    database: 'Base de Datos',
+    database: 'Bases de datos',
 
     // Chapter labels
     overviewSection: 'Resumen',
@@ -291,10 +324,10 @@ export const translations = {
     writingSubline: 'Notas sobre IA, ingeniería y el oficio.',
 
     // Hero
-    scrollCue: 'Desplaza',
-    roleInterface: 'Artesano de Interfaces',
-    roleSystems: 'Pensador de Sistemas',
-    roleAi: 'Constructor de IA',
+    scrollCue: 'Desplázate',
+    roleInterface: 'Diseño de interfaces',
+    roleSystems: 'Pensamiento sistémico',
+    roleAi: 'Ingeniería de IA',
 
     // Story
     since: 'Desde 2020',
@@ -307,10 +340,10 @@ export const translations = {
     builtWith: 'Construido con',
 
     // Globe
-    remoteSubline: 'Remoto primero. Enviando al mundo.',
-    basedInBody: 'Basado en {location}, trabajo de forma async a través de husos horarios con equipos en todas partes — tiempo completo y freelance.',
+    remoteSubline: 'Remoto primero. Alcance global.',
+    basedInBody: 'Desde {location}, colaboro de forma asíncrona entre zonas horarias con equipos en todo el mundo — tiempo completo y freelance.',
     coordinates: 'Coordenadas',
-    timezone: 'Huso horario',
+    timezone: 'Zona horaria',
 
     // Outro
     writeMe: 'Escríbeme',
@@ -323,21 +356,48 @@ export const translations = {
 
     // Blog app
     blogBackHome: 'Volver al sitio',
-    blogBackToArticles: 'Volver a artículos',
+    blogBackToArticles: 'Volver a los artículos',
     blogHeroKicker: 'Escritos',
     blogHeroHeadline: 'Pensando en voz alta.',
-    blogHeroSubline: 'Ensayos, notas y apuntes sobre lo que tenga en la cabeza — software, IA, herramientas, diseño, el oficio y todo lo que orbite alrededor.',
+    blogHeroSubline: 'Ensayos, notas y apuntes sobre lo que tengo en la cabeza: software, IA, herramientas, diseño, el oficio y todo lo que orbita alrededor.',
     onThisPage: 'En esta página',
     upNext: 'A continuación',
     updatedLabel: 'Actualizado',
     aiEngineering: 'Ingeniería de IA',
-    latest: 'Última entrada',
-    moreReading: 'Más lecturas',
+    latest: 'Más reciente',
+    moreReading: 'Más para leer',
     articleSingular: 'artículo',
     articlePlural: 'artículos',
     home: 'Inicio',
     copyLink: 'Copiar enlace',
     linkCopied: 'Enlace copiado',
+
+    blogNotFoundTitle: 'Artículo no encontrado',
+    blogNotFoundDescription: 'El artículo que buscas no existe.',
+    blogReturnToBlog: 'Volver al blog',
+    blogSummaryNote:
+      'Este artículo se centra en la mecánica que da forma a productos reales con LLMs: presupuesto de tokens, calidad del retrieval, límites de ejecución y control de respuestas.',
+
+    ariaBentoOverview: 'Vista general del bento',
+    ariaGlobeChapter: 'Ubicación y globo terráqueo',
+    ariaHeroIntro: 'Introducción',
+    ariaGithub: 'GitHub',
+    ariaLinkedin: 'LinkedIn',
+    ariaGithubProfile: 'Perfil de GitHub',
+    ariaLinkedinProfile: 'Perfil de LinkedIn',
+    ariaProfilePhotoCard: 'Foto de perfil del desarrollador',
+    ariaBackgroundImageCard: 'Imagen de fondo',
+    themeSwitchToLight: 'Cambiar a tema claro',
+    themeSwitchToDark: 'Cambiar a tema oscuro',
+
+    errorPageTitle: 'Algo salió mal',
+    errorPageDescription: 'Lo sentimos: ocurrió un error inesperado.',
+    errorPageReload: 'Recargar página',
+
+    introLoaderDeck1: 'CONSTRUCTOR',
+    introLoaderDeck2: 'INGENIERO',
+    introLoaderDeck3: 'LISTO',
+    introLoaderFooter: 'Portafolio · {year}',
   }
 } as const;
 

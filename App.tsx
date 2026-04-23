@@ -130,9 +130,7 @@ function AppContent() {
       mainEntity: { '@id': PERSON_ID },
     },
     buildFaqSchema(homepageFaq),
-    buildBreadcrumbSchema([
-      { name: isSpanish ? 'Inicio' : 'Home', item: absoluteUrl(isSpanish ? '/?lang=es' : '/') },
-    ]),
+    buildBreadcrumbSchema([{ name: t('home'), item: absoluteUrl(isSpanish ? '/?lang=es' : '/') }]),
   ];
 
   const handleLanguageChange = () => {
@@ -186,7 +184,7 @@ function AppContent() {
       <m.button
         className="fixed z-[120] p-4 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl text-text-main hover:bg-card-hover transition-colors ring-1 ring-white/10 bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-[max(1.5rem,env(safe-area-inset-right))]"
         onClick={toggleTheme}
-        aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+        aria-label={theme === 'dark' ? t('themeSwitchToLight') : t('themeSwitchToDark')}
         initial={reduceMotion ? { opacity: 1, scale: 1, rotate: 0 } : { opacity: 0, scale: 0, rotate: -180 }}
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
         transition={{ duration: reduceMotion ? 0 : 0.5, delay: reduceMotion ? 0 : 1.0, ease: [0.22, 1, 0.36, 1] }}

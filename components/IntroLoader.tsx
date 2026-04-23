@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { useSmoothScroll } from './SmoothScroll';
+import { useLanguage } from '../i18n/LanguageContext';
 
-const LOADER_WORDS = ['ANDERSON', 'BUILDER', 'ENGINEER', 'READY'];
 const SESSION_KEY = 'intro-loader-seen-v1';
 
 interface IntroLoaderProps {
@@ -22,6 +22,17 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
   const wordsRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
+  const { t, language } = useLanguage();
+
+  const loaderWords = useMemo(
+    () => ['ANDERSON', t('introLoaderDeck1'), t('introLoaderDeck2'), t('introLoaderDeck3')],
+    [t, language]
+  );
+
+  const footerLabel = useMemo(
+    () => t('introLoaderFooter').replace('{year}', String(new Date().getFullYear())),
+    [t, language]
+  );
 
   const { stop, start } = useSmoothScroll();
 
@@ -125,7 +136,7 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
         '>'
       );
     },
-    { scope: rootRef, dependencies: [shouldShow] }
+    { scope: rootRef, dependencies: [shouldShow, language] }
   );
 
   if (hidden) return null;
@@ -143,7 +154,7 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
           <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
           Anderson Mendoza
         </span>
-        <span>Portfolio 26</span>
+        <span>{footerLabel}</span>
       </div>
 
       {/* Stacked word deck */}
@@ -152,7 +163,7 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
           ref={wordsRef}
           className="relative overflow-hidden leading-[0.85] h-[0.85em] w-full"
         >
-          {LOADER_WORDS.map((word) => (
+          {loaderWords.map((word) => (
             <span
               key={word}
               data-word
