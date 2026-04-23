@@ -17,6 +17,9 @@ importers:
       framer-motion:
         specifier: ^11.15.0
         version: 11.18.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      front-matter:
+        specifier: ^4.0.2
+        version: 4.0.2
       gsap:
         specifier: ^3.15.0
         version: 3.15.0
@@ -35,9 +38,15 @@ importers:
       react-helmet-async:
         specifier: ^3.0.0
         version: 3.0.0(react@19.2.0)
+      react-markdown:
+        specifier: ^10.1.0
+        version: 10.1.0(@types/react@19.2.7)(react@19.2.0)
       react-router-dom:
         specifier: ^7.13.1
         version: 7.13.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      remark-gfm:
+        specifier: ^4.0.1
+        version: 4.0.1
     devDependencies:
       '@tailwindcss/typography':
         specifier: ^0.5.19
@@ -57,18 +66,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.22(postcss@8.5.6)
-      front-matter:
-        specifier: ^4.0.2
-        version: 4.0.2
       postcss:
         specifier: ^8.4.49
         version: 8.5.6
-      react-markdown:
-        specifier: ^10.1.0
-        version: 10.1.0(@types/react@19.2.7)(react@19.2.0)
-      remark-gfm:
-        specifier: ^4.0.1
-        version: 4.0.1
       tailwindcss:
         specifier: ^3.4.17
         version: 3.4.18
