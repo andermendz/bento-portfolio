@@ -4,6 +4,27 @@ import { MapPin } from 'lucide-react';
 import type { GlobeProps, MapContentProps } from '../types';
 import { useLanguage } from '../i18n/LanguageContext';
 
+/**
+ * Globe “pulse” = expanding Cobe marker rings. There is no separate CSS for the rings;
+ * color/size come from Cobe (`markerColor` + per-frame `size`). The `<canvas>` uses
+ * `invert brightness-105` in light mode only — that filter applies to the whole globe
+ * (base + glow + markers), not ring-only.
+ */
+const GLOBE_PULSE = {
+  originLat: 10.3932,
+  originLon: -75.4832,
+  durationMs: 3000,
+  /** RGB 0–1; single color for center dot and all ring dots (Cobe API) */
+  markerColor: [1, 1, 1] as [number, number, number],
+  centerDotSize: 0.06,
+  /** Multiplied by fade opacity for ring dots */
+  ringDotSize: 0.03,
+  ripples: [{ maxScale: 24 }, { maxScale: 10 }] as const,
+  dotCount: 50,
+  minVisibleRadius: 0.2,
+  minVisibleOpacity: 0.01,
+} as const;
+
 // ----- GLOBE COMPONENT -----
 
 export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
@@ -54,7 +75,7 @@ export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
       mapSamples: 16000,
       mapBrightness: 6,
       baseColor: [0.15, 0.15, 0.15],
-      markerColor: [1, 1, 1],
+      markerColor: GLOBE_PULSE.markerColor,
       glowColor: [0.15, 0.15, 0.15],
       opacity: 1,
       markers: [], 
@@ -70,62 +91,52 @@ export const Globe: React.FC<GlobeProps> = ({ theme, scale = 1.2 }) => {
         }
         state.phi = phiRef.current + r;
 
-        // Origin (Cartagena, Colombia)
-        const cx = 10.3932; 
-        const cy = -75.4832; 
+        const cx = GLOBE_PULSE.originLat;
+        const cy = GLOBE_PULSE.originLon;
 
-        // 1. Calculate Time & Progress
         const now = Date.now();
-        const duration = 3000;
-        const progress = (now % duration) / duration; // 0 to 1 cycle
-        
-        // 2. Pre-calculate Trigonometry for Origin (Optimization)
+        const progress = (now % GLOBE_PULSE.durationMs) / GLOBE_PULSE.durationMs;
+
         const lat1Rad = cx * Math.PI / 180;
         const lon1Rad = cy * Math.PI / 180;
         const sinLat1 = Math.sin(lat1Rad);
         const cosLat1 = Math.cos(lat1Rad);
 
-        // 3. Define Ripple Config
-        const rippleConfigs = [
-          { maxScale: 24 },    // Outer main ripple
-          { maxScale: 10 }     // Inner echo ripple
+        const markers: { location: [number, number]; size: number }[] = [
+          { location: [cx, cy], size: GLOBE_PULSE.centerDotSize },
         ];
 
-        // 4. Initialize Markers with Center Dot
-        const markers: any[] = [{ location: [cx, cy], size: 0.06 }];
-
-        // 5. Generate Ripples
-        rippleConfigs.forEach(config => {
+        GLOBE_PULSE.ripples.forEach((config) => {
           const currentRadius = progress * config.maxScale;
-          const opacity = 1 - progress; // Fade out as it expands
+          const opacity = 1 - progress;
 
-          // Optimization: Only render if visible
-          if (currentRadius > 0.2 && opacity > 0.01) {
-            const dRad = currentRadius * Math.PI / 180; // Distance in radians
+          if (currentRadius > GLOBE_PULSE.minVisibleRadius && opacity > GLOBE_PULSE.minVisibleOpacity) {
+            const dRad = (currentRadius * Math.PI) / 180;
             const sinD = Math.sin(dRad);
             const cosD = Math.cos(dRad);
-            
-            const dotCount = 50; // High count for smooth circle
 
-            for (let i = 0; i < dotCount; i++) {
-              const bearing = (i / dotCount) * 2 * Math.PI;
+            for (let i = 0; i < GLOBE_PULSE.dotCount; i++) {
+              const bearing = (i / GLOBE_PULSE.dotCount) * 2 * Math.PI;
               const sinBearing = Math.sin(bearing);
               const cosBearing = Math.cos(bearing);
 
-              // Destination Point Formula (Spherical Law of Cosines)
               const lat2Rad = Math.asin(sinLat1 * cosD + cosLat1 * sinD * cosBearing);
-              const lon2Rad = lon1Rad + Math.atan2(sinBearing * sinD * cosLat1, cosD - sinLat1 * Math.sin(lat2Rad));
-              
-              let lat2 = lat2Rad * 180 / Math.PI;
-              let lon2 = lon2Rad * 180 / Math.PI;
-              
-              // Normalize Longitude (-180 to 180)
+              const lon2Rad =
+                lon1Rad +
+                Math.atan2(
+                  sinBearing * sinD * cosLat1,
+                  cosD - sinLat1 * Math.sin(lat2Rad)
+                );
+
+              let lat2 = (lat2Rad * 180) / Math.PI;
+              let lon2 = (lon2Rad * 180) / Math.PI;
+
               if (lon2 < -180) lon2 += 360;
               if (lon2 > 180) lon2 -= 360;
 
               markers.push({
                 location: [lat2, lon2],
-                size: 0.03 * opacity
+                size: GLOBE_PULSE.ringDotSize * opacity,
               });
             }
           }

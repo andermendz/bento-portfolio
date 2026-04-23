@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { m, useInView, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion';
+import { m, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion';
 
 interface BentoCardProps {
   children?: React.ReactNode;
@@ -10,9 +10,7 @@ interface BentoCardProps {
   hasArrow?: boolean;
   backgroundImage?: string;
   dataId?: string;
-  isVisible?: boolean;
   noPadding?: boolean;
-  index?: number; // For staggered entrance animation
 }
 
 export const BentoCard: React.FC<BentoCardProps> = ({
@@ -23,14 +21,11 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   hasArrow = false,
   backgroundImage,
   dataId,
-  isVisible = true,
   noPadding = false,
-  index = 0
 }) => {
   const cardRef = React.useRef<HTMLDivElement>(null);
-  const isInView = useInView(cardRef, { once: true, margin: "-100px" });
   const reduceMotion = useReducedMotion();
-  
+
   // Mouse tracking for 3D tilt
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -59,7 +54,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
     y.set(0);
   };
 
-  const baseClasses = `relative overflow-hidden rounded-[20px] sm:rounded-[28px] md:rounded-[32px] text-left transition-[background-color,box-shadow,border-color] duration-300 group ${onClick ? 'select-none' : ''}
+  const baseClasses = `bento-card relative overflow-hidden rounded-[20px] sm:rounded-[28px] md:rounded-[32px] text-left transition-[background-color,box-shadow,border-color] duration-300 group ${onClick ? 'select-none' : ''}
       bg-card backdrop-blur-xl shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_1px_2px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)] border border-transparent dark:border-white/5 hover:border-primary/10
       ${onClick ? 'cursor-pointer hover:bg-card-hover' : ''}
   `;
@@ -81,46 +76,31 @@ export const BentoCard: React.FC<BentoCardProps> = ({
         }
       }}
       className={`${baseClasses} ${className}`}
-      style={{ 
+      style={{
         rotateX: onClick && !reduceMotion ? rotateX : 0,
         rotateY: onClick && !reduceMotion ? rotateY : 0,
         WebkitTapHighlightColor: 'transparent',
         transformStyle: "preserve-3d",
         willChange: "transform"
       }}
-      initial={{
-        opacity: reduceMotion ? 1 : 0,
-        y: reduceMotion ? 0 : 30,
-        scale: reduceMotion ? 1 : 0.95
-      }}
-      animate={{
-        opacity: isVisible && (reduceMotion || isInView) ? 1 : 0,
-        y: reduceMotion ? 0 : (isInView ? 0 : 30),
-        scale: reduceMotion ? 1 : (isInView ? 1 : 0.95)
-      }}
-      whileHover={onClick && !reduceMotion ? { 
-        y: -4, 
+      whileHover={onClick && !reduceMotion ? {
+        y: -4,
         scale: 1.01,
-        transition: { 
-          type: 'spring', 
-          stiffness: 400, 
-          damping: 25 
+        transition: {
+          type: 'spring',
+          stiffness: 400,
+          damping: 25
         }
-      } : undefined} 
-      whileTap={onClick && !reduceMotion ? { 
+      } : undefined}
+      whileTap={onClick && !reduceMotion ? {
         scale: 0.98,
-        transition: { 
-          type: 'spring', 
-          stiffness: 500, 
-          damping: 30 
+        transition: {
+          type: 'spring',
+          stiffness: 500,
+          damping: 30
         }
       } : undefined}
       transition={{
-        // Entrance animation - uses staggered delay when in view
-        opacity: { duration: reduceMotion ? 0 : 0.5, delay: reduceMotion || !isInView ? 0 : index * 0.06, ease: 'easeOut' },
-        y: { duration: reduceMotion ? 0 : 0.5, delay: reduceMotion || !isInView ? 0 : index * 0.06, ease: [0.22, 1, 0.36, 1] },
-        scale: { duration: reduceMotion ? 0 : 0.4, delay: reduceMotion || !isInView ? 0 : index * 0.06, ease: 'easeOut' },
-        // Smooth layout transition for card-to-modal expansion
         layout: {
           type: 'spring',
           stiffness: 180,
@@ -145,7 +125,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
             {title}
           </h3>
         )}
-        
+
         {children}
 
         {hasArrow && (

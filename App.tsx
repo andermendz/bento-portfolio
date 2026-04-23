@@ -1,90 +1,61 @@
 import { useState, useEffect, useCallback } from 'react';
-import { flushSync } from 'react-dom';
 import ErrorBoundary from './components/ErrorBoundary';
-import { BentoCard } from './components/BentoCard';
 import { DetailView } from './components/DetailView';
 import { AnimatePresence, m, LazyMotion, domAnimation, useReducedMotion } from "framer-motion";
 import { Sun, Moon } from 'lucide-react';
 
-import { Suspense, lazy } from 'react';
-
-// Import extracted components
-const MapContent = lazy(() => import('./components/Globe').then(module => ({ default: module.MapContent })));
-import {
-  IntroContent,
-  SocialsContent,
-  TechStackContent,
-  AboutContent,
-  ExperienceContent,
-  ProjectsContent,
-  EducationContent,
-} from './components/cards';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
+import { BlogLink } from './components/BlogLink';
 import { SEO } from './components/SEO';
 import { ThemeProvider, useTheme } from './components/ThemeContext';
+import { SmoothScroll, useSmoothScroll } from './components/SmoothScroll';
+import { IntroLoader } from './components/IntroLoader';
+import { Grain } from './components/Grain';
 import {
   absoluteUrl,
   buildBreadcrumbSchema,
+  buildFaqSchema,
   buildPersonSchema,
   buildWebsiteSchema,
   DEFAULT_KEYWORDS,
   getLocale,
+  PERSON_ID,
+  WEBSITE_ID,
 } from './config/seo';
 
 import { LanguageTransition, LanguageContentWrapper } from './components/LanguageTransition';
 
-import { bentoItems } from './config/layout';
-
-// Import i18n
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext';
 
-// Import types
-// (No types needed here anymore)
-
-type DocumentWithViewTransition = Document & {
-  startViewTransition?: (update: () => void) => { finished: Promise<void> };
-};
+// Chapters
+import { HeroChapter } from './components/chapters/HeroChapter';
+import { BentoChapter } from './components/chapters/BentoChapter';
+import { StoryChapter } from './components/chapters/StoryChapter';
+import { TimelineChapter } from './components/chapters/TimelineChapter';
+import { ProjectsChapter } from './components/chapters/ProjectsChapter';
+import { BlogChapter } from './components/chapters/BlogChapter';
+import { StackChapter } from './components/chapters/StackChapter';
+import { GlobeChapter } from './components/chapters/GlobeChapter';
+import { OutroChapter } from './components/chapters/OutroChapter';
 
 // ----- MAIN APP CONTENT -----
 
 function AppContent() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [loaderDone, setLoaderDone] = useState(false);
 
   const { theme, toggleTheme } = useTheme();
   const reduceMotion = useReducedMotion();
   const [isLanguageChanging, setIsLanguageChanging] = useState(false);
-  
+  const { stop, start } = useSmoothScroll();
+
   const { t, language } = useLanguage();
   const isSpanish = language === 'es';
-
-  const getBlogHref = () => {
-    if (typeof window === 'undefined') return '/blog';
-    
-    const host = window.location.host; // e.g. "localhost:3000", "andermendz.dev"
-    const hostname = window.location.hostname;
-    const protocol = window.location.protocol;
-    const langQuery = language === 'es' ? '?lang=es' : '';
-
-    if (hostname === 'andermendz.dev' || hostname === 'www.andermendz.dev') {
-      return `https://blog.andermendz.dev/${langQuery}`;
-    }
-    
-    // For localhost development, try to use blog.localhost subdomain
-    if (hostname === 'localhost' || hostname === '127.0.0.1') {
-      return `${protocol}//blog.${host}/${langQuery}`;
-    }
-
-    return `/blog${langQuery}`;
-  };
-
-  const blogHref = getBlogHref();
 
   const homepageTitle = isSpanish
     ? 'Anderson Mendoza | Ingeniero de Software'
     : 'Anderson Mendoza | Software Engineer';
-  const homepageSeoTitle = isSpanish
-    ? 'Ingeniero de Software'
-    : 'Software Engineer';
+  const homepageSeoTitle = isSpanish ? 'Ingeniero de Software' : 'Software Engineer';
   const homepageDescription = isSpanish
     ? 'Portfolio y blog de Anderson Mendoza, ingeniero de software en Cartagena, Colombia. Especializado en React, TypeScript, Node.js y aplicaciones con IA.'
     : 'Portfolio and blog of Anderson Mendoza, a software engineer in Cartagena, Colombia. Specialized in React, TypeScript, Node.js, and AI-powered applications.';
@@ -97,36 +68,73 @@ function AppContent() {
     { hrefLang: 'es', href: absoluteUrl('/?lang=es') },
     { hrefLang: 'x-default', href: absoluteUrl('/') },
   ];
+  const homepageFaq = isSpanish
+    ? [
+        {
+          question: '¿Quién es Anderson Mendoza?',
+          answer:
+            'Anderson Mendoza es un ingeniero de software y constructor de productos con IA basado en Cartagena, Colombia. Actualmente es Líder Técnico en Visbl y trabaja con React, TypeScript, Node.js, Python, Rust y modelos de lenguaje (LLMs).',
+        },
+        {
+          question: '¿Está disponible para trabajo freelance o de tiempo completo?',
+          answer:
+            'Sí. Anderson está disponible para proyectos freelance y roles de tiempo completo, trabajando de forma asíncrona desde UTC−5 con equipos en cualquier parte del mundo.',
+        },
+        {
+          question: '¿En qué tecnologías se especializa?',
+          answer:
+            'Frontend con React 19, TypeScript, Vite y Tailwind. Backend con Node.js, Python y PostgreSQL. Integración de IA con LLMs, reconocimiento de voz (Whisper, Parakeet) y modelos de difusión. Aplicaciones de escritorio con Rust y Tauri.',
+        },
+        {
+          question: '¿Dónde puedo leer sus escritos?',
+          answer:
+            'El blog está en https://andermendz.dev/blog con ensayos largos sobre ingeniería de IA, LLMs y oficio técnico, disponible en inglés y español.',
+        },
+      ]
+    : [
+        {
+          question: 'Who is Anderson Mendoza?',
+          answer:
+            'Anderson Mendoza is a software engineer and AI product builder based in Cartagena, Colombia. He is currently Technical Lead at Visbl and works across React, TypeScript, Node.js, Python, Rust, and LLMs.',
+        },
+        {
+          question: 'Is Anderson available for freelance or full-time work?',
+          answer:
+            'Yes. Anderson is available for freelance projects and full-time roles, working async-friendly from UTC−5 with teams anywhere in the world.',
+        },
+        {
+          question: 'What technologies does Anderson specialize in?',
+          answer:
+            'Frontend with React 19, TypeScript, Vite, and Tailwind. Backend with Node.js, Python, and PostgreSQL. AI integration with LLMs, speech-to-text (Whisper, Parakeet), and diffusion models. Desktop apps with Rust and Tauri.',
+        },
+        {
+          question: 'Where can I read his writing?',
+          answer:
+            'The blog lives at https://andermendz.dev/blog with long-form essays on AI engineering, LLMs, and technical craft, available in English and Spanish.',
+        },
+      ];
+
   const homepageSchemas = [
     buildPersonSchema(),
     buildWebsiteSchema(),
     {
       '@context': 'https://schema.org',
       '@type': 'ProfilePage',
+      '@id': `${homepageCanonical}#profile`,
       name: homepageTitle,
       description: homepageDescription,
       url: homepageCanonical,
-      inLanguage: isSpanish ? 'es' : 'en',
-      isPartOf: {
-        '@type': 'WebSite',
-        name: 'Anderson Mendoza',
-        url: absoluteUrl('/'),
-      },
-      mainEntity: {
-        '@type': 'Person',
-        name: 'Anderson Mendoza',
-        url: absoluteUrl('/'),
-      },
+      inLanguage: isSpanish ? 'es-CO' : 'en-US',
+      isPartOf: { '@id': WEBSITE_ID },
+      about: { '@id': PERSON_ID },
+      mainEntity: { '@id': PERSON_ID },
     },
+    buildFaqSchema(homepageFaq),
     buildBreadcrumbSchema([
-      { name: 'Home', item: absoluteUrl(isSpanish ? '/?lang=es' : '/') },
+      { name: isSpanish ? 'Inicio' : 'Home', item: absoluteUrl(isSpanish ? '/?lang=es' : '/') },
     ]),
   ];
 
-  /**
-   * Handles the language change animation by setting the changing state
-   * and resetting it after the animation duration.
-   */
   const handleLanguageChange = () => {
     setIsLanguageChanging(true);
     setTimeout(() => {
@@ -134,99 +142,29 @@ function AppContent() {
     }, 700);
   };
 
-  // When opening a section, scroll page to top so the section is in frame (fixes mobile when user had scrolled down)
+  // Freeze Lenis while a detail modal is open to prevent background drift.
   useEffect(() => {
     if (activeSection) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      stop();
+    } else if (loaderDone) {
+      start();
     }
-  }, [activeSection]);
-
-  const runViewTransition = useCallback((update: () => void) => {
-    const doc = document as DocumentWithViewTransition;
-    if (typeof doc.startViewTransition === 'function') {
-      doc.startViewTransition(() => {
-        flushSync(update);
-      });
-      return;
-    }
-    update();
-  }, []);
+  }, [activeSection, loaderDone, stop, start]);
 
   const closeSection = useCallback(() => {
-    runViewTransition(() => setActiveSection(null));
-  }, [runViewTransition]);
+    setActiveSection(null);
+  }, []);
 
   const openSection = useCallback((sectionType: string) => {
-    runViewTransition(() => setActiveSection(sectionType));
-  }, [runViewTransition]);
-
-  // Use imported layout configuration
-  const items = bentoItems;
-
-
-  /**
-   * Renders the appropriate content component based on the card item ID.
-   * @param itemId - The unique identifier for the card item
-   * @returns The React component to render for the card
-   */
-  const renderCardContent = (itemId: string) => {
-    switch (itemId) {
-      case 'intro':
-        return <IntroContent />;
-      case 'socials':
-        return <SocialsContent />;
-      case 'stack':
-        return <TechStackContent />;
-      case 'about':
-        return <AboutContent />;
-      case 'experience':
-        return <ExperienceContent />;
-      case 'projects':
-        return <ProjectsContent />;
-      case 'education':
-        return <EducationContent />;
-
-      case 'map':
-        return (
-          <Suspense fallback={<div className="w-full h-full flex items-center justify-center text-text-muted"><div className="w-6 h-6 rounded-full border-2 border-primary/20 border-t-primary animate-spin"></div></div>}>
-            <MapContent theme={theme} />
-          </Suspense>
-        );
-      default:
-        return null;
-    }
-  };
-
-  /**
-   * Gets the translated title for a card based on its ID.
-   * @param itemId - The unique identifier for the card item
-   * @returns The translated title string or undefined if no title
-   */
-  const getCardTitle = (itemId: string) => {
-    switch (itemId) {
-      case 'stack':
-        return t('techStackTitle');
-      case 'about':
-        return t('aboutTitle');
-      case 'experience':
-        return t('experienceTitle');
-      case 'projects':
-        return t('projectsTitle');
-      case 'education':
-        return t('educationTitle');
-      default:
-        return undefined;
-    }
-  };
+    setActiveSection(sectionType);
+  }, []);
 
   return (
-    <div 
-      className={`min-h-screen bg-page text-text-main p-4 pt-8 md:p-6 md:pt-16 3xl:pt-20 font-sans selection:bg-primary selection:text-primary-fg transition-colors duration-500 overflow-x-hidden flex flex-col items-center ${activeSection ? 'overflow-y-hidden' : ''}`}
-    >
+    <div className="relative min-h-screen bg-page text-text-main font-sans selection:bg-primary selection:text-primary-fg transition-colors duration-500 overflow-x-clip">
       <a href="#main-content" className="skip-to-main">
         {t('skipToMainContent')}
       </a>
-      <SEO 
+      <SEO
         title={homepageSeoTitle}
         description={homepageDescription}
         canonical={homepageCanonical}
@@ -236,13 +174,15 @@ function AppContent() {
         alternates={homepageAlternates}
         schemaData={homepageSchemas}
       />
-      {/* Language Transition Effect */}
+
+      <IntroLoader onComplete={() => setLoaderDone(true)} />
+
       <LanguageTransition isActive={isLanguageChanging} language={language} />
-      
-      {/* Language Switcher */}
+
       <LanguageSwitcher onLanguageChange={handleLanguageChange} />
-      
-      {/* Theme Toggle Button */}
+
+      <BlogLink />
+
       <m.button
         className="fixed z-[120] p-4 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl text-text-main hover:bg-card-hover transition-colors ring-1 ring-white/10 bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-[max(1.5rem,env(safe-area-inset-right))]"
         onClick={toggleTheme}
@@ -266,81 +206,47 @@ function AppContent() {
         </AnimatePresence>
       </m.button>
 
+      <Grain />
+
       <LanguageContentWrapper isChanging={isLanguageChanging}>
         <main
           id="main-content"
           tabIndex={-1}
-          className={`w-full max-w-[1320px] 3xl:max-w-[1500px] mx-auto pb-24 sm:pb-6 outline-none ${activeSection ? 'flex-1 flex flex-col min-h-0' : ''}`}
+          className="relative w-full outline-none"
         >
-          
-          <AnimatePresence mode="wait" initial={false}>
-            {activeSection ? (
-              <m.div
-                key={`section-${activeSection}`}
-                initial={{ opacity: 0.01, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 6 }}
-                transition={{ duration: 0.16, ease: 'easeOut' }}
-                className="flex-1 flex flex-col min-h-0 w-full pb-24 sm:pb-0"
-                style={{ viewTransitionName: 'expanded-section' }}
-              >
-                <DetailView onClose={closeSection} type={activeSection} />
-              </m.div>
-            ) : (
-              <m.div
-                key="grid"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.22 }}
-                className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 3xl:gap-6 auto-rows-[152px] sm:auto-rows-[190px] md:auto-rows-[237px] 3xl:auto-rows-[280px] grid-flow-row-dense"
-                style={{ viewTransitionName: 'bento-grid' }}
-              >
-                {items.map((item, index) => (
-                  <BentoCard
-                    key={item.id}
-                    dataId={item.id}
-                    index={index}
-                    className={`${item.colSpan} ${item.rowSpan || ''} h-full`}
-                    title={getCardTitle(item.id)}
-                    backgroundImage={item.bgImage}
-                    hasArrow={item.hasArrow}
-                    onClick={item.onClickModal ? () => openSection(item.onClickModal!) : undefined}
-                    noPadding={item.noPadding}
-                  >
-                    {renderCardContent(item.id)}
-                  </BentoCard>
-                ))}
-              </m.div>
-            )}
-          </AnimatePresence>
-
-          
-          {/* Footer */}
-          {!activeSection && (
-            <m.div 
-              initial={reduceMotion ? { opacity: 0.5, y: 0 } : { opacity: 0, y: 20 }}
-              animate={{ opacity: 0.5, y: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.6, delay: reduceMotion ? 0 : 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-8 flex flex-col md:flex-row justify-between items-center text-text-muted text-xs font-medium uppercase tracking-wider gap-4"
-            >
-              <div className="flex items-center gap-3">
-                <p>{t('copyright').replace('{year}', String(new Date().getFullYear()))}</p>
-                <a
-                  href={blogHref}
-                  className="transition-colors hover:text-text-main"
-                >
-                  Blog
-                </a>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className={`h-1.5 w-1.5 rounded-full bg-primary ${reduceMotion ? '' : 'animate-pulse'}`} />
-                <p>{t('role')}</p>
-              </div>
-            </m.div>
-          )}
+          <HeroChapter />
+          <BentoChapter theme={theme} onOpenSection={openSection} />
+          <StoryChapter />
+          <TimelineChapter />
+          <ProjectsChapter />
+          <BlogChapter />
+          <StackChapter />
+          <GlobeChapter theme={theme} />
+          <OutroChapter />
         </main>
       </LanguageContentWrapper>
+
+      {/* Detail view modal (opened from bento cards) */}
+      <AnimatePresence>
+        {activeSection && (
+          <m.div
+            key={`section-${activeSection}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
+            className="fixed inset-0 z-[150] flex items-center justify-center p-4 sm:p-6 bg-page/80 backdrop-blur-xl"
+            onClick={closeSection}
+          >
+            <div
+              className="w-full max-w-[1320px] 3xl:max-w-[1500px] h-full max-h-[calc(100vh-2rem)] sm:max-h-[88vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <DetailView onClose={closeSection} type={activeSection} />
+            </div>
+          </m.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -353,7 +259,9 @@ function App() {
       <LanguageProvider>
         <ThemeProvider>
           <LazyMotion features={domAnimation}>
-            <AppContent />
+            <SmoothScroll>
+              <AppContent />
+            </SmoothScroll>
           </LazyMotion>
         </ThemeProvider>
       </LanguageProvider>

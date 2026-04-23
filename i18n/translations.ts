@@ -113,6 +113,63 @@ export const translations = {
     backend: 'Backend',
     aiMl: 'AI & Machine Learning',
     database: 'Database',
+
+    // Chapter labels
+    overviewSection: 'Overview',
+    atAGlance: 'At a glance.',
+    bentoSubline: 'A bento of work and life.',
+    writingSection: 'Writing',
+    writingHeadline: 'Words.',
+    writingSubline: 'Notes on AI, engineering, and the craft.',
+
+    // Hero
+    scrollCue: 'Scroll',
+    roleInterface: 'Interface Craftsman',
+    roleSystems: 'Systems Thinker',
+    roleAi: 'AI Builder',
+
+    // Story
+    since: 'Est. 2020',
+
+    // Projects
+    projectLabel: 'Project',
+    dictationApp: 'Dictation app',
+    platforms: 'Platforms',
+    license: 'License',
+    builtWith: 'Built with',
+
+    // Globe
+    remoteSubline: 'Remote-first. Shipping worldwide.',
+    basedInBody: 'Based in {location}, I work async-friendly across timezones with teams everywhere — full-time and freelance.',
+    coordinates: 'Coordinates',
+    timezone: 'Timezone',
+
+    // Outro
+    writeMe: 'Write me',
+
+    // Blog (homepage chapter)
+    allPosts: 'All posts',
+    readPost: 'Read post',
+    minRead: 'min read',
+    featured: 'Featured',
+
+    // Blog app
+    blogBackHome: 'Back to site',
+    blogBackToArticles: 'Back to articles',
+    blogHeroKicker: 'Writing',
+    blogHeroHeadline: 'Thinking out loud.',
+    blogHeroSubline: 'Essays, notes, and field-reports on whatever I am currently thinking about — software, AI, tools, design, the craft, and everything adjacent.',
+    onThisPage: 'On this page',
+    upNext: 'Up next',
+    updatedLabel: 'Updated',
+    aiEngineering: 'AI Engineering',
+    latest: 'Latest',
+    moreReading: 'More reading',
+    articleSingular: 'article',
+    articlePlural: 'articles',
+    home: 'Home',
+    copyLink: 'Copy link',
+    linkCopied: 'Link copied',
   },
   es: {
     // Intro
@@ -224,6 +281,63 @@ export const translations = {
     backend: 'Backend',
     aiMl: 'IA y Machine Learning',
     database: 'Base de Datos',
+
+    // Chapter labels
+    overviewSection: 'Resumen',
+    atAGlance: 'De un vistazo.',
+    bentoSubline: 'Un bento de trabajo y vida.',
+    writingSection: 'Escritos',
+    writingHeadline: 'Palabras.',
+    writingSubline: 'Notas sobre IA, ingeniería y el oficio.',
+
+    // Hero
+    scrollCue: 'Desplaza',
+    roleInterface: 'Artesano de Interfaces',
+    roleSystems: 'Pensador de Sistemas',
+    roleAi: 'Constructor de IA',
+
+    // Story
+    since: 'Desde 2020',
+
+    // Projects
+    projectLabel: 'Proyecto',
+    dictationApp: 'App de dictado',
+    platforms: 'Plataformas',
+    license: 'Licencia',
+    builtWith: 'Construido con',
+
+    // Globe
+    remoteSubline: 'Remoto primero. Enviando al mundo.',
+    basedInBody: 'Basado en {location}, trabajo de forma async a través de husos horarios con equipos en todas partes — tiempo completo y freelance.',
+    coordinates: 'Coordenadas',
+    timezone: 'Huso horario',
+
+    // Outro
+    writeMe: 'Escríbeme',
+
+    // Blog (homepage chapter)
+    allPosts: 'Todos los artículos',
+    readPost: 'Leer artículo',
+    minRead: 'min de lectura',
+    featured: 'Destacado',
+
+    // Blog app
+    blogBackHome: 'Volver al sitio',
+    blogBackToArticles: 'Volver a artículos',
+    blogHeroKicker: 'Escritos',
+    blogHeroHeadline: 'Pensando en voz alta.',
+    blogHeroSubline: 'Ensayos, notas y apuntes sobre lo que tenga en la cabeza — software, IA, herramientas, diseño, el oficio y todo lo que orbite alrededor.',
+    onThisPage: 'En esta página',
+    upNext: 'A continuación',
+    updatedLabel: 'Actualizado',
+    aiEngineering: 'Ingeniería de IA',
+    latest: 'Última entrada',
+    moreReading: 'Más lecturas',
+    articleSingular: 'artículo',
+    articlePlural: 'artículos',
+    home: 'Inicio',
+    copyLink: 'Copiar enlace',
+    linkCopied: 'Enlace copiado',
   }
 } as const;
 

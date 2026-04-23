@@ -1,26 +1,39 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from '../../components/ThemeContext';
 import { ArrowLeft, Sun, Moon } from 'lucide-react';
 import { LanguageSwitcher } from '../../components/LanguageSwitcher';
 import { LanguageTransition, LanguageContentWrapper } from '../../components/LanguageTransition';
 import { m, LazyMotion, domAnimation, AnimatePresence } from 'framer-motion';
 import { LanguageProvider, useLanguage } from '../../i18n/LanguageContext';
+import { SmoothScroll, useSmoothScroll } from '../../components/SmoothScroll';
+import { Grain } from '../../components/Grain';
+import { ReadingProgress } from '../../components/ReadingProgress';
 
 function BlogLayoutContent() {
   const { theme, toggleTheme } = useTheme();
   const [isLanguageChanging, setIsLanguageChanging] = useState(false);
   const location = useLocation();
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
+  const { lenis } = useSmoothScroll();
   const isBlogHome = location.pathname === '/';
   const isSpanish = language === 'es';
-  const backLabel = isBlogHome
-    ? (isSpanish ? 'Volver' : 'Back')
-    : (isSpanish ? 'Volver a artículos' : 'Back to articles');
+  const backLabel = isBlogHome ? t('blogBackHome') : t('blogBackToArticles');
+
+  // Jump to top on route change. Uses Lenis if available so smooth-scroll
+  // users don't see a jarring snap; falls back to window.scrollTo otherwise.
+  useEffect(() => {
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location.pathname, lenis]);
+
   const getHomeHref = () => {
     if (typeof window === 'undefined') return '/';
-    
-    const host = window.location.host; // e.g., "blog.localhost:3000", "blog.andermendz.dev"
+
+    const host = window.location.host;
     const hostname = window.location.hostname;
     const protocol = window.location.protocol;
     const langQuery = language === 'es' ? '?lang=es' : '';
@@ -28,14 +41,12 @@ function BlogLayoutContent() {
     if (hostname === 'blog.andermendz.dev' || hostname === 'www.blog.andermendz.dev') {
       return `https://andermendz.dev/${langQuery}`;
     }
-    
-    // For localhost development, if we are on a blog subdomain, strip it to go back to root
+
     if (hostname.startsWith('blog.')) {
       const mainHost = host.replace(/^blog\./, '');
       return `${protocol}//${mainHost}/${langQuery}`;
     }
 
-    // Fallback if accessed via path /blog
     return `/${langQuery}`;
   };
 
@@ -49,36 +60,57 @@ function BlogLayoutContent() {
     }, 700);
   };
 
-  return (
-    <div className="min-h-screen bg-page text-text-main font-sans selection:bg-primary selection:text-primary-fg transition-colors duration-500 overflow-x-hidden flex flex-col items-center">
-      <LanguageTransition isActive={isLanguageChanging} language={language} />
-
+  const BackPill = (
+    <m.div
+      initial={{ opacity: 0, scale: 0.9, y: -20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed z-[120] top-[max(1.5rem,env(safe-area-inset-top))] left-[max(1.5rem,env(safe-area-inset-left))]"
+    >
       {isBlogHome ? (
         <a
           href={homeHref}
-          aria-label="Go back"
-          className="fixed top-6 left-6 z-[120] group h-10 px-4 rounded-full bg-card/60 hover:bg-text-main hover:text-page flex items-center gap-2 text-text-main transition-all active:scale-95 border border-border shadow-lg backdrop-blur-xl"
+          aria-label={backLabel}
+          className="group inline-flex items-center gap-2 pl-3 pr-4 py-2 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl ring-1 ring-white/10 text-text-main text-xs font-bold uppercase tracking-[0.2em] hover:bg-text-main hover:text-page transition-colors"
         >
-          <ArrowLeft size={18} className="group-hover:-translate-x-0.5 transition-transform" />
-          <span className="text-xs sm:text-sm font-bold tracking-tight uppercase tracking-[0.1em]">{backLabel}</span>
+          <ArrowLeft
+            size={14}
+            strokeWidth={2}
+            className="transition-transform group-hover:-translate-x-0.5"
+          />
+          <span>{backLabel}</span>
         </a>
       ) : (
         <Link
           to={blogHomeHref}
-          aria-label="Go back"
-          className="fixed top-6 left-6 z-[120] group h-10 px-4 rounded-full bg-card/60 hover:bg-text-main hover:text-page flex items-center gap-2 text-text-main transition-all active:scale-95 border border-border shadow-lg backdrop-blur-xl"
+          aria-label={backLabel}
+          className="group inline-flex items-center gap-2 pl-3 pr-4 py-2 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl ring-1 ring-white/10 text-text-main text-xs font-bold uppercase tracking-[0.2em] hover:bg-text-main hover:text-page transition-colors"
         >
-          <ArrowLeft size={18} className="group-hover:-translate-x-0.5 transition-transform" />
-          <span className="text-xs sm:text-sm font-bold tracking-tight uppercase tracking-[0.1em]">{backLabel}</span>
+          <ArrowLeft
+            size={14}
+            strokeWidth={2}
+            className="transition-transform group-hover:-translate-x-0.5"
+          />
+          <span>{backLabel}</span>
         </Link>
       )}
+    </m.div>
+  );
 
-      {/* Floating Language Switcher */}
+  return (
+    <div className="relative min-h-screen bg-page text-text-main font-sans selection:bg-primary selection:text-primary-fg transition-colors duration-500 overflow-x-clip flex flex-col items-center">
+      <LanguageTransition isActive={isLanguageChanging} language={language} />
+
+      {!isBlogHome && <ReadingProgress />}
+
+      <Grain />
+
+      {BackPill}
+
       <LanguageSwitcher onLanguageChange={handleLanguageChange} />
 
-      {/* Floating Theme Toggle */}
       <m.button
-        className="fixed bottom-6 right-6 z-[120] p-4 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl text-text-main hover:bg-card-hover transition-colors ring-1 ring-white/10"
+        className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-[max(1.5rem,env(safe-area-inset-right))] z-[120] p-4 rounded-full bg-card/80 backdrop-blur-xl border border-border shadow-2xl text-text-main hover:bg-card-hover transition-colors ring-1 ring-white/10"
         onClick={toggleTheme}
         aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
         initial={{ opacity: 0, scale: 0, rotate: -180 }}
@@ -100,9 +132,8 @@ function BlogLayoutContent() {
         </AnimatePresence>
       </m.button>
 
-      {/* Main Content */}
       <LanguageContentWrapper isChanging={isLanguageChanging}>
-        <main className="w-full max-w-[1320px] 3xl:max-w-[1500px] mx-auto px-6 pt-20 flex-1">
+        <main className="w-full max-w-[1320px] 3xl:max-w-[1500px] mx-auto px-5 sm:px-10 lg:px-16 3xl:px-24 pt-24 sm:pt-28 pb-20 sm:pb-28 flex-1">
           <Outlet />
         </main>
       </LanguageContentWrapper>
@@ -110,13 +141,14 @@ function BlogLayoutContent() {
   );
 }
 
-
 export function BlogLayout() {
   return (
     <LanguageProvider>
       <LazyMotion features={domAnimation}>
-      <BlogLayoutContent />
-          </LazyMotion>
+        <SmoothScroll>
+          <BlogLayoutContent />
+        </SmoothScroll>
+      </LazyMotion>
     </LanguageProvider>
   );
 }

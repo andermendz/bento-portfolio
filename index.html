@@ -1,8 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Apply stored or system theme synchronously to avoid a flash of the wrong theme. -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = stored ? stored === 'dark' : prefersDark;
+          if (isDark) document.documentElement.classList.add('dark');
+        } catch (_) { /* ignore */ }
+      })();
+    </script>
     
     <!-- Primary Meta Tags -->
     <title>Anderson Mendoza | Full-Stack Engineer, AI Builder, and Technical Lead</title>
@@ -60,30 +73,58 @@
     <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="preload" as="image" href="/profile.png" fetchpriority="high" />
     
     <!-- Structured Data - Person Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Person",
+      "@id": "https://andermendz.dev/#person",
       "name": "Anderson Mendoza",
+      "givenName": "Anderson",
+      "familyName": "Mendoza",
+      "alternateName": "andermendz",
       "url": "https://andermendz.dev",
       "image": "https://andermendz.dev/profile.png",
-      "jobTitle": "Full-Stack Engineer and AI Builder",
-      "description": "Portfolio and blog of Anderson Mendoza, a full-stack engineer and AI product builder from Cartagena, Colombia specializing in React, TypeScript, Node.js, and LLM-powered applications.",
+      "email": "mailto:andermendz@proton.me",
+      "jobTitle": "Technical Lead, Full-Stack Engineer, AI Builder",
+      "description": "Software engineer and AI product builder from Cartagena, Colombia. Builds production systems with React, TypeScript, Node.js, Python, Rust, and LLMs.",
+      "gender": "Male",
+      "nationality": { "@type": "Country", "name": "Colombia" },
+      "birthPlace": { "@type": "Place", "name": "Cartagena, Colombia" },
+      "knowsLanguage": ["en", "es"],
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "Software Engineer",
+        "occupationLocation": {
+          "@type": "City",
+          "name": "Cartagena, Colombia"
+        },
+        "skills": "React, TypeScript, Node.js, Python, Rust, Tauri, PostgreSQL, MongoDB, Docker, LLM integration, speech-to-text, diffusion models, system design, design engineering"
+      },
       "worksFor": {
         "@type": "Organization",
-        "name": "Visbl"
+        "name": "Visbl",
+        "url": "https://visbl.com"
       },
       "alumniOf": {
         "@type": "EducationalOrganization",
-        "name": "Fundación Universitaria Tecnológico Comfenalco"
+        "name": "Fundación Universitaria Tecnológico Comfenalco",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Cartagena",
+          "addressCountry": "Colombia"
+        }
       },
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Cartagena",
+        "addressRegion": "Bolívar",
         "addressCountry": "Colombia"
       },
       "sameAs": [
@@ -91,23 +132,52 @@
         "https://linkedin.com/in/andermendz",
         "https://x.com/andermendz"
       ],
-      "knowsAbout": ["React", "TypeScript", "Node.js", "Next.js", "Python", "MongoDB", "PostgreSQL", "Docker", "AI Integration", "Full-Stack Development", "Cloud Computing"]
+      "knowsAbout": [
+        "React",
+        "TypeScript",
+        "Node.js",
+        "Next.js",
+        "Vite",
+        "Python",
+        "Rust",
+        "Tauri",
+        "MongoDB",
+        "PostgreSQL",
+        "Docker",
+        "Large Language Models",
+        "Context Engineering",
+        "Retrieval-Augmented Generation",
+        "Speech-to-text",
+        "Diffusion Models",
+        "Full-Stack Development",
+        "Design Engineering",
+        "Accessibility",
+        "Motion Design"
+      ]
     }
     </script>
-    
-    <!-- Structured Data - WebSite Schema -->
+
+    <!-- Structured Data - WebSite Schema with SearchAction -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
+      "@id": "https://andermendz.dev/#website",
       "name": "Anderson Mendoza",
+      "alternateName": "Anderson Mendoza Portfolio",
       "url": "https://andermendz.dev",
-      "description": "Portfolio and blog of Anderson Mendoza, a full-stack engineer and AI product builder specializing in React, TypeScript, Node.js, and LLM-powered applications.",
-      "publisher": {
-        "@type": "Person",
-        "name": "Anderson Mendoza"
-      },
-      "inLanguage": ["en", "es"]
+      "description": "Portfolio and long-form blog of Anderson Mendoza, a software engineer and AI product builder.",
+      "inLanguage": ["en", "es"],
+      "publisher": { "@id": "https://andermendz.dev/#person" },
+      "author": { "@id": "https://andermendz.dev/#person" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://andermendz.dev/blog?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
     }
     </script>
 

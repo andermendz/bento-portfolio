@@ -1,3 +1,5 @@
+@import 'lenis/dist/lenis.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -82,15 +84,16 @@ html, body {
   overscroll-behavior-y: contain;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
+/* Native smooth scroll only for reduced-motion users (Lenis handles the rest) */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+}
+
+/* Pre-hydration initial state for chapters. GSAP removes these on setup. */
+.gsap-hidden {
+  opacity: 0;
 }
 
 .no-scrollbar::-webkit-scrollbar {

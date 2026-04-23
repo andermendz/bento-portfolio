@@ -1,214 +1,199 @@
-# Bento Portfolio
+# Anderson Mendoza — Portfolio
 
-A modern, interactive portfolio built with React and a bento grid layout. Features a responsive bento box design with smooth animations, internationalization support, and an interactive 3D globe.
+A single-page, GSAP + Lenis scroll narrative paired with a Markdown-driven blog. Built with React 19, TypeScript, Vite, and Tailwind.
 
-## Features
+Live: [andermendz.dev](https://andermendz.dev) · Blog: [/blog](https://andermendz.dev/blog)
 
-- **Bento Grid Layout** – Modular, responsive card-based design that adapts to different screen sizes
-- **Dark/Light Theme** – Toggle between themes with smooth transitions and system preference detection
-- **Animated UI** – Powered by Framer Motion for fluid interactions and page transitions
-- **Interactive Globe** – Location display using Cobe 3D globe with real-time time zone indication
-- **Internationalization** – Multi-language support with smooth language switching animations
-- **Modal Details** – Expandable card views for detailed information
-- **Responsive Design** – Optimized for mobile, tablet, and desktop viewing
+## Highlights
+
+- **Cinematic intro loader** → hero name reveal → pinned chapters → kinetic outro
+- **Lenis smooth scroll** wired to GSAP ScrollTrigger via `scrollerProxy`
+- **Markdown blog** with Table of Contents scrollspy, reading progress bar, related posts
+- **Full i18n** (English + Spanish) with smooth language transitions
+- **Light / dark theme** with system preference detection
+- **Prerendered SEO** for every blog post (JSON-LD, Open Graph, `hreflang`, RSS)
+- **A11y-first**: respects `prefers-reduced-motion`, semantic landmarks, focus styles
+- **Awwwards-grade polish** — grain texture, SplitText reveals, magnetic CTAs, 3D globe
 
 ## Tech Stack
 
-- **React 19** - Latest React with modern hooks and concurrent features
-- **TypeScript** - Type-safe development with comprehensive type definitions
-- **Vite** - Fast build tool and development server
-- **Framer Motion** - Animation library for smooth UI transitions
-- **Tailwind CSS** - Utility-first CSS framework for rapid styling
-- **Lucide Icons** - Beautiful, consistent icon set
-- **Cobe** - 3D globe visualization library
+| Layer | Library |
+|---|---|
+| Framework | **React 19** + **TypeScript** + **Vite 6** |
+| Animation | **GSAP 3** (`ScrollTrigger`, `SplitText`, `useGSAP`), **Framer Motion 11** |
+| Smooth scroll | **Lenis** |
+| Styling | **Tailwind CSS 3** + `@tailwindcss/typography` |
+| 3D Globe | **Cobe** (WebGL) |
+| Routing | **React Router 7** (blog subdomain only) |
+| Content | **react-markdown** + `remark-gfm` + `front-matter` |
+| SEO | **react-helmet-async** + custom prerender script |
+| Icons | **lucide-react** |
 
 ## Getting Started
 
 ### Prerequisites
+- Node.js 18+
+- pnpm 8+ (recommended) or npm
 
-- Node.js 18+ and npm/pnpm
-- Git
-
-### Installation
-
-1. Clone the repository:
+### Install & run
 ```bash
-git clone https://github.com/yourusername/bento-portfolio.git
-cd bento-portfolio
-```
-
-2. Install dependencies:
-```bash
-npm install
-# or
 pnpm install
+pnpm dev          # http://localhost:5173
 ```
 
-3. Start the development server:
-```bash
-npm run dev
-# or
-pnpm dev
+### Scripts
+| Command | What it does |
+|---|---|
+| `pnpm dev` | Vite dev server with HMR |
+| `pnpm build` | Type-check → SEO pre-generate → Vite build → post-build prerender |
+| `pnpm preview` | Preview production build locally |
+| `pnpm lint` | `tsc --noEmit` type check |
+| `pnpm seo:generate` | Regenerate SEO data from blog posts |
+
+The full build pipeline runs in this order:
 ```
-
-4. Open [http://localhost:5173](http://localhost:5173) in your browser.
-
-### Available Scripts
-
-- `npm run dev` - Start development server with hot reload
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build locally
-- `npm run lint` - Run TypeScript type checking
+prebuild (seo:generate) → tsc → vite build → postbuild (prerender-seo)
+```
 
 ## Project Structure
 
 ```
+├── App.tsx                   # Portfolio shell (chapters + chrome)
+├── BlogApp.tsx               # Blog subroute entry (React Router)
+├── index.tsx                 # Root — hydrates App or BlogApp based on URL
+├── index.css                 # Tailwind + global styles + Lenis CSS
 ├── components/
-│   ├── BentoCard.tsx          # Reusable card component with layout animations
-│   ├── CardContents.tsx       # Content components for each card type
-│   ├── DetailView.tsx         # Modal overlay for expanded card views
-│   ├── Globe.tsx              # Interactive 3D globe component
-│   ├── LanguageSwitcher.tsx   # Language selection component
-│   ├── LanguageTransition.tsx # Language change animation wrapper
-│   └── ErrorBoundary.tsx      # Error boundary for graceful error handling
+│   ├── chapters/             # Full-bleed scroll chapters (Hero, Story, Timeline, …)
+│   ├── cards/                # Bento-grid cards used inside BentoChapter
+│   ├── sections/             # Legacy detail sections rendered inside DetailView
+│   ├── BentoCard.tsx         # 3D-tilt card shell
+│   ├── BlogLink.tsx          # Fixed top-right pill → /blog
+│   ├── DetailView.tsx        # Modal overlay (pauses Lenis on open)
+│   ├── Globe.tsx             # Cobe globe wrapper
+│   ├── Grain.tsx             # SVG `feTurbulence` noise overlay
+│   ├── IntroLoader.tsx       # Cinematic first-paint loader
+│   ├── LanguageSwitcher.tsx  # EN / ES toggle
+│   ├── LanguageTransition.tsx# Transition wrapper for i18n swap
+│   ├── ReadingProgress.tsx   # Fixed top progress bar (blog posts)
+│   ├── SEO.tsx               # react-helmet-async wrapper
+│   ├── SmoothScroll.tsx      # Lenis provider + ScrollTrigger bridge
+│   └── ThemeContext.tsx      # Light/dark provider
+├── pages/blog/
+│   ├── BlogLayout.tsx        # Blog shell (shared chrome + SmoothScroll)
+│   ├── BlogHome.tsx          # Post index (featured + list)
+│   └── BlogPost.tsx          # Article template (TOC, progress, up-next)
+├── content/
+│   ├── blog.ts               # Loader + enrichment for Markdown files
+│   └── posts/                # *.md blog sources (EN + ES variants)
 ├── i18n/
-│   ├── LanguageContext.tsx    # React context for internationalization
-│   └── translations.ts        # Translation strings for supported languages
-├── types/
-│   └── index.ts               # TypeScript type definitions
-├── public/
-│   └── profile.png            # Profile image
-├── App.tsx                    # Main application component
-├── index.css                  # Global styles and Tailwind imports
-├── package.json               # Dependencies and scripts
-├── tsconfig.json              # TypeScript configuration
-├── tailwind.config.js         # Tailwind CSS configuration
-└── vite.config.ts             # Vite build configuration
+│   ├── LanguageContext.tsx   # t(), language, setLanguage
+│   └── translations.ts       # All EN + ES copy (single source of truth)
+├── config/
+│   └── seo.ts                # Site name, canonical URLs, schema helpers
+├── scripts/
+│   ├── generate-seo.mjs      # Pre-build: emits sitemap.xml, rss.xml, meta JSON
+│   └── prerender-seo.mjs     # Post-build: injects SSR HTML for blog posts
+├── theme/                    # Material-web theme tokens
+├── types/                    # Shared TS types
+└── public/                   # Static assets
 ```
 
-## Component Documentation
+## Writing a Blog Post
 
-### Core Components
+1. Drop a Markdown file into `content/posts/` with a `.md` extension. Filename = slug.
+2. Add frontmatter:
+   ```yaml
+   ---
+   title: Your Title Here
+   date: 2026-04-22
+   excerpt: One-line preview shown in the index and meta.
+   tags: [ai, tools]
+   kicker: Optional eyebrow text
+   coverImage: /covers/your-cover.jpg
+   coverAlt: Descriptive alt text
+   featured: false
+   ---
+   ```
+3. Write the body in standard Markdown (GFM supported). Use `##` for top-level sections — these become the TOC entries.
+4. (Optional) add a Spanish variant with the same slug plus `.es.md` — e.g. `my-post.md` (EN) + `my-post.es.md` (ES).
+5. `pnpm build` — SEO, sitemap, RSS, and prerendered HTML are regenerated automatically.
 
-- **App.tsx**: Main application component managing state, themes, and layout
-- **BentoCard**: Reusable card component with hover effects and modal triggers
-- **DetailView**: Modal component for displaying expanded card content
-- **Globe**: Interactive 3D globe showing location and time
+## Internationalization
 
-### Content Components
+All user-facing copy lives in [`i18n/translations.ts`](i18n/translations.ts) as a single `translations` object keyed by language.
 
-Located in `CardContents.tsx`:
-- **IntroContent**: Personal introduction section
-- **SocialsContent**: Social media links
-- **TechStackContent**: Technology skills display
-- **AboutContent**: Detailed about section
-- **ExperienceContent**: Work experience timeline
-- **EducationContent**: Education background
-- **ContactContent**: Contact information with copy-to-clipboard functionality
+```tsx
+import { useLanguage } from '../i18n/LanguageContext';
 
-## Customization
-
-### Personal Information
-
-1. Update content in `components/CardContents.tsx`:
-   - Replace placeholder text with your information
-   - Modify social links and contact details
-   - Update tech stack and experience data
-
-2. Replace profile image:
-   - Add your photo to `public/profile.png`
-   - Ensure image is optimized (recommended: 400x400px, <100KB)
-
-### Styling
-
-- **Colors**: Edit CSS custom properties in `index.css`
-- **Layout**: Modify grid configuration in `App.tsx`
-- **Animations**: Adjust Framer Motion settings in component files
-
-### Internationalization
-
-Add new languages in `i18n/translations.ts`:
-```typescript
-export const translations = {
-  en: { ... },
-  es: { ... }, // Add Spanish translations
-  // Add more languages
-};
-```
-
-### Theme Customization
-
-Modify theme colors in `index.css`:
-```css
-:root {
-  --primary: #your-color;
-  --background: #your-bg;
-  /* ... other variables */
+function Greeting() {
+  const { t, language, setLanguage } = useLanguage();
+  return <h1>{t('availableForWork')}</h1>;
 }
 ```
 
+Rules:
+- **Never hardcode user-visible strings.** Add a key to both `en` and `es` and use `t('key')`.
+- TypeScript enforces key presence via `TranslationKey`.
+- Language persists in `localStorage`.
+- Blog posts are localized by filename convention (see above).
+
+## Animation System
+
+Two libraries coexist on purpose:
+
+- **GSAP (+ Lenis)** drives the scroll narrative — chapter reveals, SplitText, ScrollTrigger, marquees, scrub-linked 3D transforms. See `components/SmoothScroll.tsx` for the Lenis ↔ ScrollTrigger bridge.
+- **Framer Motion** drives discrete UI transitions — modal opens, theme toggle, language swap. It doesn't own scroll.
+
+### Patterns to follow
+- Gate non-essential animation behind `gsap.matchMedia('(prefers-reduced-motion: no-preference)')`.
+- Prefer `y` + `opacity` reveals over `yPercent` + `mask` for display type (masks clip descenders).
+- Avoid `overflow-hidden` on sticky ancestors — use `overflow-clip` instead. It clips visually without establishing a scroll container.
+- Kill `ScrollTrigger`s on route change inside `useGSAP({ scope, dependencies })`.
+- For anchor navigation, use `lenis.scrollTo(target, { offset, duration })` and pre-reveal any `ScrollTrigger`-hidden content before scrolling.
+
+## Theming
+
+CSS custom properties are defined per theme in `index.css` and picked up by Tailwind via `tailwind.config.js` (`colors.page`, `colors.text-main`, etc.). Toggle is managed by `components/ThemeContext.tsx`.
+
+## SEO & GEO
+
+**SEO**
+- `config/seo.ts` owns site-wide constants, canonical URLs, and typed JSON-LD schema builders (`buildPersonSchema`, `buildWebsiteSchema`, `buildArticleSchema`, `buildBreadcrumbSchema`, `buildFaqSchema`).
+- `components/SEO.tsx` wraps `react-helmet-async` with Open Graph, Twitter Card, `hreflang`, canonical, image dimensions, and per-page JSON-LD injection.
+- `scripts/generate-seo.mjs` (prebuild) emits `public/sitemap.xml` and `public/rss.xml` from `content/blog/*.md` frontmatter.
+- `scripts/prerender-seo.mjs` (postbuild) injects per-post critical HTML into the static `index.html` so crawlers see real content without executing JavaScript.
+- Every blog post emits `Person` + `WebSite` + `BlogPosting` + `BreadcrumbList` schemas with stable `@id` references, word count, reading time, and `hreflang` alternates.
+
+**GEO (Generative Engine Optimization)**
+- `public/llms.txt` — curated site map in the [proposed `/llms.txt` format](https://llmstxt.org/). Points LLMs at the highest-signal pages.
+- `public/llms-full.txt` — every blog post concatenated as plain Markdown, regenerated each build. Optimized for LLM ingestion and retrieval.
+- `public/robots.txt` — explicit allowlist for major AI crawlers (`GPTBot`, `ClaudeBot`, `PerplexityBot`, `Google-Extended`, `Applebot-Extended`, `CCBot`, …) alongside traditional search engines.
+- Homepage includes a `FAQPage` schema answering common questions about Anderson's availability, focus, and blog so assistants can quote attributable facts.
+- Person schema exposes structured occupation, languages, skills, and social `sameAs` links so LLMs can attribute quotes and build a reliable knowledge graph entry.
+
 ## Deployment
 
-### Vercel (Recommended)
+Deployed on **Vercel**. The static `dist/` folder is the build output; `vercel.json` handles rewrites for the blog subroute.
 
-1. Push your code to GitHub
-2. Connect repository to [Vercel](https://vercel.com)
-3. Deploy automatically on push
-
-### Netlify
-
-1. Build the project: `npm run build`
-2. Upload `dist/` folder to [Netlify](https://netlify.com)
-3. Configure build settings if needed
-
-### Manual Deployment
-
-1. Build for production: `npm run build`
-2. Serve `dist/` folder with any static hosting service
-3. Ensure proper MIME types for assets
-
-## Performance
-
-- **Bundle Size**: ~150KB gzipped (React, Framer Motion, Cobe)
-- **Lighthouse Score**: 95+ on performance, accessibility, and SEO
-- **Core Web Vitals**: Optimized for fast loading and smooth interactions
-
-## Browser Support
-
-- Chrome 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
+Any static host works:
+```bash
+pnpm build
+# Upload dist/
+```
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
+See [`CONTRIBUTING.md`](./CONTRIBUTING.md). TL;DR: branch off `main`, keep PRs scoped, no hardcoded strings, run `pnpm lint` before pushing.
 
-## Troubleshooting
-
-### Common Issues
-
-- **Globe not rendering**: Ensure WebGL is enabled in browser
-- **Animations laggy**: Check browser performance settings
-- **TypeScript errors**: Run `npm run lint` to check for issues
-
-### Development Tips
-
-- Use React DevTools for component debugging
-- Check browser console for Framer Motion warnings
-- Test on multiple devices for responsive design
+Also read [`AGENTS.md`](./AGENTS.md) if you're an AI agent or unfamiliar contributor — it encodes the project's conventions.
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file for details
+MIT. See [`LICENSE`](./LICENSE).
 
 ## Acknowledgments
 
-- [Framer Motion](https://www.framer.com/motion/) for animations
-- [Cobe](https://cobe.vercel.app/) for the 3D globe
-- [Tailwind CSS](https://tailwindcss.com/) for styling
-- [Lucide](https://lucide.dev/) for icons
+- [GSAP](https://gsap.com/) + [Lenis](https://lenis.darkroom.engineering/) — the scroll backbone
+- [Cobe](https://cobe.vercel.app/) — WebGL globe
+- [Framer Motion](https://www.framer.com/motion/) — UI transitions
+- [Tailwind](https://tailwindcss.com/) + [Lucide](https://lucide.dev/)

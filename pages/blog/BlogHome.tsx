@@ -1,69 +1,121 @@
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SplitText } from 'gsap/SplitText';
+import { useGSAP } from '@gsap/react';
+import { ArrowUpRight, BookOpen } from 'lucide-react';
 import { getBlogPosts, getFeaturedBlogPost, type BlogLocale } from '../../content/blog';
 import { SEO } from '../../components/SEO';
-import { BLOG_KEYWORDS, absoluteUrl, blogAbsoluteUrl, buildBreadcrumbSchema, SITE_NAME } from '../../config/seo';
+import {
+  BLOG_KEYWORDS,
+  absoluteUrl,
+  blogAbsoluteUrl,
+  buildBreadcrumbSchema,
+  SITE_NAME,
+} from '../../config/seo';
 import { useLanguage } from '../../i18n/LanguageContext';
 
+gsap.registerPlugin(ScrollTrigger, SplitText);
+
 export function BlogHome() {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const blogLocale = language as BlogLocale;
   const isSpanish = blogLocale === 'es';
   const posts = getBlogPosts(blogLocale);
   const featuredPost = getFeaturedBlogPost(blogLocale);
   const remainingPosts = posts.filter((post) => post.slug !== featuredPost?.slug);
+
+  const rootRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        if (headingRef.current) {
+          const split = new SplitText(headingRef.current, { type: 'words' });
+          gsap.from(split.words, {
+            y: 40,
+            opacity: 0,
+            duration: 0.9,
+            stagger: 0.06,
+            ease: 'power3.out',
+            delay: 0.1,
+          });
+        }
+
+        gsap.from('[data-blog-meta]', {
+          opacity: 0,
+          y: 20,
+          duration: 0.7,
+          ease: 'power3.out',
+          delay: 0.4,
+        });
+
+        gsap.from('[data-blog-featured]', {
+          opacity: 0,
+          y: 40,
+          duration: 0.9,
+          ease: 'power3.out',
+          delay: 0.6,
+        });
+
+        const tiles = rootRef.current?.querySelectorAll<HTMLElement>('[data-blog-tile]') ?? [];
+        if (tiles.length) {
+          gsap.from(tiles, {
+            opacity: 0,
+            y: 40,
+            duration: 0.8,
+            ease: 'power3.out',
+            stagger: 0.08,
+            scrollTrigger: {
+              trigger: tiles[0],
+              start: 'top 85%',
+              toggleActions: 'play none none reverse',
+            },
+          });
+        }
+      });
+    },
+    { scope: rootRef, dependencies: [language] }
+  );
+
   const blogUrl = blogAbsoluteUrl(isSpanish ? '/?lang=es' : '/');
-  const blogDescription = isSpanish
-    ? 'Notas aplicadas sobre comportamiento de IA, ventanas de contexto, economía de tokens, alucinaciones, modelos de razonamiento y los detalles técnicos detrás de productos reales con IA.'
-    : 'Applied notes on AI behavior, context windows, token economics, hallucinations, reasoning models, and the technical details behind real AI products.';
+  const blogDescription = t('blogHeroSubline');
   const blogKeywords = Array.from(new Set([...BLOG_KEYWORDS, ...posts.flatMap((post) => post.tags)]));
-  const ui = isSpanish
-    ? {
-        title: 'Blog de IA',
-        siteBlogName: 'Blog de IA',
-        readArticle: 'Leer artículo',
-        minutesRead: 'min de lectura',
-      }
-    : {
-        title: 'AI Blog',
-        siteBlogName: 'AI Blog',
-        readArticle: 'Read the article',
-        minutesRead: 'min read',
-      };
+  const uiTitle = isSpanish ? 'Blog de IA' : 'AI Blog';
+  const siteBlogName = uiTitle;
   const articleHref = (slug: string) => (isSpanish ? `/${slug}?lang=es` : `/${slug}`);
+  const formatDate = (iso: string) =>
+    new Date(iso).toLocaleDateString(isSpanish ? 'es-ES' : 'en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+
   const blogSchemas = [
     {
       '@context': 'https://schema.org',
-        '@type': 'Blog',
-        name: `${SITE_NAME} ${ui.siteBlogName}`,
-        description: blogDescription,
-        url: blogUrl,
+      '@type': 'Blog',
+      name: `${SITE_NAME} ${siteBlogName}`,
+      description: blogDescription,
+      url: blogUrl,
       inLanguage: isSpanish ? 'es' : 'en',
-      author: {
-        '@type': 'Person',
-        name: SITE_NAME,
-        url: absoluteUrl('/'),
-      },
-      publisher: {
-        '@type': 'Person',
-        name: SITE_NAME,
-        url: absoluteUrl('/'),
-      },
+      author: { '@type': 'Person', name: SITE_NAME, url: absoluteUrl('/') },
+      publisher: { '@type': 'Person', name: SITE_NAME, url: absoluteUrl('/') },
     },
     {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
-      name: `${ui.title} | ${SITE_NAME}`,
+      name: `${uiTitle} | ${SITE_NAME}`,
       description: blogDescription,
       url: blogUrl,
-      isPartOf: {
-        '@type': 'WebSite',
-        name: SITE_NAME,
-        url: absoluteUrl('/'),
-      },
+      isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: absoluteUrl('/') },
     },
     buildBreadcrumbSchema([
-      { name: isSpanish ? 'Inicio' : 'Home', item: absoluteUrl(isSpanish ? '/?lang=es' : '/') },
-      { name: isSpanish ? 'Blog' : 'Blog', item: blogUrl },
+      { name: t('home'), item: absoluteUrl(isSpanish ? '/?lang=es' : '/') },
+      { name: 'Blog', item: blogUrl },
     ]),
     {
       '@context': 'https://schema.org',
@@ -78,9 +130,9 @@ export function BlogHome() {
   ];
 
   return (
-    <div className="flex flex-col gap-12 pt-8 pb-16 w-full mx-auto">
-      <SEO 
-        title={ui.title}
+    <div ref={rootRef} className="w-full">
+      <SEO
+        title={uiTitle}
         description={blogDescription}
         canonical={blogUrl}
         locale={isSpanish ? 'es_CO' : 'en_US'}
@@ -97,94 +149,163 @@ export function BlogHome() {
         ]}
         schemaData={blogSchemas}
       />
+
+      {/* Hero */}
+      <section className="w-full mb-16 sm:mb-24">
+        <div
+          data-blog-meta
+          className="flex items-center justify-between mb-6 sm:mb-10"
+        >
+          <p className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em]">
+            {t('blogHeroKicker')} / {posts.length} {posts.length === 1 ? t('articleSingular') : t('articlePlural')}
+          </p>
+          {posts[0] && (
+            <p className="hidden sm:flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em] text-text-muted">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+              {t('latest')} · {formatDate(posts[0].date)}
+            </p>
+          )}
+        </div>
+
+        <h1
+          ref={headingRef}
+          className="text-5xl sm:text-7xl md:text-8xl lg:text-[9rem] 3xl:text-[11rem] font-black text-text-main leading-[1] tracking-tighter"
+        >
+          {t('blogHeroHeadline')}
+        </h1>
+
+        <p
+          data-blog-meta
+          className="mt-8 sm:mt-12 max-w-2xl text-base sm:text-lg lg:text-xl text-text-muted font-medium leading-relaxed"
+        >
+          {t('blogHeroSubline')}
+        </p>
+      </section>
+
+      {/* Featured */}
       {featuredPost && (
-        <article className="group relative overflow-hidden rounded-[32px] border border-border bg-card/85 p-6 sm:p-8 md:p-10 backdrop-blur-xl transition-colors duration-300 hover:bg-card-hover">
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-          <div className="absolute -right-8 top-8 h-40 w-40 rounded-full bg-primary/5 blur-3xl transition-transform duration-500 group-hover:scale-110" />
-
-          <div className="relative z-10 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-3xl">
-              <div className="mb-5 flex flex-wrap items-center gap-3 text-xs font-medium uppercase tracking-[0.18em] text-text-muted">
-                {featuredPost.kicker && (
-                  <span className="rounded-full border border-border bg-card-hover px-3 py-1">{featuredPost.kicker}</span>
-                )}
-                <time dateTime={featuredPost.date}>
-                  {new Date(featuredPost.date).toLocaleDateString(isSpanish ? 'es-ES' : 'en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric',
-                  })}
-                </time>
-                <span>{featuredPost.readingTimeMinutes} {ui.minutesRead}</span>
-              </div>
-
-              <h2 className="text-3xl font-black leading-tight tracking-tight text-text-main sm:text-4xl md:text-5xl">
-                <Link to={articleHref(featuredPost.slug)} className="transition-colors hover:text-primary after:absolute after:inset-0 after:z-20">
-                  {featuredPost.title}
-                </Link>
-              </h2>
-
-              <p className="mt-5 max-w-2xl text-base leading-7 text-text-muted sm:text-lg">
-                {featuredPost.excerpt}
-              </p>
-            </div>
-
-            <div className="flex flex-col items-start gap-4 lg:items-end lg:max-w-[360px]">
-              <div className="flex flex-wrap gap-2">
-                {featuredPost.tags.map((tag) => (
-                  <span key={tag} className="rounded-full border border-border bg-card-hover px-3 py-1 text-xs font-medium text-text-muted">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              <Link
-                to={articleHref(featuredPost.slug)}
-                className="relative z-30 inline-flex items-center gap-2 rounded-full bg-text-main px-5 py-3 text-sm font-semibold text-page transition-transform duration-300 hover:-translate-y-0.5"
-              >
-                {ui.readArticle}
-                <span aria-hidden="true">&rarr;</span>
-              </Link>
-            </div>
+        <section
+          data-blog-featured
+          className="w-full mb-16 sm:mb-24 border-t border-border pt-10 sm:pt-14"
+        >
+          <div className="flex items-center justify-between mb-8 sm:mb-10">
+            <span className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-text-main bg-card-hover border border-border px-3 py-1 rounded-full">
+              <BookOpen size={11} strokeWidth={2} />
+              {t('featured')}
+            </span>
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.3em] text-text-muted">
+              {formatDate(featuredPost.date)} · {featuredPost.readingTimeMinutes} {t('minRead')}
+            </span>
           </div>
-        </article>
-      )}
 
-      {remainingPosts.length > 0 && (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {remainingPosts.map((post) => (
-            <article key={post.id} className="group relative flex flex-col justify-between overflow-hidden rounded-[28px] border border-border bg-card/80 p-6 backdrop-blur-xl transition-colors duration-300 hover:bg-card-hover">
-              <div>
-                <div className="mb-4 flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-text-muted">
-                  <time dateTime={post.date}>
-                    {new Date(post.date).toLocaleDateString(isSpanish ? 'es-ES' : 'en-US', {
-                      month: 'long',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}
-                  </time>
-                  <span>{post.readingTimeMinutes} {ui.minutesRead}</span>
-                </div>
-
-                <h3 className="text-2xl font-bold tracking-tight text-text-main transition-colors group-hover:text-primary">
-                  <Link to={articleHref(post.slug)} className="after:absolute after:inset-0 after:z-20">{post.title}</Link>
-                </h3>
-
-                <p className="mt-4 text-sm leading-7 text-text-muted">{post.excerpt}</p>
+          <Link
+            to={articleHref(featuredPost.slug)}
+            className="group block"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+              <div className="lg:col-span-8">
+                {featuredPost.kicker && (
+                  <span className="inline-block text-[10px] sm:text-xs font-bold uppercase tracking-[0.3em] text-primary mb-4">
+                    {featuredPost.kicker}
+                  </span>
+                )}
+                <h2 className="text-3xl sm:text-5xl md:text-6xl 3xl:text-7xl font-black tracking-tighter text-text-main leading-[0.95] group-hover:text-primary transition-colors">
+                  {featuredPost.title}
+                </h2>
+                <p className="mt-6 max-w-2xl text-base sm:text-lg text-text-muted font-medium leading-relaxed">
+                  {featuredPost.excerpt}
+                </p>
               </div>
 
-              <div className="mt-8 flex flex-wrap items-center gap-3">
+              <div className="lg:col-span-4 flex flex-col gap-5">
                 <div className="flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
-                    <span key={tag} className="rounded-full border border-border bg-card-hover px-3 py-1 text-xs text-text-muted">
+                  {featuredPost.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-3 py-1 rounded-full border border-border bg-card-hover text-[10px] font-bold uppercase tracking-[0.15em] text-text-muted"
+                    >
                       {tag}
                     </span>
                   ))}
                 </div>
+
+                <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.25em] text-text-main">
+                  {t('readPost')}
+                  <ArrowUpRight
+                    size={14}
+                    className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
+                </span>
               </div>
-            </article>
-          ))}
-        </div>
+            </div>
+          </Link>
+        </section>
+      )}
+
+      {/* Rest */}
+      {remainingPosts.length > 0 && (
+        <section className="w-full border-t border-border pt-10 sm:pt-14">
+          <p className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-8 sm:mb-10">
+            {t('moreReading')}
+          </p>
+
+          <div className="divide-y divide-border">
+            {remainingPosts.map((post, index) => (
+              <Link
+                key={post.id}
+                data-blog-tile
+                to={articleHref(post.slug)}
+                className="group flex flex-col gap-5 py-8 sm:py-10 first:pt-0"
+              >
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-start">
+                  <div className="lg:col-span-1 flex lg:flex-col gap-2 items-baseline lg:items-start">
+                    <span className="text-xl sm:text-2xl font-black tracking-tighter text-text-main">
+                      {String(index + 2).padStart(2, '0')}
+                    </span>
+                  </div>
+
+                  <div className="lg:col-span-7">
+                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-text-main leading-tight group-hover:text-primary transition-colors">
+                      {post.title}
+                    </h3>
+                    <p className="mt-4 text-sm sm:text-base text-text-muted font-medium leading-relaxed max-w-2xl line-clamp-2">
+                      {post.excerpt}
+                    </p>
+                  </div>
+
+                  <div className="lg:col-span-4 flex flex-col gap-4">
+                    <div className="flex flex-wrap items-center gap-3 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-text-muted">
+                      <time dateTime={post.date}>{formatDate(post.date)}</time>
+                      <span className="h-px w-6 bg-border hidden sm:inline-block" />
+                      <span>
+                        {post.readingTimeMinutes} {t('minRead')}
+                      </span>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2">
+                      {post.tags.slice(0, 3).map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2.5 py-1 rounded-full border border-border bg-card-hover text-[10px] font-bold uppercase tracking-[0.15em] text-text-muted"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <span className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-text-main">
+                      {t('readPost')}
+                      <ArrowUpRight
+                        size={13}
+                        className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
       )}
     </div>
   );
