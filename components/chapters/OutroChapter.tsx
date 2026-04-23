@@ -20,6 +20,13 @@ export const OutroChapter: React.FC = () => {
   const emailInnerRef = useRef<HTMLSpanElement>(null);
   const { t, language } = useLanguage();
   const [copied, setCopied] = React.useState(false);
+  const emailAddress = t('emailAddress');
+  const atIndex = emailAddress.indexOf('@');
+  const localPart = atIndex === -1 ? emailAddress : emailAddress.slice(0, atIndex + 1);
+  const domain = atIndex === -1 ? '' : emailAddress.slice(atIndex + 1);
+  const lastDotIndex = domain.lastIndexOf('.');
+  const domainName = lastDotIndex === -1 ? domain : domain.slice(0, lastDotIndex);
+  const domainSuffix = lastDotIndex === -1 ? '' : domain.slice(lastDotIndex);
 
   useGSAP(
     () => {
@@ -126,7 +133,7 @@ export const OutroChapter: React.FC = () => {
 
   const copyEmail = async () => {
     try {
-      await navigator.clipboard.writeText(t('emailAddress'));
+      await navigator.clipboard.writeText(emailAddress);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -169,21 +176,25 @@ export const OutroChapter: React.FC = () => {
             {t('writeMe')}
           </span>
 
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6">
             <a
               ref={emailRef}
-              href={`mailto:${t('emailAddress')}`}
-              className="group relative inline-flex items-center gap-3 sm:gap-5 will-change-transform"
+              href={`mailto:${emailAddress}`}
+              className="group relative flex w-full min-w-0 items-start will-change-transform sm:inline-flex sm:w-auto sm:items-center"
             >
               <span
                 ref={emailInnerRef}
-                className="inline-flex items-center gap-3 sm:gap-5 text-3xl sm:text-5xl md:text-6xl lg:text-7xl 3xl:text-8xl font-black tracking-tighter text-text-main leading-none"
+                className="flex w-full min-w-0 flex-col items-start gap-2 text-[clamp(1.55rem,7.6vw,2.9rem)] font-black leading-[0.95] tracking-tighter text-text-main sm:inline-flex sm:w-auto sm:flex-row sm:items-center sm:gap-5 sm:text-5xl md:text-6xl lg:text-7xl 3xl:text-8xl"
               >
-                <span className="underline decoration-2 decoration-text-muted/30 underline-offset-[0.18em] group-hover:decoration-text-main transition-colors break-all sm:break-normal">
-                  {t('emailAddress')}
+                <span className="max-w-full pb-[0.08em] underline decoration-2 decoration-text-muted/30 underline-offset-[0.18em] transition-colors group-hover:decoration-text-main">
+                  {localPart}
+                  {domainName && <wbr />}
+                  {domainName}
+                  {domainSuffix && <wbr />}
+                  {domainSuffix}
                 </span>
                 <ArrowUpRight
-                  className="shrink-0 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                  className="shrink-0 self-end transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 sm:self-auto"
                   size={32}
                   strokeWidth={1.5}
                 />

@@ -137,7 +137,10 @@ export const DetailView: React.FC<DetailViewProps> = ({ onClose, type }) => {
         )}
       </AnimatePresence>
 
-      <div className="flex flex-col w-full min-h-0 flex-1 overflow-y-auto overscroll-contain touch-pan-y relative z-10 modal-scroll pt-16 sm:pt-20 lg:pt-24 3xl:pt-32 pb-8 sm:pb-10 lg:pb-12 3xl:pb-24">
+      <div
+        data-lenis-prevent
+        className="flex flex-col w-full min-h-0 flex-1 overflow-y-auto overscroll-contain touch-pan-y relative z-10 modal-scroll pt-16 sm:pt-20 lg:pt-24 3xl:pt-32 pb-8 sm:pb-10 lg:pb-12 3xl:pb-24"
+      >
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none"></div>
         <Suspense fallback={<DetailSectionFallback />}>
           <MountNotifier onMount={() => setIsReady(true)}>

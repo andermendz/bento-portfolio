@@ -50,11 +50,23 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
   });
 
   const [hidden, setHidden] = useState(!shouldShow);
+  const completedRef = useRef(false);
+  const onCompleteRef = useRef(onComplete);
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
+  // Snapshot the deck once so a mid-animation language switch doesn't
+  // restart the timeline (which caused a visible jump).
+  const initialWordsRef = useRef<string[]>(loaderWords);
 
   // Lock the page to prevent scroll-jank behind the overlay.
   useEffect(() => {
     if (!shouldShow) {
-      onComplete?.();
+      if (!completedRef.current) {
+        completedRef.current = true;
+        onCompleteRef.current?.();
+      }
       return;
     }
     stop();
@@ -62,6 +74,10 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = prevOverflow;
+      // If we unmount mid-intro, make sure scroll isn't left paused.
+      if (!completedRef.current) {
+        start();
+      }
     };
     // We only want this on mount; start/stop are stable enough for this lifecycle.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,9 +103,10 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
           } catch {
             /* ignore */
           }
+          completedRef.current = true;
           start();
           setHidden(true);
-          onComplete?.();
+          onCompleteRef.current?.();
         },
       });
 
@@ -112,11 +129,14 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
           duration: wordEls.length * 0.55 + 0.2,
           ease: 'power2.inOut',
           onUpdate: () => {
+            const v = counter.value;
             if (counterRef.current) {
-              counterRef.current.textContent = String(Math.round(counter.value)).padStart(3, '0');
+              counterRef.current.textContent = String(Math.round(v)).padStart(3, '0');
             }
+            // Writing transform directly is cheaper than gsap.set every tick
+            // and avoids conflicting with the outer timeline's own ticker.
             if (barRef.current) {
-              gsap.set(barRef.current, { scaleX: counter.value / 100 });
+              barRef.current.style.transform = `scaleX(${v / 100})`;
             }
           },
         },
@@ -136,7 +156,9 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
         '>'
       );
     },
-    { scope: rootRef, dependencies: [shouldShow, language] }
+    // Intentionally no `language` dep: we snapshot the deck at mount so a
+    // mid-intro locale switch doesn't re-run the whole timeline.
+    { scope: rootRef, dependencies: [shouldShow] }
   );
 
   if (hidden) return null;
@@ -149,7 +171,11 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
       style={{ clipPath: 'inset(0% 0% 0% 0%)' }}
     >
       {/* Top label */}
-      <div ref={labelRef} className="flex items-center justify-between text-[10px] sm:text-xs font-bold uppercase tracking-[0.3em] text-text-muted">
+      <div
+        ref={labelRef}
+        className="flex items-center justify-between text-[10px] sm:text-xs font-bold uppercase tracking-[0.3em] text-text-muted"
+        style={{ opacity: 0, transform: 'translateY(10px)' }}
+      >
         <span className="flex items-center gap-2">
           <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
           Anderson Mendoza
@@ -161,13 +187,14 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
       <div className="flex items-end justify-between gap-4">
         <div
           ref={wordsRef}
-          className="relative overflow-hidden leading-[0.85] h-[0.85em] w-full"
+          className="relative h-[1.03em] w-full overflow-hidden"
         >
-          {loaderWords.map((word) => (
+          {initialWordsRef.current.map((word) => (
             <span
               key={word}
               data-word
-              className="absolute inset-0 block text-[18vw] sm:text-[15vw] md:text-[12vw] font-black tracking-tighter text-text-main"
+              className="absolute inset-x-0 top-0 block pb-[0.08em] text-[18vw] sm:text-[15vw] md:text-[12vw] font-black leading-[0.95] tracking-tighter text-text-main"
+              style={{ opacity: 0, transform: 'translateY(110%)', willChange: 'transform, opacity' }}
             >
               {word}
             </span>
@@ -183,7 +210,11 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
 
       {/* Progress bar */}
       <div className="relative h-px w-full bg-border overflow-hidden">
-        <div ref={barRef} className="absolute inset-0 bg-text-main origin-left" />
+        <div
+          ref={barRef}
+          className="absolute inset-0 bg-text-main origin-left"
+          style={{ transform: 'scaleX(0)' }}
+        />
       </div>
     </div>
   );
