@@ -69,6 +69,8 @@ function readPosts() {
         excerpt,
         publishedDate,
         modifiedDate,
+        body: body.trim(),
+        tags: Array.isArray(attributes.tags) ? attributes.tags : [],
         coverImage: attributes.coverImage?.trim(),
       };
     })
@@ -182,7 +184,51 @@ ${englishPosts
 `;
 }
 
+/**
+ * Build the full GEO-optimized content dump — every post concatenated as plain
+ * Markdown with a stable header. Consumed by LLM crawlers (see /llms.txt).
+ */
+function generateLlmsFull(posts) {
+  const englishPosts = posts.map((post) => post.locales.get('en') ?? post.primary);
+  const lastUpdated = new Date().toISOString().slice(0, 10);
+
+  const header = `# Anderson Mendoza — Full Content Archive
+
+> Every blog post by Anderson Mendoza, concatenated as plain Markdown for LLM consumption. For the curated site map, see /llms.txt. For the HTML site, see https://andermendz.dev.
+
+- Site: https://andermendz.dev
+- Blog: https://andermendz.dev/blog
+- Author: Anderson Mendoza (software engineer, Cartagena, Colombia)
+- Contact: andermendz@proton.me
+- Last updated: ${lastUpdated}
+
+---
+
+`;
+
+  const body = englishPosts
+    .map((post) => {
+      const url = blogAbsoluteUrl(`/${post.slug}`);
+      const tagLine = post.tags.length > 0 ? `\n- Tags: ${post.tags.join(', ')}` : '';
+      return `# ${post.title}
+
+- URL: ${url}
+- Published: ${post.publishedDate}
+- Updated: ${post.modifiedDate}${tagLine}
+- Summary: ${post.excerpt}
+
+${post.body}
+
+---
+`;
+    })
+    .join('\n');
+
+  return header + body;
+}
+
 const posts = readPosts();
 
 fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), generateSitemap(posts), 'utf8');
 fs.writeFileSync(path.join(publicDir, 'rss.xml'), generateRss(posts), 'utf8');
+fs.writeFileSync(path.join(publicDir, 'llms-full.txt'), generateLlmsFull(posts), 'utf8');

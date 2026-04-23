@@ -2,10 +2,13 @@ import { Helmet } from 'react-helmet-async';
 import {
   DEFAULT_OG_IMAGE,
   DEFAULT_OG_IMAGE_ALT,
+  DEFAULT_OG_IMAGE_HEIGHT,
+  DEFAULT_OG_IMAGE_WIDTH,
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_TITLE,
   SITE_TWITTER,
+  SITE_URL,
 } from '../config/seo';
 
 interface SEOProps {
@@ -55,7 +58,7 @@ export function SEO({
 }: SEOProps) {
   const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_TITLE;
   const metaDescription = description || SITE_DESCRIPTION;
-  const url = canonical || 'https://andermendz.dev';
+  const url = canonical || SITE_URL;
   const robotsContent = noindex
     ? 'noindex, nofollow, noarchive'
     : robots || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
@@ -91,6 +94,9 @@ export function SEO({
       <meta property="og:description" content={metaDescription} />
       <meta property="og:image" content={ogImage} />
       <meta property="og:image:alt" content={ogImageAlt} />
+      <meta property="og:image:width" content={String(DEFAULT_OG_IMAGE_WIDTH)} />
+      <meta property="og:image:height" content={String(DEFAULT_OG_IMAGE_HEIGHT)} />
+      <meta property="og:image:type" content="image/png" />
       <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:locale" content={locale} />
       {alternateLocales?.map((alternateLocale) => (

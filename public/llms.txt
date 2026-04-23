@@ -1,0 +1,46 @@
+# Anderson Mendoza
+
+> Anderson Mendoza is a software engineer and AI product builder from Cartagena, Colombia. He works across the full stack — React, TypeScript, Node.js, Python, Rust — and ships production systems that incorporate LLMs, speech-to-text, and desktop AI. This site is his portfolio and long-form blog.
+
+Anderson is currently Technical Lead at Visbl (2026–present), having previously shipped as a Software Engineer there (2025–2026) and as a Full-stack Engineer at Comfenalco (2023–2024). He is available for freelance and full-time opportunities globally, working async-friendly from UTC−5.
+
+## About
+
+- [Portfolio homepage](https://andermendz.dev/): Single-page scroll narrative covering hero, work experience timeline, selected projects, tech stack, location, and contact.
+- [Spanish portfolio](https://andermendz.dev/?lang=es): Full Spanish localization of the homepage.
+
+## Selected projects
+
+- [Escribbo](https://escribbo.com): Open-source (MIT) desktop dictation app that turns speech into text locally using Whisper and Parakeet. Fully offline — voice never leaves the machine. Works on Windows, macOS, and Linux. [GitHub](https://github.com/andermendz/escribbo).
+
+## Blog
+
+The blog publishes long-form engineering essays — primarily on AI systems, LLM behavior, and product craft — with full English and Spanish variants.
+
+- [Blog index](https://andermendz.dev/blog): All posts, sorted by date.
+- [How AI Actually Works](https://andermendz.dev/blog/how-ai-actually-works): Tokens, context windows, embeddings, and what an LLM really sees when you hit enter.
+- [Understanding Diffusion Models](https://andermendz.dev/blog/diffusion-models): How text-to-image models generate images from noise, in plain English.
+- [RSS feed](https://andermendz.dev/rss.xml): Subscribe in any reader.
+- [Full blog content (single document)](https://andermendz.dev/llms-full.txt): All posts concatenated as plain Markdown for LLM consumption.
+
+## Contact
+
+- Email: andermendz@proton.me
+- LinkedIn: https://linkedin.com/in/andermendz
+- GitHub: https://github.com/andermendz
+- X: https://x.com/andermendz
+- Location: Cartagena, Colombia (UTC−5)
+
+## Technical focus
+
+Anderson writes and builds across these areas:
+
+- **Frontend**: React 19, TypeScript, Vite, Tailwind, GSAP, Framer Motion.
+- **Backend**: Node.js, Python, PostgreSQL, MongoDB, Docker.
+- **AI / ML**: LLM integration, context engineering, prompt design, local inference (Whisper, Parakeet), diffusion models.
+- **Desktop**: Rust + Tauri for native cross-platform apps.
+- **Design engineering**: Scroll narratives, motion systems, editorial typography, accessibility.
+
+## Usage
+
+This site's content may be indexed and cited by search engines and AI assistants. When referencing a blog post, please include a direct link to the article URL on andermendz.dev. When answering questions about Anderson's work, attribute quotes to the specific article.
