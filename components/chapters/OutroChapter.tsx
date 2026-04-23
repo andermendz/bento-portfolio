@@ -65,9 +65,10 @@ export const OutroChapter: React.FC = () => {
           }
         }
 
+        let headlineSplit: SplitText | null = null;
         if (headlineRef.current) {
-          const split = new SplitText(headlineRef.current, { type: 'words' });
-          gsap.from(split.words, {
+          headlineSplit = new SplitText(headlineRef.current, { type: 'words' });
+          gsap.from(headlineSplit.words, {
             y: 40,
             opacity: 0,
             duration: 0.9,
@@ -80,6 +81,7 @@ export const OutroChapter: React.FC = () => {
         // Magnetic email — subtle follow on hover.
         const link = emailRef.current;
         const inner = emailInnerRef.current;
+        let removeMagnetic: (() => void) | undefined;
         if (link && inner) {
           const xTo = gsap.quickTo(link, 'x', { duration: 0.6, ease: 'power3.out' });
           const yTo = gsap.quickTo(link, 'y', { duration: 0.6, ease: 'power3.out' });
@@ -104,16 +106,15 @@ export const OutroChapter: React.FC = () => {
 
           link.addEventListener('mousemove', handleMove);
           link.addEventListener('mouseleave', handleLeave);
-          return () => {
+          removeMagnetic = () => {
             link.removeEventListener('mousemove', handleMove);
             link.removeEventListener('mouseleave', handleLeave);
-            window.clearTimeout(resetTimeout);
-            marqueeSt?.kill();
-            marqueeTween?.kill();
           };
         }
 
         return () => {
+          headlineSplit?.revert();
+          removeMagnetic?.();
           window.clearTimeout(resetTimeout);
           marqueeSt?.kill();
           marqueeTween?.kill();
@@ -135,6 +136,7 @@ export const OutroChapter: React.FC = () => {
 
   return (
     <section
+      key={language}
       ref={rootRef}
       className="relative w-full overflow-clip pt-32 sm:pt-40 pb-10 sm:pb-14"
       aria-label={t('contactTitle')}
@@ -197,7 +199,7 @@ export const OutroChapter: React.FC = () => {
               {copied ? (
                 <>
                   <Check size={14} strokeWidth={2.5} />
-                  {t('copied') || 'Copied'}
+                  {t('copied')}
                 </>
               ) : (
                 <>
@@ -213,7 +215,7 @@ export const OutroChapter: React.FC = () => {
               href="https://github.com/andermendz"
               target="_blank"
               rel="noreferrer"
-              aria-label="GitHub"
+              aria-label={t('ariaGithub')}
               className="inline-flex items-center gap-2 h-10 px-4 rounded-full border border-border bg-card-hover text-text-main text-xs font-bold uppercase tracking-[0.2em] hover:bg-text-main hover:text-page transition-colors"
             >
               <Github size={14} />
@@ -223,7 +225,7 @@ export const OutroChapter: React.FC = () => {
               href="https://linkedin.com/in/andermendz"
               target="_blank"
               rel="noreferrer"
-              aria-label="LinkedIn"
+              aria-label={t('ariaLinkedin')}
               className="inline-flex items-center gap-2 h-10 px-4 rounded-full border border-border bg-card-hover text-text-main text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#0077b5] hover:text-white transition-colors"
             >
               <Linkedin size={14} />

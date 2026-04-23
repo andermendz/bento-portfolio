@@ -132,7 +132,7 @@ export const BentoChapter: React.FC<BentoChapterProps> = ({ theme, onOpenSection
     <section
       ref={rootRef}
       className="relative w-full px-5 sm:px-10 lg:px-16 3xl:px-24 py-24 sm:py-32"
-      aria-label="Bento overview"
+      aria-label={t('ariaBentoOverview')}
     >
       <div ref={headlineRef} className="max-w-[1320px] 3xl:max-w-[1500px] mx-auto mb-10 sm:mb-14">
         <p className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-[0.3em] mb-3">

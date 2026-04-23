@@ -1,9 +1,10 @@
 import React from 'react';
 import { Building2 } from 'lucide-react';
 import { useLanguage } from '../../i18n/LanguageContext';
+import { formatMonthRange, formatMonthRangeToPresent } from '../../i18n/experienceDates';
 
 export const ExperienceSection: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   
   return (
     <section className="px-5 sm:px-10 lg:px-16 3xl:px-24">
@@ -44,7 +45,9 @@ export const ExperienceSection: React.FC = () => {
                   <div className="absolute left-[-31px] top-1.5 w-3 h-3 rounded-full border-2 border-text-main bg-card z-10 shadow-[0_0_10px_rgba(255,255,255,0.1)]"></div>
                   <div className="flex flex-col mb-3 3xl:mb-4">
                     <h3 className="font-bold text-text-main text-lg sm:text-xl 3xl:text-2xl leading-none">{t('technicalLead')}</h3>
-                    <span className="text-xs font-bold text-text-muted uppercase tracking-widest mt-2 3xl:mt-3 opacity-60">Mar 2026 — {t('present')}</span>
+                    <span className="text-xs font-bold text-text-muted uppercase tracking-widest mt-2 3xl:mt-3 opacity-60">
+                      {formatMonthRangeToPresent(language, 2026, 3, t('present'))}
+                    </span>
                   </div>
                   <p className="text-text-muted text-sm sm:text-base 3xl:text-lg leading-relaxed max-w-2xl font-medium">
                     {t('visblDesc')}
@@ -56,7 +59,9 @@ export const ExperienceSection: React.FC = () => {
                   <div className="absolute left-[-31px] top-1.5 w-3 h-3 rounded-full border-2 border-border bg-card z-10"></div>
                   <div className="flex flex-col mb-3 3xl:mb-4">
                     <h3 className="font-bold text-text-main text-lg sm:text-xl 3xl:text-2xl leading-none">{t('softwareDeveloper')}</h3>
-                    <span className="text-xs font-bold text-text-muted uppercase tracking-widest mt-2 3xl:mt-3">Mar 2025 — Mar 2026</span>
+                    <span className="text-xs font-bold text-text-muted uppercase tracking-widest mt-2 3xl:mt-3">
+                      {formatMonthRange(language, 2025, 3, 2026, 3)}
+                    </span>
                   </div>
                   <p className="text-text-muted text-sm sm:text-base 3xl:text-lg leading-relaxed max-w-2xl">
                     {t('visblPrevDesc')}
@@ -76,7 +81,9 @@ export const ExperienceSection: React.FC = () => {
             <div>
               <div className="flex items-center justify-between mb-4 3xl:mb-6">
                 <div className="text-xl sm:text-2xl 3xl:text-3xl font-black text-text-main tracking-tight">Comfenalco</div>
-                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-text-muted border border-border px-4 py-1.5 rounded-full">2023 - 2024</span>
+                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-text-muted border border-border px-4 py-1.5 rounded-full">
+                  2023 — 2024
+                </span>
               </div>
               
               <div className="flex flex-col mb-3 3xl:mb-4">

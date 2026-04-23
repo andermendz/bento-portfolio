@@ -1,7 +1,7 @@
 ---
 title: "Cómo funciona realmente la IA"
 seoTitle: "Cómo funciona realmente la IA: tokens, ventanas de contexto, alucinaciones, razonamiento y multimodalidad"
-kicker: "Nota de IA 01"
+kicker: "Nota de Campo de IA 01"
 date: "2026-03-08"
 updated: "2026-03-08"
 excerpt: "Una explicación casual pero precisa sobre tokens, ventanas de contexto, alucinaciones, modelos de razonamiento, multimodalidad y lo que la gente realmente se encuentra al usar IA todos los días."

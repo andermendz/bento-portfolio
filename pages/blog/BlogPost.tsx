@@ -113,22 +113,6 @@ export function BlogPost() {
     return all.filter((p) => p.slug !== post.slug).slice(0, 2);
   }, [post, blogLocale]);
 
-  const ui = isSpanish
-    ? {
-        notFoundTitle: 'Artículo no encontrado',
-        notFoundDescription: 'El artículo que buscas no existe.',
-        returnToBlog: 'Volver al blog',
-        summaryNote:
-          'Este artículo se enfoca en la mecánica que da forma a productos reales con LLMs: presupuesto de tokens, calidad del retrieval, límites de ejecución y control de respuestas.',
-      }
-    : {
-        notFoundTitle: 'Post Not Found',
-        notFoundDescription: "The article you're looking for doesn't exist.",
-        returnToBlog: 'Return to Blog',
-        summaryNote:
-          'This post focuses on the mechanics that shape real LLM products: token budgets, retrieval quality, execution boundaries, and response control.',
-      };
-
   useGSAP(
     () => {
       if (!post) return;
@@ -355,16 +339,16 @@ export function BlogPost() {
   if (!post) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
-        <SEO title={ui.notFoundTitle} description={ui.notFoundDescription} noindex />
+        <SEO title={t('blogNotFoundTitle')} description={t('blogNotFoundDescription')} noindex />
         <h1 className="text-4xl sm:text-6xl font-black tracking-tighter mb-4 text-text-main">
-          {ui.notFoundTitle}
+          {t('blogNotFoundTitle')}
         </h1>
-        <p className="text-text-muted mb-8 text-lg">{ui.notFoundDescription}</p>
+        <p className="text-text-muted mb-8 text-lg">{t('blogNotFoundDescription')}</p>
         <Link
           to={isSpanish ? '/?lang=es' : '/'}
           className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-text-main text-page text-sm font-bold hover:opacity-90 transition-opacity"
         >
-          {ui.returnToBlog}
+          {t('blogReturnToBlog')}
           <ArrowUpRight size={16} />
         </Link>
       </div>
@@ -400,13 +384,13 @@ export function BlogPost() {
     }),
     buildBreadcrumbSchema([
       { name: t('home'), item: absoluteUrl(isSpanish ? '/?lang=es' : '/') },
-      { name: 'Blog', item: blogAbsoluteUrl(isSpanish ? '/?lang=es' : '/') },
+      { name: t('blogTitle'), item: blogAbsoluteUrl(isSpanish ? '/?lang=es' : '/') },
       { name: post.title, item: articleUrl },
     ]),
   ];
 
   return (
-    <article ref={rootRef} className="w-full">
+    <article key={`${post.slug}-${language}`} ref={rootRef} className="w-full">
       <SEO
         title={post.seoTitle ?? post.title}
         description={post.excerpt}
@@ -535,7 +519,7 @@ export function BlogPost() {
               </nav>
 
               <p className="mt-8 pt-6 border-t border-border text-xs leading-6 text-text-muted">
-                {ui.summaryNote}
+                {t('blogSummaryNote')}
               </p>
             </div>
           </aside>

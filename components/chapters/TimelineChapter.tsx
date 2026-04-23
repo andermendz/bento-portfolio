@@ -4,13 +4,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { Building2 } from 'lucide-react';
 import { useLanguage } from '../../i18n/LanguageContext';
+import { formatMonthRange, formatMonthRangeToPresent } from '../../i18n/experienceDates';
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface TimelineEntry {
   company: string;
   roleKey: 'technicalLead' | 'softwareDeveloper' | 'fullStackDev';
-  period: string;
+  periodKind: 'visblCurrent' | 'visblRange' | 'yearsOnly';
   year: string;
   descKey: 'visblDesc' | 'visblPrevDesc' | 'comfenalcoDesc';
   current?: boolean;
@@ -20,7 +21,7 @@ const TIMELINE: TimelineEntry[] = [
   {
     company: 'visbl',
     roleKey: 'technicalLead',
-    period: 'Mar 2026 — Present',
+    periodKind: 'visblCurrent',
     year: '2026',
     descKey: 'visblDesc',
     current: true,
@@ -28,14 +29,14 @@ const TIMELINE: TimelineEntry[] = [
   {
     company: 'visbl',
     roleKey: 'softwareDeveloper',
-    period: 'Mar 2025 — Mar 2026',
+    periodKind: 'visblRange',
     year: '2025',
     descKey: 'visblPrevDesc',
   },
   {
     company: 'Comfenalco',
     roleKey: 'fullStackDev',
-    period: '2023 — 2024',
+    periodKind: 'yearsOnly',
     year: '2023',
     descKey: 'comfenalcoDesc',
   },
@@ -47,6 +48,16 @@ export const TimelineChapter: React.FC = () => {
   const trackRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const { t, language } = useLanguage();
+
+  const periodLabel = (entry: TimelineEntry) => {
+    if (entry.periodKind === 'visblCurrent') {
+      return formatMonthRangeToPresent(language, 2026, 3, t('present'));
+    }
+    if (entry.periodKind === 'visblRange') {
+      return formatMonthRange(language, 2025, 3, 2026, 3);
+    }
+    return '2023 — 2024';
+  };
 
   useGSAP(
     () => {
@@ -152,7 +163,7 @@ export const TimelineChapter: React.FC = () => {
                       {entry.year}
                     </div>
                     <div className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.2em] text-text-muted">
-                      {entry.period}
+                      {periodLabel(entry)}
                     </div>
                   </div>
 

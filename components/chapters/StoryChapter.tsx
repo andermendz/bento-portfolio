@@ -65,9 +65,10 @@ export const StoryChapter: React.FC = () => {
 
   return (
     <section
+      key={language}
       ref={rootRef}
       className="relative w-full px-5 sm:px-10 lg:px-16 3xl:px-24 py-32 sm:py-40 overflow-clip"
-      aria-label="About"
+      aria-label={t('aboutTitle')}
     >
       <div className="max-w-[1320px] 3xl:max-w-[1500px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-center">
         {/* Portrait */}

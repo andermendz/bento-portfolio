@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { translations, Language, TranslationKey } from './translations';
+import { readInitialPortfolioLanguage } from './readInitialLanguage';
 
 interface LanguageContextType {
   language: Language;
@@ -10,28 +11,7 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [language, setLanguageState] = useState<Language>(() => {
-    // Check for query param first (best for SEO/shared links)
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const langParam = params.get('lang') as Language;
-      if (langParam && (langParam === 'en' || langParam === 'es')) {
-        return langParam;
-      }
-
-      // Check localStorage
-      const saved = localStorage.getItem('portfolio-language') as Language;
-      if (saved && (saved === 'en' || saved === 'es')) {
-        return saved;
-      }
-      // Check browser language
-      const browserLang = navigator.language.toLowerCase();
-      if (browserLang.startsWith('es')) {
-        return 'es';
-      }
-    }
-    return 'en';
-  });
+  const [language, setLanguageState] = useState<Language>(() => readInitialPortfolioLanguage());
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
@@ -55,9 +35,9 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     document.documentElement.lang = language;
   }, [language]);
 
-  const t = (key: TranslationKey): string => {
+  const t = useCallback((key: TranslationKey): string => {
     return translations[language][key] || translations.en[key] || key;
-  };
+  }, [language]);
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>

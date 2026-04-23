@@ -107,9 +107,10 @@ export const HeroChapter: React.FC = () => {
 
   return (
     <section
+      key={language}
       ref={rootRef}
       className="relative min-h-[100svh] w-full flex flex-col justify-between px-5 sm:px-10 lg:px-16 3xl:px-24 pt-28 sm:pt-32 3xl:pt-40 pb-10 sm:pb-14 overflow-clip"
-      aria-label="Introduction"
+      aria-label={t('ariaHeroIntro')}
     >
       {/* Kicker */}
       <div

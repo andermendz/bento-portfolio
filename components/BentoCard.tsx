@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { m, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface BentoCardProps {
   children?: React.ReactNode;
@@ -23,6 +24,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   dataId,
   noPadding = false,
 }) => {
+  const { t } = useLanguage();
   const cardRef = React.useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
 
@@ -114,7 +116,7 @@ export const BentoCard: React.FC<BentoCardProps> = ({
           className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-110"
           style={{ backgroundImage: `url(${backgroundImage})` }}
           role="img"
-          aria-label={dataId === 'photo' ? 'Profile photo of the developer' : 'Background image'}
+          aria-label={dataId === 'photo' ? t('ariaProfilePhotoCard') : t('ariaBackgroundImageCard')}
         />
       )}
 
