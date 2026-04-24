@@ -3,6 +3,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { DetailView } from './components/DetailView';
 import { AnimatePresence, m, LazyMotion, domAnimation, useReducedMotion } from "framer-motion";
 import { Sun, Moon } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { BlogLink } from './components/BlogLink';
@@ -259,6 +260,7 @@ function App() {
           <LazyMotion features={domAnimation}>
             <SmoothScroll>
               <AppContent />
+              <Analytics />
             </SmoothScroll>
           </LazyMotion>
         </ThemeProvider>
